@@ -61,7 +61,7 @@ export default function Home() {
             </div>
             <div className="flex items-center">
               <div className="flex space-x-3 border-r border-green-600 pr-3">
-                <Link href="#" className="text-green-600 hover:text-green-800">
+                <Link href="https://www.facebook.com/share/16PXsk9S5S/" className="text-green-600 hover:text-green-800">
                   <FaFacebookF />
                 </Link>
                 <Link href="#" className="text-green-600 hover:text-green-800">
@@ -267,7 +267,7 @@ export default function Home() {
                     <Image
                       width={500}
                       height={500}
-                      src="/images/farm-1.png"
+                      src="/images/eggs.jpg"
                       alt="Poultry farm"
                       className="w-full h-48 object-cover" />
                   </div>
@@ -304,9 +304,9 @@ export default function Home() {
         <div className="container mx-auto px-20">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h4 className="text-green-600 font-bold mb-3">OUR PRODUCTS</h4>
-            <h2 className="text-3xl font-bold mb-4">Specialized Feeds for Every Livestock</h2>
+            <h2 className="text-3xl font-bold mb-4">High-quality Feed Ingredients for your Livestock</h2>
             <p className="text-gray-600">
-              Scientifically formulated feeds to optimize growth, health, and productivity for all types of livestock at every stage of development.
+              Scientifically tested ingredients to optimize growth, health, and productivity for all types of livestock at every stage of development.
             </p>
           </div>
 
@@ -454,7 +454,7 @@ export default function Home() {
                 Providing premium livestock nutrition solutions. Committed to quality, innovation, and farmer success.
               </p>
               <div className="flex space-x-4">
-                <Link href="#" className="text-gray-400 hover:text-white">
+                <Link href="https://www.facebook.com/share/16PXsk9S5S/" className="text-gray-400 hover:text-white">
                   <FaFacebookF />
                 </Link>
                 <Link href="#" className="text-gray-400 hover:text-white">
