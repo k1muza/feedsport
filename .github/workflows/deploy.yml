@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: Build & Export
-        run: npm run deploy
+        run: npm run export
 
       # 3. Configure AWS credentials
       - name: Configure AWS Credentials
