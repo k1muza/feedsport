@@ -37,8 +37,7 @@ jobs:
       - name: Sync to S3
         run: |
           aws s3 sync out/ s3://${{ secrets.S3_BUCKET_NAME }} \
-            --delete \
-            --acl public-read
+            --delete 
 
       # 5. Invalidate CloudFront cache
       - name: Invalidate CloudFront
