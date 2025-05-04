@@ -409,7 +409,7 @@ export default function Home() {
                   ))}
                 </div>
                 <blockquote className="text-gray-700 italic mb-6">
-                  "{testimonial.quote}"
+                  &quot;{testimonial.quote}&quot;
                 </blockquote>
               </div>
             ))}
@@ -422,7 +422,7 @@ export default function Home() {
         <div className="container mx-auto px-20">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Optimize Your Livestock Nutrition?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Our team of nutrition experts is ready to help you select the perfect feed for your animals' needs.
+            Our team of nutrition experts is ready to help you select the perfect feed for your animals&apos; needs.
           </p>
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <Link href="/contact" className="bg-yellow-500 hover:bg-yellow-600 text-green-900 font-bold py-3 px-8 rounded-lg">
