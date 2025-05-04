@@ -100,7 +100,10 @@ export default function Home() {
             >
               <FaSearch className="text-green-700" />
             </button>
-            <Link href="/quote" className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full ml-4">
+            <Link href="https://wa.me/263774043049"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full ml-4">
               Get Quote
             </Link>
           </div>
@@ -167,7 +170,9 @@ export default function Home() {
                 <Link href="/products" className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-lg text-center">
                   Browse Products
                 </Link>
-                <Link href="/contact" className="border-2 border-white hover:bg-white hover:text-green-900 font-bold py-3 px-8 rounded-lg text-center">
+                <Link href="https://wa.me/263774043049"
+                  target="_blank"
+                  rel="noopener noreferrer" className="border-2 border-white hover:bg-white hover:text-green-900 font-bold py-3 px-8 rounded-lg text-center">
                   Contact Sales
                 </Link>
               </div>
@@ -277,10 +282,10 @@ export default function Home() {
                 </div>
                 <div className="grid grid-cols-2 gap-6">
                   {[
-                    { value: "5000+", label: "Satisfied Farmers" },
+                    { value: "4.8/5", label: "Ratings" },
                     { value: "25+", label: "Feed Formulas" },
-                    { value: "50+", label: "Distribution Centers" },
-                    { value: "18", label: "Years Experience" }
+                    { value: "3+", label: "Distribution Centers" },
+                    { value: "10", label: "Years Experience" }
                   ].map((stat, index) => (
                     <div key={index} className="bg-gray-100 p-4 rounded-xl">
                       <p className="text-3xl font-bold text-green-700">{stat.value}</p>
@@ -425,7 +430,9 @@ export default function Home() {
             Our team of nutrition experts is ready to help you select the perfect feed for your animals&apos; needs.
           </p>
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Link href="/contact" className="bg-yellow-500 hover:bg-yellow-600 text-green-900 font-bold py-3 px-8 rounded-lg">
+            <Link href="https://wa.me/263774043049"
+              target="_blank"
+              rel="noopener noreferrer" className="flex bg-yellow-500 hover:bg-yellow-600 text-green-900 font-bold py-3 px-8 rounded-lg">
               Contact Our Experts
             </Link>
             <Link href="tel:+263774043049" className="border-2 border-white hover:bg-white hover:text-green-900 font-bold py-3 px-8 rounded-lg flex">
