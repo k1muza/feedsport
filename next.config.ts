@@ -1,18 +1,13 @@
-import type { NextConfig } from "next";
+import { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  // enable `next export`
   output: 'export',
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
-  },
-};
 
-export default nextConfig;
-
-module.exports = {
+  // disable built-in Image Optimization
   images: {
-      unoptimized: true
-  }
+    unoptimized: true,
+  },
 }
+
+export default nextConfig
