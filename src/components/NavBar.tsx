@@ -1,12 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
 import { FaBars, FaCommentDots, FaPhoneAlt, FaSearch } from 'react-icons/fa';
 import { FaWheatAwn } from 'react-icons/fa6';
 
 export default function NavBar() {
-  const [showSearch, setShowSearch] = useState(false);
 
   return (
     <nav className="bg-white shadow-md py-4">
@@ -22,7 +20,6 @@ export default function NavBar() {
           <Link href="/blog" className="text-gray-600 hover:text-green-600">Resources</Link>
           <Link href="/contact" className="text-gray-600 hover:text-green-600">Contact</Link>
           <button
-            onClick={() => setShowSearch(true)}
             className="bg-green-100 p-2 rounded-full hover:bg-green-200"
           >
             <FaSearch className="text-green-700" />
