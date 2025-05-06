@@ -24,7 +24,7 @@ export default function ProductsSection() {
       moq: 5,
       stock: 250,
       certifications: ['Non-GMO'],
-      image: "/images/products/placeholder.png"
+      image: "/images/products/soya.png"
     },
     {
       id: 'sunflower-cake',
@@ -42,7 +42,7 @@ export default function ProductsSection() {
       moq: 10,
       stock: 180,
       certifications: [],
-      image: "/images/products/placeholder.png"
+      image: "/images/products/sunflower.png"
     },
     {
       id: 'bone-meal',
@@ -60,7 +60,7 @@ export default function ProductsSection() {
       moq: 1,
       stock: 75,
       certifications: ['HACCP'],
-      image: "/images/products/placeholder.png"
+      image: "/images/products/bone.png"
     },
     {
       id: 'wheat-bran',
@@ -78,7 +78,7 @@ export default function ProductsSection() {
       moq: 20,
       stock: 420,
       certifications: [],
-      image: "/images/products/placeholder.png"
+      image: "/images/products/wheat.png"
     }
   ];
 

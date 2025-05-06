@@ -1,4 +1,3 @@
-// app/products/page.tsx
 import CategoryFilter from '@/components/products/CategoryFilter';
 import IngredientCard from '@/components/products/IngredientCard';
 import { FEED_INGREDIENTS, INGREDIENT_CATEGORIES } from '@/data/products';

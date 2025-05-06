@@ -18,7 +18,7 @@ export default function TopBar() {
             <div className="pl-3">
               <Link href="mailto:sales@feedsport.com" className="flex text-gray-600 text-sm hover:text-green-600">
                 <FaEnvelope className="text-green-600 mr-2" />
-                sales@feedsport.com
+                sales@feedsport.co.zw
               </Link>
             </div>
           </div>
