@@ -2,25 +2,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaCheck } from 'react-icons/fa';
+import { FeedIngredient } from '@/types';
 
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  description: string;
-  price: number;
-  image: string;
-  moq?: number; // Optional field
-  certifications?: string[]; // Optional field
-}
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product }: { product: FeedIngredient }) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300">
       {/* Product Image */}
       <div className="relative h-48 bg-gray-50">
         <Image
-          src={product.image}
+          src={product.images[0]}
           alt={product.name}
           fill
           className="object-contain p-4"

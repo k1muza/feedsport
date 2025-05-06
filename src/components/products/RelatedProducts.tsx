@@ -1,20 +1,10 @@
 import ProductCard from './ProductCard';
+import { ALL_PRODUCTS } from '../../data/products';
 
 async function getRelatedProducts(category: string, excludeId: string) {
   // In a real app, fetch from API
-  const allProducts = [
-    {
-      id: 'sunflower-cake',
-      name: 'Sunflower Cake',
-      category: 'protein-sources',
-      description: 'High-fiber protein supplement',
-      price: 450,
-      image: '/images/products/sunflower-cake.jpg'
-    },
-    // ... other products
-  ];
 
-  return allProducts.filter(
+  return ALL_PRODUCTS.filter(
     product => product.category === category && product.id !== excludeId
   ).slice(0, 4);
 }
