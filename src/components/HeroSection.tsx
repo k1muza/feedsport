@@ -1,9 +1,7 @@
-// components/sections/HeroSection.tsx
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import { FaWhatsapp, FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight, FaWhatsapp } from 'react-icons/fa';
 import HeroCarousel from './HeroCarousel';
 
 export default function HeroSection() {

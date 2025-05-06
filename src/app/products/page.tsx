@@ -1,7 +1,7 @@
 // app/products/page.tsx
 import CategoryFilter from '@/components/products/CategoryFilter';
 import IngredientCard from '@/components/products/IngredientCard';
-import { INGREDIENT_CATEGORIES, FEED_INGREDIENTS, getByCategory } from '@/data/products';
+import { FEED_INGREDIENTS, INGREDIENT_CATEGORIES } from '@/data/products';
 
 export default function ProductsPage() {
   return (

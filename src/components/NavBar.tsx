@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { FaBars, FaCommentDots, FaPhoneAlt, FaSearch } from 'react-icons/fa';
 import { FaWheatAwn } from 'react-icons/fa6';
 

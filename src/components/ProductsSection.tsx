@@ -1,10 +1,9 @@
-// components/products/ProductsSection.tsx
 'use client';
 
 import { FeedIngredient } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaCheck, FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle } from 'react-icons/fa';
 
 export default function ProductsSection() {
   const products: FeedIngredient[] = [

@@ -1,6 +1,5 @@
 'use client';
 
-import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from 'react-icons/fa';
 
 export default function ContactPage() {
   return (

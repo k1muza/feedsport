@@ -2,19 +2,18 @@
 'use client';
 
 import Link from 'next/link';
-import { 
-  FaWhatsapp, 
-  FaEnvelope, 
-  FaFacebookF, 
-  FaInstagram, 
-  FaLinkedinIn, 
-  FaMapMarkerAlt, 
-  FaPhoneAlt, 
-  FaTwitter,
-  FaRegClock
+import {
+    FaEnvelope,
+    FaFacebookF,
+    FaInstagram,
+    FaLinkedinIn,
+    FaMapMarkerAlt,
+    FaPhoneAlt,
+    FaRegClock,
+    FaTwitter,
+    FaWhatsapp
 } from 'react-icons/fa';
-import { FaWheatAwn, FaShieldHalved } from 'react-icons/fa6';
-import NewsletterSignup from './blog/NewsletterSignup';
+import { FaShieldHalved, FaWheatAwn } from 'react-icons/fa6';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
