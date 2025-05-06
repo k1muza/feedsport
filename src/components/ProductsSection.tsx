@@ -1,87 +1,14 @@
 'use client';
 
-import { FeedIngredient } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaInfoCircle } from 'react-icons/fa';
 
-export default function ProductsSection() {
-  const products: FeedIngredient[] = [
-    {
-      id: 'soy-48',
-      category: 'protein-sources',
-      name: 'Soybean Meal (48% CP)',
-      description: 'Dehulled, solvent-extracted high-protein meal',
-      technicalSpecs: {
-        protein: '48% min',
-        moisture: '12% max',
-        fiber: '3.5% max',
-        urease: '0.05-0.3 pH rise'
-      },
-      applications: ['Poultry', 'Swine', 'Aqua feeds'],
-      packaging: '50kg multi-wall bags',
-      price: 980,
-      moq: 5,
-      stock: 250,
-      certifications: ['Non-GMO'],
-      image: "/images/products/soya.png"
-    },
-    {
-      id: 'sunflower-cake',
-      category: 'protein-sources',
-      name: 'Sunflower Cake',
-      description: 'High-fiber protein supplement',
-      technicalSpecs: {
-        protein: '34% min',
-        moisture: '10% max',
-        fiber: '28% max'
-      },
-      applications: ['Ruminants', 'Layers'],
-      packaging: '50kg PP bags',
-      price: 450,
-      moq: 10,
-      stock: 180,
-      certifications: [],
-      image: "/images/products/sunflower.png"
-    },
-    {
-      id: 'bone-meal',
-      category: 'minerals',
-      name: 'Bone Meal',
-      description: 'Natural calcium and phosphorus source',
-      technicalSpecs: {
-        calcium: '24% min',
-        phosphorus: '12% min',
-        fluorine: '0.1% max'
-      },
-      applications: ['All animal feeds'],
-      packaging: '25kg bags',
-      price: 650,
-      moq: 1,
-      stock: 75,
-      certifications: ['HACCP'],
-      image: "/images/products/bone.png"
-    },
-    {
-      id: 'wheat-bran',
-      category: 'energy-sources',
-      name: 'Wheat Bran',
-      description: 'High-fiber energy ingredient',
-      technicalSpecs: {
-        protein: '15% min',
-        fiber: '11% max',
-        moisture: '13% max'
-      },
-      applications: ['Ruminants', 'Layers'],
-      packaging: '50kg bags',
-      price: 320,
-      moq: 20,
-      stock: 420,
-      certifications: [],
-      image: "/images/products/wheat.png"
-    }
-  ];
+import { getFeaturedProducts } from '@/data/products';
 
+export default function ProductsSection() {
+  const products = getFeaturedProducts();
+  
   return (
     <section className="py-16 bg-white" id="products">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -99,13 +26,13 @@ export default function ProductsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product) => (
-            <div 
+            <div
               key={product.id}
               className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300"
             >
               <div className="relative h-48 bg-gray-50">
                 <Image
-                  src={product.image}
+                  src={product.images[0]}
                   alt={product.name}
                   fill
                   className="object-contain p-4"
@@ -114,7 +41,7 @@ export default function ProductsSection() {
                 {product.certifications.length > 0 && (
                   <div className="absolute top-2 right-2 flex gap-1">
                     {product.certifications.map((cert) => (
-                      <span 
+                      <span
                         key={cert}
                         className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full"
                         title={cert}
@@ -125,7 +52,7 @@ export default function ProductsSection() {
                   </div>
                 )}
               </div>
-              
+
               <div className="p-6">
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-xl font-bold text-gray-900">{product.name}</h3>
@@ -133,9 +60,9 @@ export default function ProductsSection() {
                     {product.category.split('-').join(' ')}
                   </span>
                 </div>
-                
+
                 <p className="text-gray-600 mb-4">{product.description}</p>
-                
+
                 <div className="mb-4">
                   <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-1">
                     <FaInfoCircle className="text-green-500" />
@@ -150,7 +77,7 @@ export default function ProductsSection() {
                     ))}
                   </ul>
                 </div>
-                
+
                 <div className="flex items-center justify-between mt-6">
                   <div>
                     <p className="text-xs text-gray-500">MOQ</p>

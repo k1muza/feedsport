@@ -1,55 +1,93 @@
-import { FeedIngredient } from "@/types";
-import { IngredientCategory } from "@/types";
+import { FeedIngredient, IngredientCategory } from "@/types";
 
+export type TechnicalSpecs = {
+  [key: string]: string | number;
+};
 
-export const INGREDIENT_CATEGORIES: IngredientCategory[] = [
+export const PRODUCT_CATEGORIES: IngredientCategory[] = [
   {
     id: 'protein-sources',
     name: 'Protein Sources',
     description: 'High-protein ingredients for balanced animal nutrition',
-    featured: true
   },
   {
     id: 'energy-sources',
     name: 'Energy Sources',
     description: 'Carbohydrate-rich ingredients for metabolic energy',
-    featured: true
   },
   {
     id: 'minerals',
     name: 'Minerals',
     description: 'Essential macro and trace minerals',
-    featured: false
   },
   {
     id: 'additives',
     name: 'Additives',
     description: 'Functional additives for enhanced performance',
-    featured: true
   }
 ];
 
-export const FEED_INGREDIENTS: FeedIngredient[] = [
-  // PROTEIN SOURCES
+export const ALL_PRODUCTS: FeedIngredient[] = [
+  // Protein Sources
   {
-    id: 'pr-48sb',
+    id: 'soy-48',
     category: 'protein-sources',
     name: 'Soybean Meal (48% CP)',
-    description: 'Dehulled, solvent-extracted soybean meal',
+    description: 'Dehulled, solvent-extracted high-protein soybean meal with optimal amino acid profile',
     technicalSpecs: {
       protein: '48% min',
       moisture: '12% max',
       fiber: '3.5% max',
       fat: '1.5% max',
-      urease: '0.05-0.3 pH rise'
+      urease: '0.05-0.3 pH rise',
+      metabolizableEnergy: '3200 kcal/kg'
     },
-    applications: ['Poultry', 'Swine', 'Aqua feeds'],
-    packaging: '50kg multi-wall paper bags',
-    price: 980, // USD/ton
-    moq: 5, // Minimum Order Quantity (tons)
-    stock: 250, // tons available
-    certifications: ['ISO 22000', 'Non-GMO'],
-    image: '/images/products/placeholder.png'
+    applications: ['Poultry', 'Swine', 'Aquaculture', 'Dairy'],
+    packaging: '50kg multi-wall paper bags or bulk',
+    price: 980,
+    moq: 5,
+    stock: 250,
+    certifications: ['ISO 9001', 'Non-GMO Project Verified'],
+    images: [
+      '/images/products/soybean/soya.png',
+      '/images/products/soybean/soy-1.webp',
+      '/images/products/soybean/soy-2.avif',
+      '/images/products/soybean/soy-3.avif'
+    ],
+    benefits: [
+      'High protein digestibility',
+      'Consistent quality',
+      'Improved feed conversion ratio'
+    ],
+    shipping: 'Available worldwide, sea/land freight',
+    featured: true,
+  },
+  {
+    id: 'sunflower-cake',
+    category: 'protein-sources',
+    name: 'Sunflower Cake',
+    description: 'High-protein byproduct of sunflower oil extraction',
+    technicalSpecs: {
+      protein: '34% min',
+      moisture: '10% max',
+      fiber: '28% max',
+      fat: '1.5% max',
+      metabolizableEnergy: '2800 kcal/kg'
+    },
+    applications: ['Ruminants', 'Poultry', 'Swine'],
+    packaging: '50kg polypropylene bags',
+    price: 450,
+    moq: 10,
+    stock: 180,
+    certifications: ['ISO 22000'],
+    images: ['/images/products/sunflower/sunflower.png'],
+    benefits: [
+      'Cost-effective protein source',
+      'High fiber content',
+      'Rich in sulfur-containing amino acids'
+    ],
+    shipping: 'Available in Africa and Asia',
+    featured: true,
   },
   {
     id: 'pr-60fm',
@@ -69,10 +107,11 @@ export const FEED_INGREDIENTS: FeedIngredient[] = [
     moq: 2,
     stock: 80,
     certifications: ['IFFO RS', 'HACCP'],
-    image: '/images/products/placeholder.png'
+    images: ['/images/products/fish/fish.png'],
+    featured: false
   },
 
-  // ENERGY SOURCES
+  // Energy Sources
   {
     id: 'en-cg',
     category: 'energy-sources',
@@ -91,29 +130,30 @@ export const FEED_INGREDIENTS: FeedIngredient[] = [
     moq: 10,
     stock: 150,
     certifications: ['Non-GMO'],
-    image: '/images/products/placeholder.png'
+    images: ['/images/products/corn/corn.png'],
+    featured: false,
   },
   {
-    id: 'en-wb',
+    id: 'wheat-bran',
     category: 'energy-sources',
     name: 'Wheat Bran',
-    description: 'High-fiber milling byproduct',
+    description: 'High-fiber energy ingredient',
     technicalSpecs: {
       protein: '15% min',
-      moisture: '13% max',
       fiber: '11% max',
-      starch: '20% min'
+      moisture: '13% max'
     },
-    applications: ['Ruminant feeds', 'Layer diets'],
-    packaging: '50kg PP bags',
+    applications: ['Ruminants', 'Layers'],
+    packaging: '50kg bags',
     price: 320,
     moq: 20,
-    stock: 500,
+    stock: 420,
     certifications: [],
-    image: '/images/products/placeholder.png'
+    images: ['/images/products/wheat/wheat-1.png'],
+    featured: true,
   },
 
-  // MINERALS
+  // Minerals
   {
     id: 'mi-dcp',
     category: 'minerals',
@@ -131,10 +171,11 @@ export const FEED_INGREDIENTS: FeedIngredient[] = [
     moq: 1,
     stock: 40,
     certifications: ['GMP+', 'FAMI-QS'],
-    image: '/images/products/placeholder.png'
+    images: ['/images/products/dcp/dcp.png'],
+    featured: true,
   },
 
-  // ADDITIVES
+  // Additives
   {
     id: 'ad-lys',
     category: 'additives',
@@ -152,35 +193,20 @@ export const FEED_INGREDIENTS: FeedIngredient[] = [
     moq: 0.5,
     stock: 15,
     certifications: ['ISO 9001', 'FDA Approved'],
-    image: '/images/products/placeholder.png'
-  },
-  {
-    id: 'ad-phy',
-    category: 'additives',
-    name: 'Phytase Enzyme',
-    description: 'Microbial phytase (5000 FTU/g)',
-    technicalSpecs: {
-      activity: '5000 FTU/g min',
-      particleSize: '95% < 0.3mm',
-      stability: '85% retention after pelleting'
-    },
-    applications: ['Poultry', 'Swine', 'Aquaculture'],
-    packaging: '20kg foil-lined bags',
-    price: 18.50, // per kg
-    moq: 25, // kg
-    stock: 200, // kg
-    certifications: ['EFSA Approved', 'GRAS'],
-    image: '/images/products/placeholder.png'
+    images: ['/images/products/lysine/lysine.png'],
+    featured: false
   }
 ];
 
 // Helper functions
-export const getFeaturedIngredients = () => {
-  return FEED_INGREDIENTS.filter(ingredient => 
-    INGREDIENT_CATEGORIES.find(c => c.id === ingredient.category)?.featured
-  );
+export const getFeaturedProducts = () => {
+  return ALL_PRODUCTS.filter(product => product.featured).slice(0, 4); // Get the first 3 featured products
 };
 
-export const getByCategory = (categoryId: string) => {
-  return FEED_INGREDIENTS.filter(i => i.category === categoryId);
+export const getProductsByCategory = (categoryId: string) => {
+  return ALL_PRODUCTS.filter(product => product.category === categoryId);
+};
+
+export const getProductById = (id: string) => {
+  return ALL_PRODUCTS.find(product => product.id === id);
 };

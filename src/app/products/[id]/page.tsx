@@ -6,58 +6,12 @@ import RelatedProducts from '@/components/products/RelatedProducts';
 import TechnicalSpecs from '@/components/products/TechnicalSpecs';
 import Link from 'next/link';
 
+import { ALL_PRODUCTS, getProductById } from '@/data/products';
+
+
 export async function generateStaticParams() {
   // Fetch or define all possible product IDs
-  const products = [
-    { id: 'soy-48' },
-    { id: 'sunflower-cake' },
-    { id: 'bone-meal' },
-    { id: 'wheat-bran' }
-  ];
-  
-  return products.map((product) => ({
-    id: product.id,
-  }));
-}
-
-async function getProduct(id: string) {
-  // In a real app, this would fetch from your API/database
-  const products = [
-    {
-      id: 'soy-48',
-      name: 'Soybean Meal (48% CP)',
-      category: 'protein-sources',
-      description: 'Dehulled, solvent-extracted high-protein soybean meal with optimal amino acid profile for animal nutrition.',
-      price: 980, // USD/ton
-      moq: 5, // Minimum Order Quantity (tons)
-      stock: 250,
-      images: [
-        '/images/products/soybean/1.jpg',
-        '/images/products/soybean/2.jpg',
-        '/images/products/soybean/3.jpg'
-      ],
-      specifications: {
-        protein: '48% min',
-        moisture: '12% max',
-        fiber: '3.5% max',
-        fat: '1.5% max',
-        urease: '0.05-0.3 pH rise',
-        metabolizableEnergy: '3200 kcal/kg'
-      },
-      benefits: [
-        'High protein digestibility',
-        'Consistent quality',
-        'Non-GMO',
-        'Improved feed conversion ratio'
-      ],
-      applications: ['Poultry', 'Swine', 'Aquaculture', 'Dairy'],
-      packaging: '50kg multi-wall paper bags or bulk',
-      certifications: ['ISO 9001', 'Non-GMO Project Verified'],
-      shipping: 'Available worldwide, sea/land freight'
-    }
-  ];
-
-  return products.find(product => product.id === id) || null;
+  return ALL_PRODUCTS.map(product => ({ id: product.id }));
 }
 
 export default async function Page({
@@ -66,7 +20,7 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product = await getProduct(id);
+  const product = await getProductById(id);
   
   if (!product) {
     notFound();
@@ -125,7 +79,7 @@ export default async function Page({
               <div className="mb-8">
                 <h3 className="text-lg font-medium text-gray-900 mb-3">Key Benefits</h3>
                 <ul className="space-y-2">
-                  {product.benefits.map((benefit, index) => (
+                  {product.benefits?.map((benefit, index) => (
                     <li key={index} className="flex items-center">
                       <FaCheck className="text-green-500 mr-2" />
                       <span>{benefit}</span>
@@ -202,7 +156,7 @@ export default async function Page({
       {/* Technical Specifications */}
       <div className="mt-16 border-t border-gray-200 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <TechnicalSpecs specs={product.specifications} />
+          <TechnicalSpecs specs={product.technicalSpecs} />
         </div>
       </div>
 

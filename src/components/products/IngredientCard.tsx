@@ -7,7 +7,7 @@ export default function IngredientCard({ ingredient }: { ingredient: FeedIngredi
     <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow">
       <div className="h-48 relative bg-gray-50">
         <Image
-          src={ingredient.image}
+          src={ingredient.images[0]}
           alt={ingredient.name}
           fill
           className="object-contain p-4"

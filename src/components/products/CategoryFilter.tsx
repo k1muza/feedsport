@@ -1,4 +1,3 @@
-// components/products/CategoryFilter.tsx
 'use client';
 
 import { useState } from 'react';

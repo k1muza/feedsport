@@ -1,13 +1,11 @@
-// @/types/products.ts
 export type IngredientCategory = {
   id: string;
   name: string;
   description: string;
-  featured: boolean;
 };
 
 export type TechnicalSpecs = {
-  [key: string]: string | number;
+  [key: string]: string;
 };
 
 export type FeedIngredient = {
@@ -19,10 +17,13 @@ export type FeedIngredient = {
   applications: string[];
   packaging: string;
   price: number;
-  moq: number; // Minimum Order Quantity
+  moq: number;
   stock: number;
   certifications: string[];
-  image: string;
+  images: string[]; // Optional detailed images
+  benefits?: string[]; // Optional benefits
+  shipping?: string; // Optional shipping info
+  featured?: boolean;
 };
 
 export type Author = {
