@@ -49,7 +49,7 @@ export const ALL_PRODUCTS: FeedIngredient[] = [
     stock: 250,
     certifications: ['ISO 9001', 'Non-GMO Project Verified'],
     images: [
-      '/images/products/soybean/soya.png',
+      '/images/products/soybean/soy-4.png',
       '/images/products/soybean/soy-1.webp',
       '/images/products/soybean/soy-2.avif',
       '/images/products/soybean/soy-3.avif'
@@ -149,7 +149,7 @@ export const ALL_PRODUCTS: FeedIngredient[] = [
     moq: 20,
     stock: 420,
     certifications: [],
-    images: ['/images/products/wheat/wheat-1.png'],
+    images: ['/images/products/wheat/wheat.png'],
     featured: true,
   },
 
