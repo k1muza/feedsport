@@ -3,7 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google'
 
 import "./globals.css";
-import './components/FontAwesome'
+import TopBar from "@/components/TopBar";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +32,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <TopBar />
+        <NavBar />
         {children}
+        <Footer />
       </body>
       <GoogleAnalytics gaId="G-EPHLVQPHS9" />
     </html>
