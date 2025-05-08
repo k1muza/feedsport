@@ -26,3 +26,11 @@ body {
 body::-webkit-scrollbar {
   display: none;               /* Chrome/Safari/Opera */
 }
+
+/* Tell the browser to actually print background colors */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
