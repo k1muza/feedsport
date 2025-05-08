@@ -1,5 +1,6 @@
 import { getIngredients } from "@/data/ingredients";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: Request) {
     const ingredients = getIngredients();
     return new Response(JSON.stringify(ingredients), {
