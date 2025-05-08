@@ -1,6 +1,7 @@
 import { getNutrients } from "@/data/nutrients";
 
-// ignore unused request parameter
+export const revalidate = 0
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: Request) {
     const nutrients = getNutrients();
