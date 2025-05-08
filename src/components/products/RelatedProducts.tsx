@@ -1,11 +1,11 @@
+import { getProducts } from '../../data/products';
 import ProductCard from './ProductCard';
-import { ALL_PRODUCTS } from '../../data/products';
 
-async function getRelatedProducts(category: string, excludeId: string) {
+async function getRelatedProducts(category: number, excludeId: string) {
   // In a real app, fetch from API
 
-  return ALL_PRODUCTS.filter(
-    product => product.category === category && product.id !== excludeId
+  return getProducts().filter(
+    product => product.ingredient?.category?.id === category && product.id !== excludeId
   ).slice(0, 4);
 }
 
@@ -14,8 +14,11 @@ export default async function RelatedProducts({
   category 
 }: { 
   currentProductId: string, 
-  category: string 
+  category: number | undefined
 }) {
+
+  if (!category) return null;
+  
   const relatedProducts = await getRelatedProducts(category, currentProductId);
 
   if (relatedProducts.length === 0) return null;

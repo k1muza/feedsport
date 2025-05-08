@@ -1,48 +1,25 @@
-import { FeedIngredient, IngredientCategory } from "@/types";
+import { getIngredients, Ingredient } from "./ingredients";
 
-export type TechnicalSpecs = {
-  [key: string]: string | number;
+export type Product = {
+  id: string;
+  ingredientId: string;
+  ingredient?: Ingredient;
+  packaging: string;
+  price: number;
+  moq: number;
+  stock: number;
+  certifications: string[];
+  images: string[];
+  shipping?: string;
+  featured?: boolean;
 };
 
-export const PRODUCT_CATEGORIES: IngredientCategory[] = [
-  {
-    id: 'protein-sources',
-    name: 'Protein Sources',
-    description: 'High-protein ingredients for balanced animal nutrition',
-  },
-  {
-    id: 'energy-sources',
-    name: 'Energy Sources',
-    description: 'Carbohydrate-rich ingredients for metabolic energy',
-  },
-  {
-    id: 'minerals',
-    name: 'Minerals',
-    description: 'Essential macro and trace minerals',
-  },
-  {
-    id: 'additives',
-    name: 'Additives',
-    description: 'Functional additives for enhanced performance',
-  }
-];
 
-export const ALL_PRODUCTS: FeedIngredient[] = [
+export const ALL_PRODUCTS: Product[] = [
   // Protein Sources
   {
     id: 'soy-48',
-    category: 'protein-sources',
-    name: 'Soybean Meal (48% CP)',
-    description: 'Dehulled, solvent-extracted high-protein soybean meal with optimal amino acid profile',
-    technicalSpecs: {
-      protein: '48% min',
-      moisture: '12% max',
-      fiber: '3.5% max',
-      fat: '1.5% max',
-      urease: '0.05-0.3 pH rise',
-      metabolizableEnergy: '3200 kcal/kg'
-    },
-    applications: ['Poultry', 'Swine', 'Aquaculture', 'Dairy'],
+    ingredientId: '35',
     packaging: '50kg multi-wall paper bags or bulk',
     price: 980,
     moq: 5,
@@ -54,54 +31,24 @@ export const ALL_PRODUCTS: FeedIngredient[] = [
       '/images/products/soybean/soy-2.avif',
       '/images/products/soybean/soy-3.avif'
     ],
-    benefits: [
-      'High protein digestibility',
-      'Consistent quality',
-      'Improved feed conversion ratio'
-    ],
     shipping: 'Available worldwide, sea/land freight',
     featured: true,
   },
   {
     id: 'sunflower-cake',
-    category: 'protein-sources',
-    name: 'Sunflower Cake',
-    description: 'High-protein byproduct of sunflower oil extraction',
-    technicalSpecs: {
-      protein: '34% min',
-      moisture: '10% max',
-      fiber: '28% max',
-      fat: '1.5% max',
-      metabolizableEnergy: '2800 kcal/kg'
-    },
-    applications: ['Ruminants', 'Poultry', 'Swine'],
+    ingredientId: '37',
     packaging: '50kg polypropylene bags',
     price: 450,
     moq: 10,
     stock: 180,
     certifications: ['ISO 22000'],
     images: ['/images/products/sunflower/sunflower.png'],
-    benefits: [
-      'Cost-effective protein source',
-      'High fiber content',
-      'Rich in sulfur-containing amino acids'
-    ],
     shipping: 'Available in Africa and Asia',
     featured: true,
   },
   {
     id: 'pr-60fm',
-    category: 'protein-sources',
-    name: 'Fish Meal (60% CP)',
-    description: 'Prime quality anchovy fish meal',
-    technicalSpecs: {
-      protein: '60% min',
-      moisture: '10% max',
-      fat: '10% max',
-      salt: '3% max',
-      sand: '2% max'
-    },
-    applications: ['Shrimp feeds', 'Poultry starters', 'Pet food'],
+    ingredientId: '14',
     packaging: '50kg poly-lined bags',
     price: 1450,
     moq: 2,
@@ -114,17 +61,7 @@ export const ALL_PRODUCTS: FeedIngredient[] = [
   // Energy Sources
   {
     id: 'en-cg',
-    category: 'energy-sources',
-    name: 'Corn Gluten Meal',
-    description: 'High-energy byproduct of corn wet milling',
-    technicalSpecs: {
-      protein: '60% min',
-      moisture: '10% max',
-      fat: '2% max',
-      fiber: '2% max',
-      metabolizableEnergy: '3800 kcal/kg'
-    },
-    applications: ['Poultry', 'Cattle', 'Aqua feeds'],
+    ingredientId: "6",
     packaging: 'Bulk or 25kg bags',
     price: 720,
     moq: 10,
@@ -135,15 +72,7 @@ export const ALL_PRODUCTS: FeedIngredient[] = [
   },
   {
     id: 'wheat-bran',
-    category: 'energy-sources',
-    name: 'Wheat Bran',
-    description: 'High-fiber energy ingredient',
-    technicalSpecs: {
-      protein: '15% min',
-      fiber: '11% max',
-      moisture: '13% max'
-    },
-    applications: ['Ruminants', 'Layers'],
+    ingredientId: "41",
     packaging: '50kg bags',
     price: 320,
     moq: 20,
@@ -156,16 +85,7 @@ export const ALL_PRODUCTS: FeedIngredient[] = [
   // Minerals
   {
     id: 'mi-dcp',
-    category: 'minerals',
-    name: 'Dicalcium Phosphate (DCP)',
-    description: 'Highly bioavailable phosphorus source',
-    technicalSpecs: {
-      phosphorus: '18% min',
-      calcium: '23% min',
-      fluorine: '0.18% max',
-      heavyMetals: '30ppm max'
-    },
-    applications: ['All animal feeds'],
+    ingredientId: '9',
     packaging: '25kg bags',
     price: 850,
     moq: 1,
@@ -178,16 +98,7 @@ export const ALL_PRODUCTS: FeedIngredient[] = [
   // Additives
   {
     id: 'ad-lys',
-    category: 'additives',
-    name: 'L-Lysine HCl',
-    description: 'Essential amino acid supplement',
-    technicalSpecs: {
-      purity: '98.5% min',
-      lysine: '78.8% min',
-      moisture: '1% max',
-      ash: '0.3% max'
-    },
-    applications: ['Swine', 'Poultry', 'Aqua feeds'],
+    ingredientId: '16',
     packaging: '25kg paper bags',
     price: 2200,
     moq: 0.5,
@@ -198,15 +109,28 @@ export const ALL_PRODUCTS: FeedIngredient[] = [
   }
 ];
 
+export const getProducts = (): Product[] => {
+  return ALL_PRODUCTS.map(product => {
+    const ingredient = getIngredients().find(ingredient => ingredient.id === product.ingredientId);
+    return {
+      ...product,
+      ingredient,
+    }
+  })
+}
+
 // Helper functions
-export const getFeaturedProducts = () => {
-  return ALL_PRODUCTS.filter(product => product.featured).slice(0, 4); // Get the first 3 featured products
+export const getFeaturedProducts = (): Product[] => {
+  return getProducts().filter(product => product.featured).slice(0, 4); // Get the first 3 featured products
 };
 
-export const getProductsByCategory = (categoryId: string) => {
-  return ALL_PRODUCTS.filter(product => product.category === categoryId);
+export const getProductsByCategory = (categoryId: string): Product[] => {
+  return getProducts().filter(product => {
+    const ingredient = getIngredients().find(ingredient => ingredient.id === product.ingredientId);
+    return ingredient?.categoryId.toString() === categoryId;
+  });
 };
 
-export const getProductById = (id: string) => {
-  return ALL_PRODUCTS.find(product => product.id === id);
+export const getProductById = (id: string): Product | undefined => {
+  return getProducts().find(product => product.id === id);
 };

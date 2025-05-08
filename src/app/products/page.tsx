@@ -1,8 +1,10 @@
 import CategoryFilter from '@/components/products/CategoryFilter';
 import IngredientCard from '@/components/products/IngredientCard';
-import { ALL_PRODUCTS, PRODUCT_CATEGORIES } from '@/data/products';
+import { INGREDIENT_CATEGORIES } from '@/data/ingredient_categories';
+import { getProducts } from '@/data/products';
 
 export default function ProductsPage() {
+  const products = getProducts();
   return (
     <div className="container mx-auto px-4 py-12">
       {/* Hero Section */}
@@ -16,12 +18,12 @@ export default function ProductsPage() {
       </section>
 
       {/* Category Filter */}
-      <CategoryFilter categories={PRODUCT_CATEGORIES} />
+      <CategoryFilter categories={INGREDIENT_CATEGORIES} />
 
       {/* Products Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-        {ALL_PRODUCTS.map((ingredient) => (
-          <IngredientCard key={ingredient.id} ingredient={ingredient} />
+        {products.map((ingredient) => (
+          <IngredientCard key={ingredient.id} product={ingredient} />
         ))}
       </div>
     </div>

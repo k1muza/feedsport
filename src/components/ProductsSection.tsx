@@ -24,7 +24,7 @@ export default function ProductsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
             <div
               key={product.id}
@@ -33,7 +33,7 @@ export default function ProductsSection() {
               <div className="relative h-48 bg-gray-50">
                 <Image
                   src={product.images[0]}
-                  alt={product.name}
+                  alt={product.ingredient?.name || 'Product'}
                   fill
                   className="object-contain p-4"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
@@ -55,13 +55,14 @@ export default function ProductsSection() {
 
               <div className="p-6">
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-xl font-bold text-gray-900">{product.name}</h3>
+                  <h3 className="text-xl font-bold text-gray-900">{product.ingredient?.name}</h3>
                   <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
-                    {product.category.split('-').join(' ')}
+                    {product.ingredient?.category?.name.split('-').join(' ')}
                   </span>
                 </div>
 
-                <p className="text-gray-600 mb-4">{product.description}</p>
+                <p className="text-gray-600 mb-4 line-clamp-3">
+                  {product.ingredient?.description}</p>
 
                 <div className="mb-4">
                   <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-1">
@@ -69,10 +70,10 @@ export default function ProductsSection() {
                     <span>Key Specs</span>
                   </h4>
                   <ul className="space-y-1 text-sm">
-                    {Object.entries(product.technicalSpecs).map(([key, value]) => (
-                      <li key={key} className="flex justify-between">
-                        <span className="text-gray-500 capitalize">{key}:</span>
-                        <span className="font-medium">{value}</span>
+                    {product.ingredient?.compositions.slice(0, 4).map((composition, index) => (
+                      <li key={index} className="flex justify-between">
+                        <span className="text-gray-500 capitalize">{composition.nutrient?.name}:</span>
+                        <span className="font-medium">{composition.value}{composition.nutrient?.unit}</span>
                       </li>
                     ))}
                   </ul>

@@ -1,18 +1,18 @@
 // components/products/ProductCard.tsx
-import Link from 'next/link';
+import { Product } from '@/data/products';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FaCheck } from 'react-icons/fa';
-import { FeedIngredient } from '@/types';
 
 
-export default function ProductCard({ product }: { product: FeedIngredient }) {
+export default function ProductCard({ product }: { product: Product }) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300">
       {/* Product Image */}
       <div className="relative h-48 bg-gray-50">
         <Image
           src={product.images[0]}
-          alt={product.name}
+          alt={product.ingredient?.name || 'Product Image'}
           fill
           className="object-contain p-4"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -32,15 +32,15 @@ export default function ProductCard({ product }: { product: FeedIngredient }) {
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold text-gray-900">
             <Link href={`/products/${product.id}`} className="hover:text-green-600">
-              {product.name}
+              {product.ingredient?.name}
             </Link>
           </h3>
           <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded capitalize">
-            {product.category.replace('-', ' ')}
+            {product.ingredient?.category?.name.replace('-', ' ')}
           </span>
         </div>
 
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.description}</p>
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.ingredient?.description}</p>
 
         {/* Price */}
         <div className="mb-4">

@@ -1,7 +1,7 @@
 'use client';
 
+import { IngredientCategory } from '@/data/ingredient_categories';
 import { useState } from 'react';
-import { IngredientCategory } from '@/types';
 
 export default function CategoryFilter({
   categories,
@@ -25,9 +25,9 @@ export default function CategoryFilter({
       {categories.map((category) => (
         <button
           key={category.id}
-          onClick={() => setActiveCategory(category.id)}
+          onClick={() => setActiveCategory(category.id.toString())}
           className={`px-6 py-2 rounded-full ${
-            activeCategory === category.id
+            activeCategory === category.id.toString()
               ? 'bg-green-600 text-white'
               : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
           }`}
