@@ -1,8 +1,8 @@
 
 import "@/app/globals.css";
-import Footer from "@/components/Footer";
-import NavBar from "@/components/NavBar";
-import TopBar from "@/components/TopBar";
+import Footer from "@/components/common/Footer";
+import NavBar from "@/components/common/NavBar";
+import TopBar from "@/components/common/TopBar";
 
 export default function MainLayout({
   children,

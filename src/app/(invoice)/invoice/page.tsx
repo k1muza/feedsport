@@ -1,7 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 
-const InvoiceTemplateOptimized = dynamic(() => import('@/components/InvoiceTemplate'), { ssr: false })
+const InvoiceTemplateOptimized = dynamic(() => import('@/components/invoice/InvoiceTemplate'), { ssr: false })
 
 const InvoicePage = () => {
   const invoiceData = {

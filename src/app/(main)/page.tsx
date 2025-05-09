@@ -1,8 +1,8 @@
 'use client';
-import AboutSection from "@/components/AboutSection";
-import FeaturesSection from "@/components/FeaturesSection";
-import HeroSection from "@/components/HeroSection";
-import ProductsSection from "@/components/ProductsSection";
+import AboutSection from "@/components/about/AboutSection";
+import FeaturesSection from "@/components/home/FeaturesSection";
+import HeroSection from "@/components/home/HeroSection";
+import ProductsSection from "@/components/home/ProductsSection";
 
 export default function Home() {
   return (
