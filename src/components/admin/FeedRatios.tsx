@@ -566,7 +566,7 @@ export const FeedRatios = () => {
       console.log(lp)
 
       const res = await glpk.solve(lp, options);
-      console.log(res);
+      setOptimizationResult(res);
 
       if (res.result.status === glpk.GLP_OPT) {
         const sol = ingredients.map(ing => {
