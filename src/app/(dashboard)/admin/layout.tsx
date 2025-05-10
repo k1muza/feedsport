@@ -6,14 +6,16 @@ import {
     Database as DatabaseIcon,
     Droplet,
     Home,
+    Menu,
     Package,
     Search,
     Settings as SettingsIcon,
-    User
+    User,
+    X
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 export default function DashboardLayout({
   children,
@@ -21,6 +23,7 @@ export default function DashboardLayout({
   children: ReactNode
 }) {
   const pathname = usePathname();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   
   const navItems = [
     { path: '/admin', label: 'Dashboard', icon: Home },
@@ -30,17 +33,29 @@ export default function DashboardLayout({
     { path: '/admin/settings', label: 'Settings', icon: SettingsIcon },
   ];
 
+  const toggleSidebar = () => {
+    setSidebarCollapsed(!sidebarCollapsed);
+  };
+
   return (
     <div className="flex h-screen bg-gray-950 text-gray-100">
       {/* Sidebar */}
-      <aside className="w-64 bg-gray-900/80 backdrop-blur-lg border-r border-gray-800 z-10">
+      <aside className={`${sidebarCollapsed ? 'w-20' : 'w-64'} bg-gray-900/80 backdrop-blur-lg border-r border-gray-800 z-10 transition-all duration-300 ease-in-out`}>
         <div className="flex items-center justify-between px-4 py-5 border-b border-gray-800">
-          <div className="flex items-center space-x-2">
-            <Droplet className="w-6 h-6 text-indigo-400" />
-            <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-              FeedSport
-            </h1>
-          </div>
+          {!sidebarCollapsed && (
+            <div className="flex items-center space-x-2">
+              <Droplet className="w-6 h-6 text-indigo-400" />
+              <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                FeedSport
+              </h1>
+            </div>
+          )}
+          <button 
+            onClick={toggleSidebar}
+            className="p-1 rounded-md hover:bg-gray-800 text-gray-400 hover:text-gray-200"
+          >
+            {sidebarCollapsed ? <Menu className="w-5 h-5" /> : <X className="w-5 h-5" />}
+          </button>
         </div>
         
         <nav className="mt-6 flex flex-col space-y-1 px-2">
@@ -48,27 +63,37 @@ export default function DashboardLayout({
             <Link
               key={path}
               href={path}
-              className={`flex items-center w-full px-4 py-3 rounded-lg transition-all ${
+              className={`flex items-center w-full px-4 py-3 rounded-lg transition-all group ${
                 pathname === path
                   ? 'bg-indigo-500/10 text-indigo-400 border-l-4 border-indigo-400' 
                   : 'text-gray-400 hover:bg-gray-800/50 hover:text-gray-200'
               }`}
+              title={sidebarCollapsed ? label : undefined}
             >
-              <Icon className="w-5 h-5 mr-3" />
-              <span className="font-medium">{label}</span>
+              <Icon className="w-5 h-5" />
+              {!sidebarCollapsed && (
+                <span className="font-medium ml-3">{label}</span>
+              )}
+              {sidebarCollapsed && (
+                <div className="absolute left-full ml-2 px-2 py-1 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 whitespace-nowrap">
+                  {label}
+                </div>
+              )}
             </Link>
           ))}
         </nav>
         
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-800">
-          <div className="flex items-center space-x-3">
+          <div className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-3'}`}>
             <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center">
               <User className="w-4 h-4 text-indigo-400" />
             </div>
-            <div>
-              <p className="text-sm font-medium">Admin User</p>
-              <p className="text-xs text-gray-500">admin@feedsport.com</p>
-            </div>
+            {!sidebarCollapsed && (
+              <div>
+                <p className="text-sm font-medium">Admin User</p>
+                <p className="text-xs text-gray-500">admin@feedsport.com</p>
+              </div>
+            )}
           </div>
         </div>
       </aside>
@@ -76,9 +101,17 @@ export default function DashboardLayout({
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden relative">
         <header className="flex items-center justify-between px-6 py-4 bg-gray-900/80 backdrop-blur-lg border-b border-gray-800 z-10">
-          <h2 className="text-xl font-semibold text-gray-100">
-            {navItems.find(item => pathname === item.path)?.label || 'Dashboard'}
-          </h2>
+          <div className="flex items-center">
+            <button 
+              onClick={toggleSidebar}
+              className="mr-4 p-1 rounded-md hover:bg-gray-800 text-gray-400 hover:text-gray-200 md:hidden"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <h2 className="text-xl font-semibold text-gray-100">
+              {navItems.find(item => pathname === item.path)?.label || 'Dashboard'}
+            </h2>
+          </div>
           
           <div className="flex items-center space-x-4">
             <div className="relative">

@@ -1,6 +1,7 @@
 'use client';
 
-import { FeedRatios } from "@/components/admin/FeedRatios";
+import { FeedRatios } from "@/components/admin/Calculator";
+
 
 export default function Ratios() {
   return (
@@ -9,4 +10,3 @@ export default function Ratios() {
     </div>
   );
 }
-
