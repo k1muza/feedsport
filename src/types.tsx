@@ -48,3 +48,8 @@ export type BlogPost = {
   readingTime: string;
 };
 
+export interface TargetNutrient {
+  id: string;
+  name: string;
+  value: number;
+}

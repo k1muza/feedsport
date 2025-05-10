@@ -18,6 +18,12 @@ export type Ingredient = {
     compositions: Composition[];
 };
 
+// Types
+export interface RatioIngredient extends Ingredient {
+  ratio: number;
+  costPerKg?: number;
+}
+
 const ALL_INGREDIENTS: Ingredient[] = [
     {
         "id": "1",
