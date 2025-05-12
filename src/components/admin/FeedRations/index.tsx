@@ -10,6 +10,7 @@ import { IngredientModal } from './IngredientModal';
 import { IngredientPanel } from './IngredientPanel';
 import { LeftPanel } from './LeftPanel';
 import { TargetModal } from './TargetModal';
+import { Result } from 'glpk.js';
 
 export const FeedRatios = () => {
   const [ingredients, setIngredients] = useState<RatioIngredient[]>([]);
@@ -20,7 +21,7 @@ export const FeedRatios = () => {
   const [showLeftPanel, setShowLeftPanel] = useState<'targets' | 'results'>('targets');
   const [leftPanelCollapsed, setLeftPanelCollapsed] = useState(false);
   const [optimizing, setOptimizing] = useState(false);
-  const [optimizationResult, setOptimizationResult] = useState<any>(null);
+  const [optimizationResult, setOptimizationResult] = useState<Result | null>(null);
 
   const allIngredients = useMemo(() => getIngredients(), []);
   const allNutrients = useMemo(() => getNutrients(), []);
@@ -161,7 +162,7 @@ export const FeedRatios = () => {
         presol: true,
       };
 
-      const res = await glpk.solve(lp, options);
+      const res: Result = await glpk.solve(lp, options);
       setOptimizationResult(res);
 
       if (res.result.status === glpk.GLP_OPT) {
