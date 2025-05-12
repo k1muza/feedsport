@@ -1,28 +1,6 @@
-import { INGREDIENT_CATEGORIES, IngredientCategory } from "./ingredient_categories";
-import { getNutrients, Nutrient } from "./nutrients";
-
-export type Composition = {
-    value: number;
-    nutrientId: number;
-    nutrient?: Nutrient;
-};
-
-export type Ingredient = {
-    id: string;
-    name: string;
-    description: string;
-    key_benefits: string[];
-    applications: string[];
-    categoryId: number;
-    category?: IngredientCategory;
-    compositions: Composition[];
-};
-
-// Types
-export interface RatioIngredient extends Ingredient {
-  ratio: number;
-  costPerKg?: number;
-}
+import { Ingredient } from "@/types";
+import { INGREDIENT_CATEGORIES } from "./ingredient_categories";
+import { getNutrients } from "./nutrients";
 
 const ALL_INGREDIENTS: Ingredient[] = [
     {
@@ -6288,7 +6266,24 @@ const ALL_INGREDIENTS: Ingredient[] = [
     }
 ]
 
-export const getIngredients = () => ALL_INGREDIENTS.map(ingredient => {
+/**
+ * Returns all ingredients, each with their category and nutrient information.
+ *
+ * Each ingredient is an object with the following properties:
+ *
+ * - id: The id of the ingredient.
+ * - name: The name of the ingredient.
+ * - category: The category this ingredient belongs to.
+ * - compositions: An array of compositions of this ingredient. Each composition
+ *   is an object with the following properties:
+ *
+ *   - value: The value of this nutrient in this composition.
+ *   - nutrientId: The id of the nutrient for this composition.
+ *   - nutrient: The nutrient object for this composition.
+ *
+ * @returns An array of ingredients with their category and nutrient information.
+ */
+export const getIngredients = (): Ingredient[] => ALL_INGREDIENTS.map(ingredient => {
     const category = INGREDIENT_CATEGORIES.find(c => c.id.toString() === ingredient.id)
     return {
         ...ingredient,
@@ -6302,3 +6297,5 @@ export const getIngredients = () => ALL_INGREDIENTS.map(ingredient => {
         })
     }
 })
+
+export const getIngredientById = (id: string): Ingredient|undefined => getIngredients().find(i => i.id === id)

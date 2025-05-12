@@ -1,16 +1,21 @@
 'use client';
 
-import { Ingredient as DataIngredient, getIngredients, RatioIngredient } from '@/data/ingredients';
+import { showErrorToast } from '@/components/common/ErrorToast';
+import { showSuccessToast } from '@/components/common/SuccessToast';
+import { getIngredients } from '@/data/ingredients';
 import { getNutrients } from '@/data/nutrients';
-import { TargetNutrient } from '@/types';
+import { ratioOptimizer } from '@/services/ratioOptimizer';
+import { Ingredient as DataIngredient, IngredientSuggestion, RatioIngredient, TargetNutrient, } from '@/types';
+import { Result } from 'glpk.js';
 import { useCallback, useMemo, useState } from 'react';
 import { BatchCalculation } from './BatchCalculation';
 import { Header } from './Header';
 import { IngredientModal } from './IngredientModal';
 import { IngredientPanel } from './IngredientPanel';
+import { IngredientSuggestionPanel } from './IngredientSuggestionPanel';
 import { LeftPanel } from './LeftPanel';
 import { TargetModal } from './TargetModal';
-import { Result } from 'glpk.js';
+
 
 export const FeedRatios = () => {
   const [ingredients, setIngredients] = useState<RatioIngredient[]>([]);
@@ -22,9 +27,26 @@ export const FeedRatios = () => {
   const [leftPanelCollapsed, setLeftPanelCollapsed] = useState(false);
   const [optimizing, setOptimizing] = useState(false);
   const [optimizationResult, setOptimizationResult] = useState<Result | null>(null);
+  const [suggestedIngredients, setSuggestedIngredients] = useState<IngredientSuggestion[]>([]);
 
   const allIngredients = useMemo(() => getIngredients(), []);
   const allNutrients = useMemo(() => getNutrients(), []);
+
+  const displaySuccessToast = useCallback(
+    (message: string) => {
+      showSuccessToast({message});
+      setOptimizing(false);
+    },
+    []
+  );
+
+  const displayErrorToast = useCallback(
+    (message: string) => {
+      showErrorToast({message});
+      setOptimizing(false);
+    },
+    []
+  );
 
   const initialTargets = useMemo(
     () => [
@@ -105,77 +127,26 @@ export const FeedRatios = () => {
   const optimizeRatios = useCallback(async () => {
     if (ingredients.length === 0 || targets.length === 0) return;
 
+    setOptimizationResult(null);
+    setSuggestedIngredients([]);
+
     setOptimizing(true);
 
     try {
-      const GLPK = await import('glpk.js');
-      const glpk = await GLPK.default();
+      const result = await ratioOptimizer.optimize(ingredients, targets);
 
-      const variables = ingredients.map(ing => ({
-        name: `x${ing.id.replace(/-/g, '')}`,
-        coef: ing.costPerKg || 0, // Minimize total cost
-      }));
-
-      const constraints = targets.map(target => {
-        const vars = ingredients.map(ing => {
-          const comp = ing.compositions.find(c => c.nutrient?.name === target.name);
-          return {
-            name: `x${ing.id.replace(/-/g, '')}`,
-            coef: (comp?.value ?? 0) / 100
-          };
-        }).filter(v => v.coef > 0); // Only include ingredients that contribute to this nutrient
-
-        return {
-          name: target.name.replace(/\s+/g, ''),
-          vars,
-          bnds: { type: glpk.GLP_LO, lb: target.value, ub: Infinity },
-        };
-      });
-
-      const totalConstraint = {
-        name: 'Total',
-        vars: ingredients.map(ing => ({
-          name: `x${ing.id.replace(/-/g, '')}`,
-          coef: 1.0,
-        })),
-        bnds: { type: glpk.GLP_FX, lb: 100, ub: 100 },
-      };
-
-      const lp = {
-        name: 'FeedOptimization',
-        objective: {
-          direction: glpk.GLP_MIN,
-          name: 'cost',
-          vars: variables,
-        },
-        subjectTo: [...constraints, totalConstraint],
-        bounds: ingredients.map(ing => ({
-          name: `x${ing.id.replace(/-/g, '')}`,
-          type: glpk.GLP_LO,
-          lb: 0,
-          ub: 1,
-        })),
-      };
-
-      const options = {
-        msglev: glpk.GLP_MSG_ALL,
-        presol: true,
-      };
-
-      const res: Result = await glpk.solve(lp, options);
-      setOptimizationResult(res);
-
-      if (res.result.status === glpk.GLP_OPT) {
-        const sol = ingredients.map(ing => {
-          const key = `x${ing.id.replace(/-/g, '')}`;
-          const frac = res.result.vars[key] ?? 0;
-          return { ...ing, ratio: +(frac * 100).toFixed(2) };
-        });
-        setIngredients(sol);
+      if (result.success && result.updatedIngredients) {
+        setIngredients(result.updatedIngredients);
+        displaySuccessToast('Ratios optimized!');
+      } else if (result.suggestions) {
+        setSuggestedIngredients(result.suggestions.slice(0, 3)); // Show top 3 suggestions
       }
 
-    } catch (err) {
-      console.error('Optimization error:', err);
+      if (!result.success) {
+        displayErrorToast('Failed to optimize ratios');
+      }
+
+      setOptimizationResult(result.rawResult || null);
     } finally {
       setOptimizing(false);
     }
@@ -212,6 +183,14 @@ export const FeedRatios = () => {
           isExpanded={leftPanelCollapsed}
         />
       </div>
+
+      {suggestedIngredients.length > 0 && (
+        <IngredientSuggestionPanel
+          ingredients={ingredients}
+          suggestions={suggestedIngredients}
+          onAdd={addIngredient}
+        />
+      )}
 
       {ingredients.length > 0 && (
         <BatchCalculation

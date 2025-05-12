@@ -1,5 +1,5 @@
-import { RatioIngredient } from "@/data/ingredients";
-import { TargetNutrient } from "@/types";
+
+import { RatioIngredient, TargetNutrient } from "@/types";
 import { AlertTriangle, X } from "lucide-react";
 
 // Ingredient Panel Component

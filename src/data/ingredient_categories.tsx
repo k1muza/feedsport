@@ -1,8 +1,3 @@
-export type IngredientCategory = {
-    id: number;
-    name: string;
-};
-
 export const INGREDIENT_CATEGORIES = [
     { "id": 1, "name": "Cereal Grains" },
     { "id": 2, "name": "Protein Meals" },

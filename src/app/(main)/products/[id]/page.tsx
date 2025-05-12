@@ -81,7 +81,7 @@ export default async function Page({
               <div className="mb-8">
                 <h3 className="text-lg font-medium text-gray-900 mb-3">Key Benefits</h3>
                 <ul className="space-y-2">
-                  {product.ingredient?.key_benefits?.map((benefit, index) => (
+                  {product.ingredient?.key_benefits?.map((benefit: string, index: number) => (
                     <li key={index} className="flex items-center">
                       <FaCheck className="text-green-500 mr-2" />
                       <span>{benefit}</span>

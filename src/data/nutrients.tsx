@@ -1,10 +1,4 @@
-export interface Nutrient {
-  id: string;
-  name: string;
-  description: string;
-  unit: string;
-  categoryId: string | null;
-}
+import { Nutrient } from "@/types";
 
 export const ALL_NUTRIENTS: Nutrient[] = [
   {
@@ -240,3 +234,5 @@ export const getNutrients = (): Nutrient[] => {
     }
   })
 }
+
+export const getNutrientById = (id: string): Nutrient|undefined => getNutrients().find(n => n.id === id)

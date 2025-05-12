@@ -14,6 +14,7 @@ import {
     X
 } from 'lucide-react';
 import Link from 'next/link';
+import { Toaster } from 'react-hot-toast';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useState } from 'react';
 
@@ -147,6 +148,8 @@ export default function DashboardLayout({
           {children}
         </main>
       </div>
+
+      <Toaster position="top-right" />
     </div>
   );
 }

@@ -1,7 +1,6 @@
 export type IngredientCategory = {
-  id: string;
+  id: number;
   name: string;
-  description: string;
 };
 
 export type TechnicalSpecs = {
@@ -48,8 +47,60 @@ export type BlogPost = {
   readingTime: string;
 };
 
+export interface Nutrient {
+  id: string;
+  name: string;
+  description: string;
+  unit: string;
+  categoryId: string | null;
+}
+
 export interface TargetNutrient {
   id: string;
   name: string;
   value: number;
+}
+
+export interface NutrientGap {
+  name: string;
+  currentValue: number;
+  targetValue: number;
+  gap: number;
+}
+
+export type Composition = {
+    value: number;
+    nutrientId: number;
+    nutrient?: Nutrient;
+};
+
+export type Ingredient = {
+    id: string;
+    name: string;
+    description: string;
+    key_benefits: string[];
+    applications: string[];
+    categoryId: number;
+    category?: IngredientCategory;
+    compositions: Composition[];
+};
+
+// Types
+export interface RatioIngredient extends Ingredient {
+  ratio: number;
+  costPerKg?: number;
+}
+
+export interface IngredientSuggestion {
+  ingredient?: Ingredient;
+  nutrient?: Nutrient;
+  target?: number;
+}
+
+export interface OptimizationResult {
+  success: boolean;
+  message: string;
+  updatedIngredients?: RatioIngredient[];
+  rawResult?: any;
+  suggestions?: IngredientSuggestion[];
 }

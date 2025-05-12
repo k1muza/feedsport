@@ -1,4 +1,5 @@
-import { Ingredient, RatioIngredient } from "@/data/ingredients";
+
+import { Ingredient, RatioIngredient } from "@/types";
 import { Plus, X } from "lucide-react";
 
 // Ingredient Modal Component
