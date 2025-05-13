@@ -1,23 +1,21 @@
 import { OptimizationResult, RatioIngredient, TargetNutrient } from '@/types';
 import { IngredientSuggestionService } from './ingredientSuggester';
+import { GLPK, Result } from 'glpk.js';
 
 export class RatioOptimizer {
-  private glpk: any;
+  constructor(private glpk: GLPK) {
+    this.glpk = glpk;
+  }
 
-  public async initialize() {
-    if (!this.glpk) {
-      const GLPKModule = await import('glpk.js');
-      this.glpk = await GLPKModule.default();
-    }
+  public static async getInstance() {
+    const GLPKModule = await import('glpk.js');
+    return new RatioOptimizer(await GLPKModule.default());
   }
 
   public async optimize(
     ingredients: RatioIngredient[],
     targets: TargetNutrient[]
   ): Promise<OptimizationResult> {
-    if (!this.glpk) {
-      await this.initialize();
-    }
 
     if (ingredients.length === 0 || targets.length === 0) {
       return {
@@ -79,7 +77,8 @@ export class RatioOptimizer {
         msglev: this.glpk.GLP_MSG_ALL,
         presol: true,
         cb: {
-          callback: (progress: any) => console.log(progress),
+          call: (result: Result) => console.log(result),
+          each: 1,
         }
       };
 
@@ -129,6 +128,3 @@ export class RatioOptimizer {
     }
   }
 }
-
-// Singleton instance
-export const ratioOptimizer = new RatioOptimizer();

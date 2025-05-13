@@ -1,5 +1,4 @@
-import { Nutrient } from "@/data/nutrients";
-import { TargetNutrient } from "@/types";
+import { Nutrient, TargetNutrient } from "@/types";
 import { X } from "lucide-react";
 
 // Target Modal Component

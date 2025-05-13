@@ -1,4 +1,4 @@
-import { Composition } from "@/data/ingredients";
+import { Composition } from "@/types";
 
 interface TechnicalSpecsProps {
   compositions?: Composition[]; // Add the ? to make the property optional

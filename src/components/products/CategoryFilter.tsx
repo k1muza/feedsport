@@ -1,6 +1,7 @@
 'use client';
 
-import { IngredientCategory } from '@/data/ingredient_categories';
+
+import { IngredientCategory } from '@/types';
 import { useState } from 'react';
 
 export default function CategoryFilter({

@@ -1,3 +1,5 @@
+import { Result } from "glpk.js";
+
 export type IngredientCategory = {
   id: number;
   name: string;
@@ -85,6 +87,20 @@ export type Ingredient = {
     compositions: Composition[];
 };
 
+export type Product = {
+  id: string;
+  ingredientId: string;
+  ingredient?: Ingredient;
+  packaging: string;
+  price: number;
+  moq: number;
+  stock: number;
+  certifications: string[];
+  images: string[];
+  shipping?: string;
+  featured?: boolean;
+};
+
 // Types
 export interface RatioIngredient extends Ingredient {
   ratio: number;
@@ -101,6 +117,6 @@ export interface OptimizationResult {
   success: boolean;
   message: string;
   updatedIngredients?: RatioIngredient[];
-  rawResult?: any;
+  rawResult?: Result;
   suggestions?: IngredientSuggestion[];
 }

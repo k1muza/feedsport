@@ -4,7 +4,7 @@ import { showErrorToast } from '@/components/common/ErrorToast';
 import { showSuccessToast } from '@/components/common/SuccessToast';
 import { getIngredients } from '@/data/ingredients';
 import { getNutrients } from '@/data/nutrients';
-import { ratioOptimizer } from '@/services/ratioOptimizer';
+import { RatioOptimizer } from '@/services/ratioOptimizer';
 import { Ingredient as DataIngredient, IngredientSuggestion, RatioIngredient, TargetNutrient, } from '@/types';
 import { Result } from 'glpk.js';
 import { useCallback, useMemo, useState } from 'react';
@@ -31,22 +31,6 @@ export const FeedRatios = () => {
 
   const allIngredients = useMemo(() => getIngredients(), []);
   const allNutrients = useMemo(() => getNutrients(), []);
-
-  const displaySuccessToast = useCallback(
-    (message: string) => {
-      showSuccessToast({message});
-      setOptimizing(false);
-    },
-    []
-  );
-
-  const displayErrorToast = useCallback(
-    (message: string) => {
-      showErrorToast({message});
-      setOptimizing(false);
-    },
-    []
-  );
 
   const initialTargets = useMemo(
     () => [
@@ -133,17 +117,18 @@ export const FeedRatios = () => {
     setOptimizing(true);
 
     try {
+      const ratioOptimizer = await RatioOptimizer.getInstance();
       const result = await ratioOptimizer.optimize(ingredients, targets);
 
       if (result.success && result.updatedIngredients) {
         setIngredients(result.updatedIngredients);
-        displaySuccessToast('Ratios optimized!');
+        showSuccessToast({message: 'Ratios optimized!'});
       } else if (result.suggestions) {
         setSuggestedIngredients(result.suggestions.slice(0, 3)); // Show top 3 suggestions
       }
 
       if (!result.success) {
-        displayErrorToast('Failed to optimize ratios');
+        showErrorToast({message: 'Failed to optimize ratios'});
       }
 
       setOptimizationResult(result.rawResult || null);

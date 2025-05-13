@@ -1,6 +1,7 @@
 import { ChevronDown, ChevronUp, Database, Edit2, Filter, Plus, Search, Trash2, X } from "lucide-react";
 import { useState, useMemo } from "react";
-import { getIngredients, Ingredient as DataIngredient } from "@/data/ingredients";
+import { getIngredients } from "@/data/ingredients";
+import { Ingredient as DataIngredient } from "@/types"
 import { getProducts } from "@/data/products";
 
 // ============ Types ============
@@ -9,16 +10,16 @@ interface UIIngredient extends DataIngredient {
 }
 
 // ============ Table Header Component ============
-const TableHeader = ({ 
-  columnKey, 
-  label, 
-  sortConfig, 
-  requestSort 
-}: { 
-  columnKey: string; 
-  label: string; 
-  sortConfig: { key: string; direction: string } | null; 
-  requestSort: (key: string) => void; 
+const TableHeader = ({
+  columnKey,
+  label,
+  sortConfig,
+  requestSort
+}: {
+  columnKey: string;
+  label: string;
+  sortConfig: { key: string; direction: string } | null;
+  requestSort: (key: string) => void;
 }) => (
   <th
     className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider cursor-pointer"
@@ -39,11 +40,11 @@ const IngredientDetails = ({ ingredient }: { ingredient: UIIngredient }) => (
     <div>
       <h4 className="text-sm font-medium text-gray-400 mb-2">Nutritional Values</h4>
       <div className="space-y-2">
-        {['Crude Protein','Fat (Ether Extract)','Crude Fiber'].map(n => {
+        {['Crude Protein', 'Fat (Ether Extract)', 'Crude Fiber'].map(n => {
           const comp = ingredient.compositions.find(c => c.nutrient?.name === n);
           return (
             <div key={n} className="flex justify-between">
-              <span className="text-gray-500">{comp?.nutrient?.name.replace(' (Ether Extract)','')}: </span>
+              <span className="text-gray-500">{comp?.nutrient?.name.replace(' (Ether Extract)', '')}: </span>
               <span className="text-gray-200">{comp?.value}{comp?.nutrient?.unit}</span>
             </div>
           );
@@ -73,14 +74,14 @@ const IngredientDetails = ({ ingredient }: { ingredient: UIIngredient }) => (
 );
 
 // ============ Ingredient Row Component ============
-const IngredientRow = ({ 
-  ingredient, 
-  isExpanded, 
-  toggleExpand 
-}: { 
-  ingredient: UIIngredient; 
-  isExpanded: boolean; 
-  toggleExpand: (id: string) => void; 
+const IngredientRow = ({
+  ingredient,
+  isExpanded,
+  toggleExpand
+}: {
+  ingredient: UIIngredient;
+  isExpanded: boolean;
+  toggleExpand: (id: string) => void;
 }) => (
   <>
     <tr
@@ -94,8 +95,8 @@ const IngredientRow = ({
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-gray-200 font-medium">${ingredient.cost.toFixed(2)}</td>
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-        <button className="text-indigo-400 hover:text-indigo-300 mr-4 transition-colors"><Edit2 className="w-4 h-4"/></button>
-        <button className="text-red-400 hover:text-red-300 transition-colors"><Trash2 className="w-4 h-4"/></button>
+        <button className="text-indigo-400 hover:text-indigo-300 mr-4 transition-colors"><Edit2 className="w-4 h-4" /></button>
+        <button className="text-red-400 hover:text-red-300 transition-colors"><Trash2 className="w-4 h-4" /></button>
       </td>
     </tr>
 
@@ -110,12 +111,12 @@ const IngredientRow = ({
 );
 
 // ============ Search Bar Component ============
-const SearchBar = ({ 
-  searchTerm, 
-  setSearchTerm 
-}: { 
-  searchTerm: string; 
-  setSearchTerm: (term: string) => void; 
+const SearchBar = ({
+  searchTerm,
+  setSearchTerm
+}: {
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }) => (
   <div className="relative flex-1">
     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -138,7 +139,7 @@ const PageHeader = ({ setShowForm }: { setShowForm: (show: boolean) => void }) =
         Ingredient Database
       </h2>
     </div>
-    <button 
+    <button
       onClick={() => setShowForm(true)}
       className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg flex items-center space-x-2 transition-colors"
     >
@@ -234,8 +235,8 @@ export const IngredientInfo = () => {
           <table className="min-w-full divide-y divide-gray-700">
             <thead className="bg-gray-800">
               <tr>
-                {['name','category','protein','cost'].map(key => (
-                  <TableHeader 
+                {['name', 'category', 'protein', 'cost'].map(key => (
+                  <TableHeader
                     key={key}
                     columnKey={key}
                     label={key === 'name' ? 'Ingredient' : key.charAt(0).toUpperCase() + key.slice(1)}
@@ -248,7 +249,7 @@ export const IngredientInfo = () => {
             </thead>
             <tbody className="divide-y divide-gray-700">
               {filtered.map(item => (
-                <IngredientRow 
+                <IngredientRow
                   key={item.id}
                   ingredient={item}
                   isExpanded={expandedId === item.id}
@@ -267,7 +268,7 @@ export const IngredientInfo = () => {
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium">Add New Ingredient</h3>
-                <button 
+                <button
                   onClick={() => setShowForm(false)}
                   className="text-gray-400 hover:text-gray-200"
                 >
@@ -277,15 +278,15 @@ export const IngredientInfo = () => {
               <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* form fields... */}
                 <div className="md:col-span-2 flex justify-end space-x-3 pt-4">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={() => setShowForm(false)}
                     className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors"
                   >
                     Cancel
                   </button>
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-colors"
                   >
                     Save Ingredient

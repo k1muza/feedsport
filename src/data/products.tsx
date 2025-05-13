@@ -1,18 +1,5 @@
-import { getIngredients, Ingredient } from "./ingredients";
-
-export type Product = {
-  id: string;
-  ingredientId: string;
-  ingredient?: Ingredient;
-  packaging: string;
-  price: number;
-  moq: number;
-  stock: number;
-  certifications: string[];
-  images: string[];
-  shipping?: string;
-  featured?: boolean;
-};
+import { Product } from "@/types";
+import { getIngredients } from "./ingredients";
 
 
 export const ALL_PRODUCTS: Product[] = [

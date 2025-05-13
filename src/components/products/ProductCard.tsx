@@ -1,5 +1,4 @@
-// components/products/ProductCard.tsx
-import { Product } from '@/data/products';
+import { Product } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaCheck } from 'react-icons/fa';

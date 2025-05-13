@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { FaInfoCircle } from 'react-icons/fa';
 
 import { getFeaturedProducts } from '@/data/products';
+import { Composition } from '@/types';
 
 export default function ProductsSection() {
   const products = getFeaturedProducts();
@@ -70,7 +71,7 @@ export default function ProductsSection() {
                     <span>Key Specs</span>
                   </h4>
                   <ul className="space-y-1 text-sm">
-                    {product.ingredient?.compositions.slice(0, 4).map((composition, index) => (
+                    {product.ingredient?.compositions.slice(0, 4).map((composition: Composition, index: number) => (
                       <li key={index} className="flex justify-between">
                         <span className="text-gray-500 capitalize">{composition.nutrient?.name}:</span>
                         <span className="font-medium">{composition.value}{composition.nutrient?.unit}</span>
