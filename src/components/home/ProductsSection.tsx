@@ -12,7 +12,7 @@ export default function ProductsSection() {
   
   return (
     <section className="py-16 bg-white" id="products">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="inline-block bg-green-50 text-green-600 px-4 py-2 rounded-full text-sm font-semibold mb-3">
             PREMIUM INGREDIENTS

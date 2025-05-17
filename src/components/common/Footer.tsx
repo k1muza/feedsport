@@ -121,13 +121,13 @@ export default function Footer() {
                 <FaPhoneAlt className="text-green-500 mr-3 flex-shrink-0" />
                 <div>
                   <a 
-                    href="tel:+263774043049" 
+                    href="tel:+263774684534" 
                     className="text-gray-400 hover:text-green-500 transition-colors duration-300 block"
                   >
-                    +263 77 404 3049
+                    +263 77 468 4534
                   </a>
                   <a 
-                    href="https://wa.me/263774043049" 
+                    href="https://wa.me/263774484534" 
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-green-500 flex items-center mt-1"

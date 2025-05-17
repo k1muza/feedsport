@@ -14,7 +14,7 @@ export default function AboutSection() {
 
   return (
     <div className="bg-gray-50 py-16">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-10">
           <div className="lg:w-1/2">
             <div className="bg-white p-8 rounded-xl shadow-md h-full">

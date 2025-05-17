@@ -12,12 +12,12 @@ export default function CTASection() {
           Our team of nutrition experts is ready to help you select the perfect feed for your animals&apos; needs.
         </p>
         <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <Link href="https://wa.me/263774043049"
+          <Link href="https://wa.me/263774684534"
             target="_blank"
             rel="noopener noreferrer" className="flex bg-yellow-500 hover:bg-yellow-600 text-green-900 font-bold py-3 px-8 rounded-lg">
             Contact Our Experts
           </Link>
-          <Link href="tel:+263774043049" className="border-2 border-white hover:bg-white hover:text-green-900 font-bold py-3 px-8 rounded-lg flex">
+          <Link href="tel:+263774684534" className="border-2 border-white hover:bg-white hover:text-green-900 font-bold py-3 px-8 rounded-lg flex">
             <FaPhoneAlt className="mr-2" /> Call Now
           </Link>
         </div>

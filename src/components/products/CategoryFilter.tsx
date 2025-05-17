@@ -12,7 +12,7 @@ export default function CategoryFilter({
   const [activeCategory, setActiveCategory] = useState('all');
 
   return (
-    <div className="flex flex-wrap justify-center gap-4 mb-8">
+    <div className="flex flex-wrap justify-center gap-4 mb-8  max-w-7xl mx-auto">
       <button
         onClick={() => setActiveCategory('all')}
         className={`px-6 py-2 rounded-full ${

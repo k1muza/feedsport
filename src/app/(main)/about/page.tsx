@@ -1,31 +1,21 @@
+import SecondaryHero from '@/components/common/SecondaryHero';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaAward, FaCheck, FaLeaf } from 'react-icons/fa';
 
 export default function AboutPage() {
   return (
-    <div className="bg-gray-50 py-16">
-      <div className="container mx-auto px-4">
-        {/* Hero Section */}
-        <div className="text-center max-w-4xl mx-auto mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
-            Empowering Farmers with <span className="text-green-600">Science-Backed Nutrition</span>
-          </h1>
-          <p className="text-lg text-gray-600 mb-8">
-            At FeedSport, we harness scientific research and sustainable practices to craft premium feed solutions that improve animal health, boost growth, and enhance farm profitability.
-          </p>
-          <div className="flex justify-center gap-4">
-            <Link href="/products" className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-300">
-              Browse Products
-            </Link>
-            <Link href="/contact" className="inline-block border-2 border-green-600 text-green-600 hover:bg-green-50 font-bold py-3 px-8 rounded-full transition duration-300">
-              Get in Touch
-            </Link>
-          </div>
-        </div>
+    <>
+      <SecondaryHero
+        title="Empowering Farmers with Science-Backed Nutrition"
+        subtitle="At FeedSport, we harness scientific research and sustainable practices to craft premium feed solutions that improve animal health, boost growth, and enhance farm profitability."
+        ctaText="Browse Products"
+        ctaLink="/products"
+      />
 
+      <div className="bg-gray-50 py-16">
         {/* Mission & Values Section */}
-        <div className="flex flex-col lg:flex-row gap-10 mb-16">
+        <div className="flex flex-col lg:flex-row gap-10 mb-16 max-w-7xl mx-auto">
           <div className="lg:w-1/2">
             <div className="bg-white p-8 rounded-xl shadow-lg h-full">
               <div className="flex items-center mb-6">
@@ -108,7 +98,7 @@ export default function AboutPage() {
         </div>
 
         {/* Stats Section */}
-        <div className="bg-green-600 rounded-xl p-8 md:p-12 text-white mb-16">
+        <div className="bg-green-600 rounded-xl p-8 md:p-12 text-white mb-16 max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">Our Impact in Numbers</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
@@ -127,7 +117,7 @@ export default function AboutPage() {
         </div>
 
         {/* Team CTA */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row">
             <div className="md:w-1/2 p-8 md:p-12 bg-white rounded-lg shadow-lg">
               <h2 className="text-3xl font-extrabold mb-4 text-gray-900">
@@ -166,6 +156,6 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

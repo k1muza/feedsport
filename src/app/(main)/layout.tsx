@@ -2,7 +2,6 @@
 import "@/app/globals.css";
 import Footer from "@/components/common/Footer";
 import NavBar from "@/components/common/NavBar";
-import TopBar from "@/components/common/TopBar";
 
 export default function MainLayout({
   children,
@@ -11,7 +10,6 @@ export default function MainLayout({
 }>) {
   return (
     <>
-      <TopBar />
       <NavBar />
       {children}
       <Footer />
