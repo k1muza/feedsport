@@ -125,8 +125,8 @@ export default function HeroSection() {
                     key={i}
                     className="absolute rounded-full bg-emerald-500/10 backdrop-blur-sm"
                     style={{
-                      width: `${Math.random() * 10 + 50}px`,
-                      height: `${Math.random() * 10 + 50}px`,
+                      width: `${Math.random() * 10 + 20}px`,
+                      height: `${Math.random() * 10 + 20}px`,
                       top: `${Math.random() * 100}%`,
                       left: `${Math.random() * 100}%`,
                       filter: 'blur(20px)',
