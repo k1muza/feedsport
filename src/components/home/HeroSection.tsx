@@ -109,7 +109,7 @@ export default function HeroSection() {
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="relative h-[400px] sm:h-[500px] w-full rounded-2xl overflow-hidden">
+            <div className="relative h-[100px] sm:h-[200px] w-full rounded-2xl overflow-hidden">
               <LottiePlayer
                 src="/cow.json" // Animated DNA/tech visualization
                 background="transparent"
@@ -125,8 +125,8 @@ export default function HeroSection() {
                     key={i}
                     className="absolute rounded-full bg-emerald-500/10 backdrop-blur-sm"
                     style={{
-                      width: `${Math.random() * 100 + 50}px`,
-                      height: `${Math.random() * 100 + 50}px`,
+                      width: `${Math.random() * 10 + 50}px`,
+                      height: `${Math.random() * 10 + 50}px`,
                       top: `${Math.random() * 100}%`,
                       left: `${Math.random() * 100}%`,
                       filter: 'blur(20px)',
