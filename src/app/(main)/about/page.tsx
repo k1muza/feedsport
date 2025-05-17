@@ -60,7 +60,7 @@ export default function AboutPage() {
               </ul>
             </div>
           </div>
-          
+
           <div className="lg:w-1/2">
             <div className="bg-white p-8 rounded-xl shadow-lg h-full">
               <div className="grid grid-cols-2 gap-6 mb-8">
@@ -68,7 +68,7 @@ export default function AboutPage() {
                   <Image
                     width={500}
                     height={500}
-                    src="/images/eggs.jpg"
+                    src="/images/egg-dish.jpg"
                     alt="Healthy poultry with our feed"
                     className="w-full h-full object-cover transition duration-500 hover:scale-105"
                   />
@@ -77,7 +77,7 @@ export default function AboutPage() {
                   <Image
                     width={500}
                     height={500}
-                    src="/images/cow-feed.jpg"
+                    src="/images/hero-4.png"
                     alt="Cattle feeding with our products"
                     className="w-full h-full object-cover transition duration-500 hover:scale-105"
                   />
@@ -129,20 +129,36 @@ export default function AboutPage() {
         {/* Team CTA */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           <div className="flex flex-col md:flex-row">
-            <div className="md:w-1/2 p-8 md:p-12">
-              <h2 className="text-3xl font-bold mb-4 text-gray-900">Meet the Experts Behind FeedSport</h2>
-              <p className="text-gray-700 mb-6">
-                Our team of nutritionists, veterinarians, and agricultural scientists collaborates to deliver the most effective feed strategies for your livestock.
+            <div className="md:w-1/2 p-8 md:p-12 bg-white rounded-lg shadow-lg">
+              <h2 className="text-3xl font-extrabold mb-4 text-gray-900">
+                Meet the FeedSport Specialists
+              </h2>
+
+              <p className="text-gray-700 mb-4 leading-relaxed">
+                At FeedSport, precision is everything. Our nutritionists dive deep into the latest research to formulate diets that optimize growth rates, feed conversion ratios, and overall animal well-being.
               </p>
-              <Link href="/team" className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-300">
-                Discover Our Team
+
+              <p className="text-gray-700 mb-4 leading-relaxed">
+                Backed by field–tested veterinarians, we ensure every ingredient supports gut health, immune function, and resilience against common livestock challenges—so you see fewer setbacks and more consistent performance.
+              </p>
+
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                Our agricultural scientists harness on-farm trials and cutting-edge lab analyses to source and validate only the highest-quality raw materials, delivering feed strategies that are both cost-effective and environmentally responsible.
+              </p>
+
+              <Link
+                href="/team"
+                className="inline-block bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 text-white font-semibold py-3 px-8 rounded-full transition duration-300"
+                aria-label="Explore our FeedSport team"
+              >
+                Explore Our Team
               </Link>
             </div>
             <div className="md:w-1/2 bg-gray-100 min-h-64">
               <Image
                 width={800}
                 height={600}
-                src="/images/team.jpg"
+                src="/images/team-4.png"
                 alt="FeedSport team members"
                 className="w-full h-full object-cover"
               />

@@ -52,7 +52,7 @@ export default function AboutSection() {
                   <Image
                     width={500}
                     height={500}
-                    src="/images/eggs.jpg"
+                    src="/images/egg-compare.jpg"
                     alt="Poultry farm"
                     className="w-full h-48 object-cover" />
                 </div>
