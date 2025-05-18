@@ -1,12 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import { FiInfo, FiBarChart2, FiDroplet, FiThermometer, FiDownload, FiShare2 } from 'react-icons/fi'
-import { TbLeaf, TbMeat, TbChartArcs } from 'react-icons/tb'
-import { GiWeight, GiChickenOven } from 'react-icons/gi'
-import { motion, AnimatePresence } from 'framer-motion'
-import Link from 'next/link'
 import SecondaryHero from '@/components/common/SecondaryHero'
+import { AnimatePresence, motion } from 'framer-motion'
+import Link from 'next/link'
+import { useState } from 'react'
+import { FiBarChart2, FiDownload, FiInfo, FiShare2 } from 'react-icons/fi'
+import { GiChickenOven, GiWeight } from 'react-icons/gi'
+import { TbChartArcs, TbMeat } from 'react-icons/tb'
 
 interface Nutrient {
   name: string
