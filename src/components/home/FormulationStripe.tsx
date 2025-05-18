@@ -1,6 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
+import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { FaChartLine, FaDna, FaEgg, FaFire, FaLeaf, FaPiggyBank, FaShieldAlt } from 'react-icons/fa'
 import { FaCow } from 'react-icons/fa6'
@@ -49,12 +50,12 @@ export default function BetterFeedFormulationStrip() {
           <div
             key={i}
             className="absolute bg-yellow-400/30 rounded-full blur-lg animate-blob"
-            style={{ 
-              top: `${p.top}%`, 
-              left: `${p.left}%`, 
-              width: `${p.size}px`, 
-              height: `${p.size}px`, 
-              animationDelay: `${p.delay}s` 
+            style={{
+              top: `${p.top}%`,
+              left: `${p.left}%`,
+              width: `${p.size}px`,
+              height: `${p.size}px`,
+              animationDelay: `${p.delay}s`
             }}
           />
         ))}
@@ -65,41 +66,43 @@ export default function BetterFeedFormulationStrip() {
         <p className="mt-1 text-sm text-emerald-200/80 text-center">Swipe or scroll to explore performance solutions</p>
       </div>
 
-      <div 
-        ref={scrollRef} 
+      <div
+        ref={scrollRef}
         className="flex space-x-6 overflow-x-auto px-6 scrollbar-none snap-x snap-mandatory pb-6 relative z-10"
         style={{ scrollPaddingLeft: '24px', scrollPaddingRight: '24px' }}
       >
         {formulations.map(f => {
-          const gradient = f.status === 'active' 
+          const gradient = f.status === 'active'
             ? `bg-gradient-to-br from-${f.color}-600/30 to-${f.color}-800/50`
-            : f.status === 'low' 
-            ? `bg-gradient-to-br from-${f.color}-600/20 to-${f.color}-800/30`
-            : 'bg-gradient-to-br from-gray-700/20 to-gray-900/30'
-          
-          const border = f.status === 'out' 
-            ? 'border-gray-600/20' 
+            : f.status === 'low'
+              ? `bg-gradient-to-br from-${f.color}-600/20 to-${f.color}-800/30`
+              : 'bg-gradient-to-br from-gray-700/20 to-gray-900/30'
+
+          const border = f.status === 'out'
+            ? 'border-gray-600/20'
             : `border-${f.color}-500/30`
-            
+
           return (
             <motion.div
               key={f.id}
-              className={`snap-start flex-shrink-0 w-64 ${gradient} border ${border} rounded-2xl p-6 backdrop-blur-md flex flex-col justify-between cursor-pointer hover:scale-105 transition-transform`}
+              className={`snap-start flex-shrink-0 w-64 ${gradient} border ${border} rounded-2xl p-6 backdrop-blur-md flex flex-col justify-between hover:scale-105 transition-transform`}
               whileHover={{ y: -6 }}
             >
-              <div className="flex justify-between items-start">
-                <div className="text-3xl mb-2">{f.icon}</div>
-                {f.status !== 'out' ? (
-                  <span className={`h-2 w-2 rounded-full bg-${f.color}-400 animate-ping`} />
-                ) : (
-                  <span className="px-2 py-0.5 text-xs bg-black/50 text-gray-300 rounded-full">Restocking</span>
-                )}
-              </div>
+              <Link href={`/recipe/`}>
+                <div className="flex justify-between items-start">
+                  <div className="text-3xl mb-2">{f.icon}</div>
+                  {f.status !== 'out' ? (
+                    <span className={`h-2 w-2 rounded-full bg-${f.color}-400 animate-ping`} />
+                  ) : (
+                    <span className="px-2 py-0.5 text-xs bg-black/50 text-gray-300 rounded-full">Restocking</span>
+                  )}
+                </div>
 
-              <div>
-                <h4 className="text-white text-lg font-bold">{f.name}</h4>
-                <p className="text-white/80 text-sm mb-3">{f.tagline}</p>
-              </div>
+                <div>
+                  <h4 className="text-white text-lg font-bold">{f.name}</h4>
+                  <p className="text-white/80 text-sm mb-3">{f.tagline}</p>
+                </div>
+              </Link>
             </motion.div>
           )
         })}
@@ -107,9 +110,9 @@ export default function BetterFeedFormulationStrip() {
 
       <div className="container mx-auto px-6 mt-2 relative z-10">
         <div className="h-1 bg-emerald-900/50 rounded-full overflow-hidden">
-          <motion.div 
-            className="h-full bg-emerald-400 origin-left" 
-            style={{ width: progressWidth }} 
+          <motion.div
+            className="h-full bg-emerald-400 origin-left"
+            style={{ width: progressWidth }}
           />
         </div>
       </div>

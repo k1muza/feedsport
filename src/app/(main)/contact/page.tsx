@@ -28,24 +28,9 @@ export default function ContactPage() {
       <SecondaryHero
         title="Let's Connect"
         subtitle="Our team is ready to help with your livestock nutrition needs. Reach out and we'll respond within 24 hours."
-        // ctaText="View All Products"
-        // ctaLink="/products"
       />
       <div className="bg-gradient-to-b from-green-50 to-white py-16 px-4">
         <div className="container mx-auto max-w-6xl">
-          {/* <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-800">
-              Let's Connect
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our team is ready to help with your livestock nutrition needs. Reach out and we'll respond within 24 hours.
-            </p>
-          </motion.div> */}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.form
