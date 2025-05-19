@@ -16,40 +16,81 @@ export default function AboutPage() {
       <div className="bg-gray-50 py-16">
         {/* Mission & Values Section */}
         <div className="flex flex-col lg:flex-row gap-10 mb-16 max-w-7xl mx-auto">
+
           <div className="lg:w-1/2">
-            <div className="bg-white p-8 rounded-xl shadow-lg h-full">
+            <div className="bg-white p-8 rounded-xl shadow-lg h-full flex flex-col">
               <div className="flex items-center mb-6">
                 <div className="bg-green-100 p-3 rounded-full mr-4">
                   <FaLeaf className="text-green-600 text-xl" />
                 </div>
-                <h4 className="text-green-600 font-bold text-lg">OUR MISSION</h4>
+                <h4 className="text-green-600 font-bold text-lg uppercase">
+                  OUR MISSION
+                </h4>
               </div>
-              <h2 className="text-3xl font-bold mb-6 text-gray-900">Redefining Animal Nutrition</h2>
-              <p className="mb-6 text-gray-700 text-lg">
-                We empower livestock producers with customized, research-driven feed that supports animal wellness, drives efficient growth, and promotes sustainable farming practices.
+
+              <h2 className="text-3xl font-bold mb-4 text-gray-900">
+                Redefining Animal Nutrition
+              </h2>
+
+              <p className="mb-4 text-gray-700 text-lg leading-relaxed">
+                We empower livestock producers with customized, research-driven feed that
+                supports animal wellness, drives efficient growth, and promotes sustainable
+                farming practices. Every formulation is backed by the latest scientific
+                findings to ensure peak performance at every stage of development.
               </p>
+
+              <p className="mb-6 text-gray-700 text-lg leading-relaxed">
+                From precision micro-nutrient balancing to macro-nutrient optimization, we
+                collaborate closely with farmers and researchers alike. Our goal is simple:
+                healthier herds, happier producers, and a more sustainable future for
+                agriculture.
+              </p>
+
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start">
                   <div className="bg-green-100 p-1 rounded-full mr-3 mt-1">
                     <FaCheck className="text-green-600 text-sm" />
                   </div>
-                  <span className="text-gray-700">Premium, traceable ingredients from certified farms</span>
+                  <span className="text-gray-700">
+                    Premium, traceable ingredients sourced sustainably
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <div className="bg-green-100 p-1 rounded-full mr-3 mt-1">
                     <FaCheck className="text-green-600 text-sm" />
                   </div>
-                  <span className="text-gray-700">Species-specific formulations for poultry, swine, and ruminants</span>
+                  <span className="text-gray-700">
+                    Tailored formulations for poultry, swine, and ruminants
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <div className="bg-green-100 p-1 rounded-full mr-3 mt-1">
                     <FaCheck className="text-green-600 text-sm" />
                   </div>
-                  <span className="text-gray-700">Efficient distribution network ensuring on-time delivery</span>
+                  <span className="text-gray-700">
+                    Rigorous quality control and lab‐tested consistency
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <div className="bg-green-100 p-1 rounded-full mr-3 mt-1">
+                    <FaCheck className="text-green-600 text-sm" />
+                  </div>
+                  <span className="text-gray-700">
+                    Efficient logistics for reliable, on-time delivery
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <div className="bg-green-100 p-1 rounded-full mr-3 mt-1">
+                    <FaCheck className="text-green-600 text-sm" />
+                  </div>
+                  <span className="text-gray-700">
+                    Dedicated technical support and ongoing R&D collaboration
+                  </span>
                 </li>
               </ul>
             </div>
           </div>
+
 
           <div className="lg:w-1/2">
             <div className="bg-white p-8 rounded-xl shadow-lg h-full">
@@ -102,11 +143,11 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold mb-8 text-center">Our Impact in Numbers</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold mb-2">20+</div>
+              <div className="text-4xl font-bold mb-2">10+</div>
               <p className="text-green-100">Years of Excellence</p>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">800+</div>
+              <div className="text-4xl font-bold mb-2">80+</div>
               <p className="text-green-100">Farms Partnered</p>
             </div>
             <div>
