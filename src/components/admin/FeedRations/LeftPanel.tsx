@@ -1,6 +1,6 @@
 import { TargetNutrient } from "@/types";
-import { X, Edit, Eye } from "lucide-react";
-import { useCallback, memo } from "react";
+import { Edit3, Eye, X } from "lucide-react";
+import { memo, useCallback } from "react";
 
 interface ProgressBarProps {
   value: number;
@@ -20,6 +20,8 @@ const ProgressBar = ({ value, target, met }: ProgressBarProps) => (
   </div>
 );
 
+ProgressBar.displayName = "ProgressBar";
+
 interface TargetItemProps {
   target: TargetNutrient;
   onUpdate: (value: number) => void;
@@ -36,11 +38,11 @@ const TargetItem = memo(({ target, onUpdate, onRemove }: TargetItemProps) => {
   );
 
   return (
-    <div className="group space-y-2">
+    <div className="group space-y-2 p-3 bg-gray-700/30 rounded-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3 flex-1">
-          <span className="text-sm text-gray-400 w-24 truncate">{target.name}</span>
-          <div className="relative flex-1">
+          <span className="text-sm text-gray-300 truncate flex-1">{target.name}</span>
+          <div className="relative flex-1 max-w-[120px]">
             <input
               type="number"
               min={0}
@@ -48,7 +50,7 @@ const TargetItem = memo(({ target, onUpdate, onRemove }: TargetItemProps) => {
               step={0.1}
               value={target.value}
               onChange={handleChange}
-              className="w-full pl-2 pr-6 py-1 bg-gray-700 border border-gray-600 rounded-md text-gray-200 text-sm focus:ring-1 focus:ring-indigo-500"
+              className="w-full pl-2 pr-6 py-1 bg-gray-800 border border-gray-600 rounded-md text-gray-200 text-sm focus:ring-1 focus:ring-indigo-500"
             />
             <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 text-sm">%</span>
           </div>
@@ -65,7 +67,7 @@ const TargetItem = memo(({ target, onUpdate, onRemove }: TargetItemProps) => {
   );
 });
 
-TargetItem.displayName = 'TargetItem';
+TargetItem.displayName = "TargetItem";
 
 interface ResultItemProps {
   target: TargetNutrient;
@@ -78,7 +80,7 @@ const ResultItem = memo(({ target, value }: ResultItemProps) => {
   const statusColor = met ? "text-green-400" : "text-red-400";
 
   return (
-    <div className="p-3 rounded-lg bg-gray-700/30">
+    <div className="p-3 bg-gray-700/30 rounded-lg">
       <div className="flex justify-between items-center mb-1">
         <span className="text-sm text-gray-300">{target.name}</span>
         <span className={`text-xs ${statusColor}`}>{statusText}</span>
@@ -92,7 +94,7 @@ const ResultItem = memo(({ target, value }: ResultItemProps) => {
   );
 });
 
-ResultItem.displayName = 'ResultItem';
+ResultItem.displayName = "ResultItem";
 
 export const LeftPanel = memo(({
   showPanel,
@@ -110,29 +112,29 @@ export const LeftPanel = memo(({
   onRemoveTarget: (id: string) => void;
 }) => {
   return (
-    <div className="lg:w-80">
-      <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 h-full">
+    <div className="w-full lg:w-96">
+      <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-100">Nutrients</h3>
+          <h3 className="text-lg font-semibold text-gray-100">Nutrient Targets</h3>
           <div className="flex items-center gap-2">
             <button
               onClick={() => onSwitchPanel('targets')}
-              className={`p-1.5 rounded-md ${showPanel === 'targets' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:bg-gray-700'}`}
+              className={`p-2 rounded-md ${showPanel === 'targets' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:bg-gray-700'}`}
               aria-label="Edit targets"
             >
-              <Edit className="w-5 h-5" />
+              <Edit3 className="w-5 h-5" />
             </button>
             <button
               onClick={() => onSwitchPanel('results')}
-              className={`p-1.5 rounded-md ${showPanel === 'results' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:bg-gray-700'}`}
+              className={`p-2 rounded-md ${showPanel === 'results' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:bg-gray-700'}`}
               aria-label="View results"
             >
               <Eye className="w-5 h-5" />
             </button>
           </div>
         </div>
-        
-        <div className="space-y-4">
+
+        <div className="space-y-3">
           {showPanel === 'targets' ? (
             targets.map(target => (
               <TargetItem
@@ -157,4 +159,4 @@ export const LeftPanel = memo(({
   );
 });
 
-LeftPanel.displayName = 'LeftPanel';
+LeftPanel.displayName = "LeftPanel";
