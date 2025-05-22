@@ -148,7 +148,7 @@ export const FeedRatios = () => {
         optimizing={optimizing}
       />
 
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col lg:flex-row gap-6 justify-between">
         <LeftPanel
           showPanel={showLeftPanel}
           targets={targets}
