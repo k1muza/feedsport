@@ -16,15 +16,11 @@ import { IngredientSuggestionPanel } from './IngredientSuggestionPanel';
 import { LeftPanel } from './LeftPanel';
 import { TargetModal } from './TargetModal';
 
-
 export const FeedRatios = () => {
   const [ingredients, setIngredients] = useState<RatioIngredient[]>([]);
   const [showIngredientModal, setShowIngredientModal] = useState(false);
   const [showTargetModal, setShowTargetModal] = useState(false);
-  const [newTargetId, setNewTargetId] = useState('');
-  const [newTargetValue, setNewTargetValue] = useState(0);
   const [showLeftPanel, setShowLeftPanel] = useState<'targets' | 'results'>('targets');
-  const [leftPanelCollapsed, setLeftPanelCollapsed] = useState(false);
   const [optimizing, setOptimizing] = useState(false);
   const [optimizationResult, setOptimizationResult] = useState<Result | null>(null);
   const [suggestedIngredients, setSuggestedIngredients] = useState<IngredientSuggestion[]>([]);
@@ -84,15 +80,21 @@ export const FeedRatios = () => {
     return res;
   }, [ingredients, totalRatio]);
 
-  const addTarget = useCallback(() => {
-    if (!newTargetId || newTargetValue <= 0) return;
-    if (targets.find(t => t.id === newTargetId)) return;
-    const nut = allNutrients.find(n => n.id === newTargetId)!;
-    setTargets(curr => [...curr, { id: nut.id, name: nut.name, value: newTargetValue }]);
-    setNewTargetId('');
-    setNewTargetValue(0);
-    setShowTargetModal(false);
-  }, [newTargetId, newTargetValue, targets, allNutrients]);
+  const addTargets = useCallback(
+    (newTargets: TargetNutrient[]) => {
+      const updatedTargets = [...targets];
+      
+      newTargets.forEach(newTarget => {
+        if (!updatedTargets.some(t => t.id === newTarget.id)) {
+          updatedTargets.push(newTarget);
+        }
+      });
+      
+      setTargets(updatedTargets);
+      setShowTargetModal(false);
+    },
+    [targets]
+  );
 
   const removeTarget = useCallback(
     (id: string) => {
@@ -142,20 +144,18 @@ export const FeedRatios = () => {
       <Header
         onAddIng={() => setShowIngredientModal(true)}
         onAddTgt={() => setShowTargetModal(true)}
+        onOptimize={optimizeRatios}
+        optimizing={optimizing}
       />
 
       <div className="flex flex-col lg:flex-row gap-6">
         <LeftPanel
           showPanel={showLeftPanel}
-          isCollapsed={leftPanelCollapsed}
           targets={targets}
           computedValues={computedValues}
-          onToggleCollapse={() => setLeftPanelCollapsed(!leftPanelCollapsed)}
           onSwitchPanel={(panel) => setShowLeftPanel(panel)}
           onUpdateTarget={updateTarget}
           onRemoveTarget={removeTarget}
-          onOptimize={optimizeRatios}
-          optimizing={optimizing}
         />
 
         <IngredientPanel
@@ -165,7 +165,6 @@ export const FeedRatios = () => {
           totalPercentage={totalPercentage}
           onRatioChange={handleRatioChange}
           onRemoveIngredient={removeIngredient}
-          isExpanded={leftPanelCollapsed}
         />
       </div>
 
@@ -198,6 +197,7 @@ export const FeedRatios = () => {
         onClose={() => setShowIngredientModal(false)}
         allIngredients={allIngredients}
         existingIngredients={ingredients}
+        existingTargets={targets}
         onAdd={addIngredient}
       />
 
@@ -206,11 +206,7 @@ export const FeedRatios = () => {
         onClose={() => setShowTargetModal(false)}
         allNutrients={allNutrients}
         existingTargets={targets}
-        onAdd={addTarget}
-        newId={newTargetId}
-        setNewId={setNewTargetId}
-        newValue={newTargetValue}
-        setNewValue={setNewTargetValue}
+        onAdd={addTargets}
       />
     </div>
   );

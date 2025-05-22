@@ -10,7 +10,6 @@ export const IngredientPanel = ({
   totalPercentage,
   onRatioChange,
   onRemoveIngredient,
-  isExpanded,
 }: {
   ingredients: RatioIngredient[];
   targets: TargetNutrient[];
@@ -18,9 +17,8 @@ export const IngredientPanel = ({
   totalPercentage: number;
   onRatioChange: (id: string, val: string) => void;
   onRemoveIngredient: (id: string) => void;
-  isExpanded: boolean;
 }) => (
-  <div className={`${isExpanded ? 'lg:w-[calc(100%-4rem)]' : 'lg:w-2/3'} space-y-4`}>
+  <div className={`${'lg:w-2/3'} space-y-4`}>
     <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-medium">Ingredient Composition</h3>
