@@ -11,6 +11,7 @@ import {
     Search,
     Settings as SettingsIcon,
     User,
+    Cat,
     X
 } from 'lucide-react';
 import Link from 'next/link';
@@ -31,6 +32,7 @@ export default function DashboardLayout({
     { path: '/admin/stock', label: 'Stock Management', icon: Package },
     { path: '/admin/ingredients', label: 'Ingredients', icon: DatabaseIcon },
     { path: '/admin/ratios', label: 'Feed Ratios', icon: Calculator },
+    { path: '/admin/animals', label: 'Animals', icon: Cat },
     { path: '/admin/settings', label: 'Settings', icon: SettingsIcon },
   ];
 

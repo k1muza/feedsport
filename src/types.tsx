@@ -120,3 +120,72 @@ export interface OptimizationResult {
   rawResult?: Result;
   suggestions?: IngredientSuggestion[];
 }
+
+export interface Animal {
+  id: number;
+  species: string;
+  slug: string;
+  breed: string;
+  description: string;
+  programs: Program[];
+}
+
+export interface Program {
+  id: number;
+  market_segment: string;
+  stages: Stage[];
+}
+
+// One phase within a program (Starter, Grower, Finisher, etc.)
+export interface Stage {
+  id: number;
+  stage: string;
+  slug: string;
+  period_days: PeriodDays;
+  feed_structure: string | null;
+  feeding_amount_per_bird: ValueUnit | null;
+  nutritional_requirements: Record<string, Metric>;
+  added_trace_minerals_per_kg: Record<string, ValueUnit>;
+  added_vitamins_per_kg: Record<string, ValueUnit>;
+  minimum_specifications: Record<string, RangeUnit>;
+  water_requirement: WaterRequirement | null;
+  key_notes: string;
+}
+
+// e.g. { min: 0, max: 10, notes?: "until market" }
+export interface PeriodDays {
+  min: number;
+  max: number | null;
+  notes?: string;
+}
+
+// Simple value + unit
+export interface ValueUnit {
+  value: number;
+  unit: string;
+}
+
+// Range of values + unit
+export interface RangeUnit {
+  min?: number;
+  max?: number | null;
+  unit?: string;
+}
+
+// Either a ValueUnit or a RangeUnit
+export type Metric = ValueUnit | RangeUnit;
+
+// Water specs: may include different flow‐rate arrays or a ratio
+export interface WaterRequirement {
+  flow_rate_per_minute?: FlowRate[];
+  flow_rate_per_30_seconds?: FlowRate[];
+  water_to_feed_ratio?: RangeUnit;
+}
+
+// e.g. { age_weeks: {min:2,max:4}, min:34, max:48, unit:"ml/min" }
+export interface FlowRate {
+  age_weeks: { min: number; max: number | null };
+  min: number | null;
+  max: number | null;
+  unit: string;
+}
