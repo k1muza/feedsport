@@ -1,6 +1,6 @@
 'use client';
 
-import { Animal, Program, Stage, Metric, ValueUnit, RangeUnit } from '@/types';
+import { Animal, Program, Stage, Metric, ValueUnit } from '@/types';
 import birds from '@/data/birds.json';
 import { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
