@@ -1,9 +1,9 @@
 'use client';
 
-import { Animal, Program, Stage, Metric, ValueUnit } from '@/types';
-import birds from '@/data/birds.json';
-import { useState, useEffect } from 'react';
+import { getAnimals } from '@/data/animals';
+import { Animal, AnimalNutrientRequirement, AnimalProgram, AnimalProgramStage } from '@/types/animals';
 import { ChevronDown, Database, Plus } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const PageHeader = ({ setShowForm }: { setShowForm: (show: boolean) => void }) => (
   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -25,11 +25,11 @@ const PageHeader = ({ setShowForm }: { setShowForm: (show: boolean) => void }) =
 
 export default function AnimalInfo() {
   const [selectedAnimal, setSelectedAnimal] = useState<Animal | null>(null);
-  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
-  const [selectedStage, setSelectedStage] = useState<Stage | null>(null);
+  const [selectedProgram, setSelectedProgram] = useState<AnimalProgram | null>(null);
+  const [selectedStage, setSelectedStage] = useState<AnimalProgramStage | null>(null);
 
   useEffect(() => {
-    const initialAnimal = birds.animals[0] as Animal;
+    const initialAnimal = getAnimals()[0];
     const initialProgram = initialAnimal?.programs[0];
     const initialStage = initialProgram?.stages[0];
 
@@ -38,8 +38,8 @@ export default function AnimalInfo() {
     setSelectedStage(initialStage);
   }, []);
 
-  const animalSpecies = [...new Set(birds.animals.map(a => a.species))];
-  const breeds = birds.animals.filter(a => a.species === selectedAnimal?.species);
+  const animalSpecies = [...new Set(getAnimals().map(a => a.species))];
+  const breeds = getAnimals().filter(a => a.species === selectedAnimal?.species);
   const programs = selectedAnimal?.programs || [];
   const stages = selectedProgram?.stages || [];
 
@@ -55,7 +55,7 @@ export default function AnimalInfo() {
             label="Species"
             selected={selectedAnimal?.species}
             onSelect={(value) => {
-              const animal = birds.animals.find(a => a.species === value) as Animal;
+              const animal = getAnimals().find(a => a.species === value);
               setSelectedAnimal(animal || null);
               setSelectedProgram(animal?.programs[0] || null);
               setSelectedStage(animal?.programs[0]?.stages[0] || null);
@@ -68,7 +68,7 @@ export default function AnimalInfo() {
             selected={selectedAnimal?.breed}
             disabled={!selectedAnimal}
             onSelect={(value) => {
-              const animal = breeds.find(b => b.breed === value) as Animal;
+              const animal = breeds.find(b => b.breed === value);
               setSelectedAnimal(animal || null);
               setSelectedProgram(animal?.programs[0] || null);
               setSelectedStage(animal?.programs[0]?.stages[0] || null);
@@ -111,13 +111,13 @@ export default function AnimalInfo() {
               />
               <OverviewCard
                 title="Feed Structure"
-                value={selectedStage.feed_structure || 'N/A'}
+                value={selectedStage.feed_structure}
                 icon="🌾"
               />
               <OverviewCard
                 title="Daily Feed"
                 value={selectedStage.feeding_amount_per_bird ?
-                  `${selectedStage.feeding_amount_per_bird.value}${selectedStage.feeding_amount_per_bird.unit}` : 'N/A'}
+                  `${selectedStage.feeding_amount_per_bird.value} ${selectedStage.feeding_amount_per_bird.unit}` : 'N/A'}
                 icon="📦"
               />
             </div>
@@ -126,23 +126,16 @@ export default function AnimalInfo() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <NutritionPanel
                 title="Core Nutrients"
-                data={selectedStage.nutritional_requirements}
+                requirements={selectedStage.requirements}
                 colorClass="border-blue-500/30 text-blue-400"
               />
 
               <div className="space-y-8">
                 <NutritionPanel
-                  title="Trace Minerals"
-                  data={selectedStage.added_trace_minerals_per_kg}
-                  unit="/kg"
+                  title="Water Requirement"
+                  requirements={selectedStage.requirements.filter(r => 
+                    r.nutrient?.category === 'water')}
                   colorClass="border-purple-500/30 text-purple-400"
-                />
-
-                <NutritionPanel
-                  title="Vitamins"
-                  data={selectedStage.added_vitamins_per_kg}
-                  unit="/kg"
-                  colorClass="border-green-500/30 text-green-400"
                 />
               </div>
             </div>
@@ -161,37 +154,33 @@ export default function AnimalInfo() {
   );
 }
 
-// Styled Components
+// Updated NutritionPanel Props
 interface NutritionPanelProps {
   title: string;
-  data: Record<string, Metric>;
-  unit?: string;
+  requirements: AnimalNutrientRequirement[];
   colorClass?: string;
 }
 
 const NutritionPanel = ({
   title,
-  data,
-  unit = '',
+  requirements,
   colorClass = 'border-blue-500/30 text-blue-400'
 }: NutritionPanelProps) => (
   <div className="rounded-xl p-6 bg-gray-800/50 border border-gray-700 backdrop-blur-sm">
     <h3 className={`text-lg font-semibold ${colorClass} mb-4`}>{title}</h3>
     <div className="grid gap-3">
-      {data && Object.entries(data).map(([key, metric]) => (
-        <div key={key} className="flex justify-between items-center p-3 hover:bg-gray-700/20 rounded-lg transition-colors">
-          <span className="text-gray-300 capitalize">{key.replace(/_/g, ' ')}</span>
+      {requirements.map((req) => (
+        <div key={req.nutrientId} className="flex justify-between items-center p-3 hover:bg-gray-700/20 rounded-lg transition-colors">
+          <span className="text-gray-300 capitalize">{req.nutrient?.name}</span>
           <span className="font-medium text-gray-100">
-            {isValueUnit(metric) ?
-              `${metric.value} ${metric.unit}${unit}` :
-              `${metric.min}${metric.max ? `-${metric.max}` : ''} ${metric.unit}${unit}`
-            }
+            {req.value} {req.nutrient?.unit}
           </span>
         </div>
       ))}
     </div>
   </div>
 );
+
 
 interface OverviewCardProps {
   title: string;
@@ -246,7 +235,3 @@ const Select = ({
     </div>
   </div>
 );
-
-function isValueUnit(metric: Metric): metric is ValueUnit {
-  return (metric as ValueUnit).value !== undefined;
-}

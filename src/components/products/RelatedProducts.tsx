@@ -1,11 +1,11 @@
 import { getProducts } from '../../data/products';
 import ProductCard from './ProductCard';
 
-async function getRelatedProducts(category: number, excludeId: string) {
+async function getRelatedProducts(category: string, excludeId: string) {
   // In a real app, fetch from API
 
   return getProducts().filter(
-    product => product.ingredient?.category?.id === category && product.id !== excludeId
+    product => product.ingredient?.category === category && product.id !== excludeId
   ).slice(0, 4);
 }
 
@@ -14,7 +14,7 @@ export default async function RelatedProducts({
   category 
 }: { 
   currentProductId: string, 
-  category: number | undefined
+  category: string | undefined
 }) {
 
   if (!category) return null;

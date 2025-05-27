@@ -1,10 +1,5 @@
 import { Result } from "glpk.js";
 
-export type IngredientCategory = {
-  id: number;
-  name: string;
-};
-
 export type TechnicalSpecs = {
   [key: string]: string;
 };
@@ -54,7 +49,7 @@ export interface Nutrient {
   name: string;
   description: string;
   unit: string;
-  categoryId: string | null;
+  category?: string | null;
 }
 
 export interface TargetNutrient {
@@ -72,7 +67,7 @@ export interface NutrientGap {
 
 export type Composition = {
     value: number;
-    nutrientId: number;
+    nutrientId: number | string;
     nutrient?: Nutrient;
 };
 
@@ -80,10 +75,9 @@ export type Ingredient = {
     id: string;
     name: string;
     description: string;
-    key_benefits: string[];
-    applications: string[];
-    categoryId: number;
-    category?: IngredientCategory;
+    key_benefits?: string[];
+    applications?: string[];
+    category?: string;
     compositions: Composition[];
 };
 
@@ -119,15 +113,6 @@ export interface OptimizationResult {
   updatedIngredients?: RatioIngredient[];
   rawResult?: Result;
   suggestions?: IngredientSuggestion[];
-}
-
-export interface Animal {
-  id: number;
-  species: string;
-  slug: string;
-  breed: string;
-  description: string;
-  programs: Program[];
 }
 
 export interface Program {

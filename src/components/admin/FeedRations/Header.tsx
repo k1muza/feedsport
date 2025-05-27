@@ -1,11 +1,13 @@
-import { Calculator, Plus, Wand, Zap } from "lucide-react";
+import { Calculator, Plus, Wand, Zap, ZoomIn } from "lucide-react";
 
 // Header Component
-export const Header = ({ onAddIng, onAddTgt, onOptimize, optimizing }: { 
+export const Header = ({ onAddIng, onAddTgt, onOptimize, onAnalyse, optimizing, analysing }: { 
   onAddIng: () => void; 
   onAddTgt: () => void;
   onOptimize: () => void;
+  onAnalyse: () => void;
   optimizing: boolean;
+  analysing: boolean;
 }) => (
   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
     <div className="flex items-center space-x-3">
@@ -21,8 +23,11 @@ export const Header = ({ onAddIng, onAddTgt, onOptimize, optimizing }: {
       <button onClick={onAddTgt} className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg flex items-center space-x-2">
         <Zap className="w-4 h-4" /> <span>Add Target</span>
       </button>
+      <button onClick={onAnalyse} className="px-4 py-2 bg-purple-600 hover:bg-magenta-500 text-white rounded-lg flex items-center space-x-2">
+        <ZoomIn className="w-4 h-4" /> <span>{analysing ? 'Analyzing...' : 'Analyze'}</span>
+      </button>
       <button onClick={onOptimize} className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg flex items-center space-x-2">
-        <Wand className="w-4 h-4" /> <span>{optimizing ? 'Optimizing...' : 'Optimize Ratios'}</span>
+        <Wand className="w-4 h-4" /> <span>{optimizing ? 'Optimizing...' : 'Optimize'}</span>
       </button>
     </div>
   </div>

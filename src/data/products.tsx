@@ -114,7 +114,7 @@ export const getFeaturedProducts = (): Product[] => {
 export const getProductsByCategory = (categoryId: string): Product[] => {
   return getProducts().filter(product => {
     const ingredient = getIngredients().find(ingredient => ingredient.id === product.ingredientId);
-    return ingredient?.categoryId.toString() === categoryId;
+    return ingredient?.category === categoryId;
   });
 };
 

@@ -22,7 +22,7 @@ export default function IngredientCard({ product }: { product: Product }) {
         <div className="mb-4">
           <h4 className="font-semibold text-gray-800 mb-2">Applications:</h4>
           <div className="flex flex-wrap gap-2">
-            {product.ingredient?.applications.map((app) => (
+            {product.ingredient?.applications?.map((app) => (
               <span key={app} className="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">
                 {app}
               </span>

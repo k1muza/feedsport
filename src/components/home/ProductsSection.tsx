@@ -58,7 +58,7 @@ export default function ProductsSection() {
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-xl font-bold text-gray-900">{product.ingredient?.name}</h3>
                   <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
-                    {product.ingredient?.category?.name.split('-').join(' ')}
+                    {product.ingredient?.category?.split('-').join(' ')}
                   </span>
                 </div>
 

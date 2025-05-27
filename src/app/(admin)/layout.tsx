@@ -1,5 +1,6 @@
 
 import "@/app/globals.css";
+import { AnimalProvider } from "@/context/AnimalContext";
 
 export default function AdminLayout({
   children,
@@ -7,8 +8,8 @@ export default function AdminLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <>
+      <AnimalProvider>
         {children}
-      </>
+      </AnimalProvider>
   );
 }

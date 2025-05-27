@@ -42,8 +42,8 @@ export default async function Page({
             <div className="flex items-center space-x-2 text-sm text-gray-500 mb-4">
               <Link href="/products" className="hover:text-green-600">Products</Link>
               <span>/</span>
-              <Link href={`/products/${product.ingredient?.category?.id}`} className="hover:text-green-600 capitalize">
-                {product.ingredient?.category?.name.replace('-', ' ')}
+              <Link href={`/products/${product.ingredient?.category}`} className="hover:text-green-600 capitalize">
+                {product.ingredient?.category?.replace('-', ' ')}
               </Link>
               <span>/</span>
               <span className="text-gray-400">{product.ingredient?.name}</span>
@@ -63,9 +63,9 @@ export default async function Page({
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.ingredient?.name}</h1>
 
                 <div className="flex items-center mb-4">
-                  {product.ingredient?.category?.name && (
+                  {product.ingredient?.category && (
                     <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded mr-2">
-                      {product.ingredient?.category?.name.replace('-', ' ')}
+                      {product.ingredient?.category.replace('-', ' ')}
                     </span>
                   )}
                   {product.certifications.map(cert => (
@@ -127,7 +127,7 @@ export default async function Page({
                       <span className="font-medium">Applications</span>
                     </div>
                     <p className="text-sm text-gray-600 mt-1">
-                      {product?.ingredient?.applications.join(', ')}
+                      {product?.ingredient?.applications?.join(', ')}
                     </p>
                   </div>
                   <div className="bg-gray-50 p-4 rounded-lg">
@@ -173,7 +173,7 @@ export default async function Page({
         {/* Related Products */}
         <div className="bg-gray-50 py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <RelatedProducts currentProductId={product.id} category={product.ingredient?.category?.id} />
+            <RelatedProducts currentProductId={product.id} category={product.ingredient?.category} />
           </div>
         </div>
       </div>

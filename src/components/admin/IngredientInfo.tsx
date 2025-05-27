@@ -9,6 +9,38 @@ interface UIIngredient extends DataIngredient {
   cost: number;
 }
 
+
+// Add this type at the top of the file
+export type NutrientColumnConfig = {
+  id: string;
+  displayName: string;
+  nutrientName: string;
+  unit?: string;
+};
+
+// Add this configuration array above the main component
+const NUTRIENT_COLUMNS: NutrientColumnConfig[] = [
+  {
+    id: 'crude_protein',
+    displayName: 'Protein',
+    nutrientName: 'Crude protein',
+    unit: '%'
+  },
+  {
+    id: 'fat',
+    displayName: 'Fat',
+    nutrientName: 'Crude fat',
+    unit: '%'
+  },
+  {
+    id: 'fiber',
+    displayName: 'Fiber',
+    nutrientName: 'Crude fibre',
+    unit: '%'
+  },
+  // Add more nutrients as needed
+];
+
 // ============ Table Header Component ============
 const TableHeader = ({
   columnKey,
@@ -89,20 +121,31 @@ const IngredientRow = ({
       onClick={() => toggleExpand(ingredient.id)}
     >
       <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-200">{ingredient.name}</td>
-      <td className="px-6 py-4 whitespace-nowrap">{ingredient.category?.name}</td>
-      <td className="px-6 py-4 whitespace-nowrap text-gray-400">
-        {ingredient.compositions.find(c => c.nutrient?.name === 'Crude Protein')?.value}%
-      </td>
-      <td className="px-6 py-4 whitespace-nowrap text-gray-200 font-medium">${ingredient.cost.toFixed(2)}</td>
+      <td className="px-6 py-4 whitespace-nowrap">{ingredient.category}</td>
+
+      {NUTRIENT_COLUMNS.map(({ nutrientName, unit }) => {
+        const composition = ingredient.compositions.find(c => c.nutrient?.name === nutrientName);
+        return (
+          <td key={nutrientName} className="px-6 py-4 whitespace-nowrap text-gray-400">
+            {composition?.value ?? 'N/A'}{unit}
+          </td>
+        );
+      })}
+
+      {/* <td className="px-6 py-4 whitespace-nowrap text-gray-200 font-medium">${ingredient.cost.toFixed(2)}</td> */}
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-        <button className="text-indigo-400 hover:text-indigo-300 mr-4 transition-colors"><Edit2 className="w-4 h-4" /></button>
-        <button className="text-red-400 hover:text-red-300 transition-colors"><Trash2 className="w-4 h-4" /></button>
+        <button className="text-indigo-400 hover:text-indigo-300 mr-4 transition-colors">
+          <Edit2 className="w-4 h-4" />
+        </button>
+        <button className="text-red-400 hover:text-red-300 transition-colors">
+          <Trash2 className="w-4 h-4" />
+        </button>
       </td>
     </tr>
 
     {isExpanded && (
       <tr className="bg-gray-800/70">
-        <td colSpan={5} className="px-6 py-4">
+        <td colSpan={5 + NUTRIENT_COLUMNS.length} className="px-6 py-4">
           <IngredientDetails ingredient={ingredient} />
         </td>
       </tr>
@@ -172,24 +215,20 @@ export const IngredientInfo = () => {
     return [...ingredients].sort((a, b) => {
       let aVal: string | number = '';
       let bVal: string | number = '';
-      switch (sortConfig.key) {
-        case 'name':
-          aVal = a.name.toLowerCase();
-          bVal = b.name.toLowerCase();
-          break;
-        case 'category':
-          aVal = a.category?.name.toLowerCase() || '';
-          bVal = b.category?.name.toLowerCase() || '';
-          break;
-        case 'protein':
-          aVal = a.compositions.find(c => c.nutrient?.name === 'Crude Protein')?.value || 0;
-          bVal = b.compositions.find(c => c.nutrient?.name === 'Crude Protein')?.value || 0;
-          break;
-        case 'cost':
-          aVal = a.cost;
-          bVal = b.cost;
-          break;
+
+      if (sortConfig.key === 'name') {
+        aVal = a.name.toLowerCase();
+        bVal = b.name.toLowerCase();
+      } else if (sortConfig.key === 'category') {
+        aVal = a.category?.toLowerCase() || '';
+        bVal = b.category?.toLowerCase() || '';
+      } else {
+        // Handle nutrient columns
+        const nutrientConfig = NUTRIENT_COLUMNS.find(n => n.id === sortConfig.key);
+        aVal = a.compositions.find(c => c.nutrient?.name === nutrientConfig?.nutrientName)?.value || 0;
+        bVal = b.compositions.find(c => c.nutrient?.name === nutrientConfig?.nutrientName)?.value || 0;
       }
+
       if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
       if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
       return 0;
@@ -200,11 +239,12 @@ export const IngredientInfo = () => {
   const filtered = useMemo(() => {
     return sorted.filter(i =>
       i.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (i.category?.name || '').toLowerCase().includes(searchTerm.toLowerCase())
+      (i.category || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [sorted, searchTerm]);
 
   const requestSort = (key: string) => {
+    console.log(key);
     let direction: 'asc' | 'desc' = 'asc';
     if (sortConfig?.key === key && sortConfig.direction === 'asc') {
       direction = 'desc';
@@ -235,15 +275,21 @@ export const IngredientInfo = () => {
           <table className="min-w-full divide-y divide-gray-700">
             <thead className="bg-gray-800">
               <tr>
-                {['name', 'category', 'protein', 'cost'].map(key => (
-                  <TableHeader
-                    key={key}
-                    columnKey={key}
-                    label={key === 'name' ? 'Ingredient' : key.charAt(0).toUpperCase() + key.slice(1)}
-                    sortConfig={sortConfig}
-                    requestSort={requestSort}
-                  />
-                ))}
+                {['name', 'category', ...NUTRIENT_COLUMNS.map(n => n.id)].map(key => {
+                  const columnConfig = NUTRIENT_COLUMNS.find(n => n.id === key);
+                  const label = columnConfig?.displayName ||
+                    key.charAt(0).toUpperCase() + key.slice(1);
+
+                  return (
+                    <TableHeader
+                      key={key}
+                      columnKey={key}
+                      label={label}
+                      sortConfig={sortConfig}
+                      requestSort={requestSort}
+                    />
+                  );
+                })}
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>

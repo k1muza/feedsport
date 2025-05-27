@@ -1,11 +1,13 @@
 'use client';
 
+import AnimalSelector from '@/components/common/AnimalSelector';
 import { showErrorToast } from '@/components/common/ErrorToast';
 import { showSuccessToast } from '@/components/common/SuccessToast';
 import { getIngredients } from '@/data/ingredients';
 import { getNutrients } from '@/data/nutrients';
-import { RatioOptimizer } from '@/services/ratioOptimizer';
-import { Ingredient as DataIngredient, IngredientSuggestion, RatioIngredient, TargetNutrient, } from '@/types';
+import { IngredientAnalyser } from '@/services/coordinate-decent';
+import { RatioOptimizer } from '@/services/simplex';
+import { Ingredient as DataIngredient, IngredientSuggestion, OptimizationResult, RatioIngredient, TargetNutrient, } from '@/types';
 import { Result } from 'glpk.js';
 import { useCallback, useMemo, useState } from 'react';
 import { BatchCalculation } from './BatchCalculation';
@@ -23,6 +25,8 @@ export const FeedRatios = () => {
   const [showLeftPanel, setShowLeftPanel] = useState<'targets' | 'results'>('targets');
   const [optimizing, setOptimizing] = useState(false);
   const [optimizationResult, setOptimizationResult] = useState<Result | null>(null);
+  const [analysing, setAnalysing] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState<OptimizationResult | null>(null);
   const [suggestedIngredients, setSuggestedIngredients] = useState<IngredientSuggestion[]>([]);
 
   const allIngredients = useMemo(() => getIngredients(), []);
@@ -30,9 +34,9 @@ export const FeedRatios = () => {
 
   const initialTargets = useMemo(
     () => [
-      { id: allNutrients.find(n => n.name === 'Crude Protein')!.id, name: 'Crude Protein', value: 18 },
-      { id: allNutrients.find(n => n.name === 'Fat (Ether Extract)')!.id, name: 'Fat (Ether Extract)', value: 5 },
-      { id: allNutrients.find(n => n.name === 'Crude Fiber')!.id, name: 'Crude Fiber', value: 8 },
+      { id: allNutrients.find(n => n.name === 'Crude protein')!.id, name: 'Crude protein', value: 18 },
+      { id: allNutrients.find(n => n.name === 'Crude fat')!.id, name: 'Crude fat', value: 5 },
+      { id: allNutrients.find(n => n.name === 'Crude fibre')!.id, name: 'Crude fibre', value: 8 },
     ],
     [allNutrients]
   );
@@ -83,13 +87,13 @@ export const FeedRatios = () => {
   const addTargets = useCallback(
     (newTargets: TargetNutrient[]) => {
       const updatedTargets = [...targets];
-      
+
       newTargets.forEach(newTarget => {
         if (!updatedTargets.some(t => t.id === newTarget.id)) {
           updatedTargets.push(newTarget);
         }
       });
-      
+
       setTargets(updatedTargets);
       setShowTargetModal(false);
     },
@@ -110,6 +114,24 @@ export const FeedRatios = () => {
     []
   );
 
+  const analyzeRatios = useCallback(async () => {
+    if (ingredients.length === 0) return;
+
+    setAnalysisResult(null);
+
+    setAnalysing(true);
+
+    try {
+      const ratioAnalyzer = await IngredientAnalyser.getInstance();
+      const result = await ratioAnalyzer.analyze(ingredients, targets);
+
+      setAnalysisResult(result);
+      console.log(result);
+    } finally {
+      setAnalysing(false);
+    }
+  }, [ingredients, targets]);
+
   const optimizeRatios = useCallback(async () => {
     if (ingredients.length === 0 || targets.length === 0) return;
 
@@ -124,13 +146,13 @@ export const FeedRatios = () => {
 
       if (result.success && result.updatedIngredients) {
         setIngredients(result.updatedIngredients);
-        showSuccessToast({message: 'Ratios optimized!'});
+        showSuccessToast({ message: 'Ratios optimized!' });
       } else if (result.suggestions) {
         setSuggestedIngredients(result.suggestions.slice(0, 3)); // Show top 3 suggestions
       }
 
       if (!result.success) {
-        showErrorToast({message: 'Failed to optimize ratios'});
+        showErrorToast({ message: 'Failed to optimize ratios' });
       }
 
       setOptimizationResult(result.rawResult || null);
@@ -145,7 +167,26 @@ export const FeedRatios = () => {
         onAddIng={() => setShowIngredientModal(true)}
         onAddTgt={() => setShowTargetModal(true)}
         onOptimize={optimizeRatios}
+        onAnalyse={analyzeRatios}
         optimizing={optimizing}
+        analysing={analysing}
+      />
+
+      <AnimalSelector
+        onSelectionChange={(animal, program, stage) => {
+          // Handle the selections here
+          if (animal && program && stage) {
+            // All three selections made
+            console.log('Full selection:', stage.requirements);
+            setTargets(stage.requirements.filter(req => req.nutrient?.unit === '%').map(req => (
+              { 
+                id: req.nutrientId,
+                name: req.nutrient?.name || '',
+                value: req.value
+              }
+            )));
+          }
+        }}
       />
 
       <div className="flex flex-col lg:flex-row gap-6 justify-between">
@@ -188,6 +229,15 @@ export const FeedRatios = () => {
           <h3 className="text-lg font-medium mb-4">Optimization Results</h3>
           <div className="bg-gray-800 rounded-lg p-4 font-mono text-sm text-gray-100 overflow-x-auto">
             <pre>{JSON.stringify(optimizationResult, null, 2)}</pre>
+          </div>
+        </div>
+      )}
+
+      {analysisResult && (
+        <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+          <h3 className="text-lg font-medium mb-4">Analysis Results</h3>
+          <div className="bg-gray-800 rounded-lg p-4 font-mono text-sm text-gray-100 overflow-x-auto">
+            <pre>{JSON.stringify(analysisResult, null, 2)}</pre>
           </div>
         </div>
       )}

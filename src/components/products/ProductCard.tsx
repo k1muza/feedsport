@@ -35,7 +35,7 @@ export default function ProductCard({ product }: { product: Product }) {
             </Link>
           </h3>
           <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded capitalize">
-            {product.ingredient?.category?.name.replace('-', ' ')}
+            {product.ingredient?.category?.replace('-', ' ')}
           </span>
         </div>
 
