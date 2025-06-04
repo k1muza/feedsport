@@ -12,7 +12,8 @@ import {
     Settings as SettingsIcon,
     User,
     Cat,
-    X
+    X,
+    Pencil
 } from 'lucide-react';
 import Link from 'next/link';
 import { Toaster } from 'react-hot-toast';
@@ -31,8 +32,9 @@ export default function DashboardLayout({
     { path: '/admin', label: 'Dashboard', icon: Home },
     { path: '/admin/stock', label: 'Stock Management', icon: Package },
     { path: '/admin/ingredients', label: 'Ingredients', icon: DatabaseIcon },
-    { path: '/admin/ratios', label: 'Feed Ratios', icon: Calculator },
+    { path: '/admin/ratios', label: 'Feed Ratios', icon: Pencil },
     { path: '/admin/animals', label: 'Animals', icon: Cat },
+    { path: '/admin/calculator', label: 'Calculator', icon: Calculator },
     { path: '/admin/settings', label: 'Settings', icon: SettingsIcon },
   ];
 

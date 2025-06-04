@@ -47,14 +47,12 @@ export type BlogPost = {
 export interface Nutrient {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   unit: string;
   category?: string | null;
 }
 
-export interface TargetNutrient {
-  id: string;
-  name: string;
+export interface TargetNutrient extends Nutrient {
   value: number;
 }
 

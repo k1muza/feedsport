@@ -4,19 +4,20 @@ import { getIngredients } from "@/data/ingredients";
 import { getNutrients } from "@/data/nutrients";
 import { IngredientAnalyser } from "@/services/coordinate-decent";
 import { RatioOptimizer } from "@/services/simplex";
-import { RatioIngredient, OptimizationResult, IngredientSuggestion, Nutrient, TargetNutrient, Formulation, Ingredient } from "@/types";
-import { Animal, AnimalProgram, AnimalProgramStage, AnimalNutrientRequirement } from "@/types/animals";
+import { Formulation, Ingredient, IngredientSuggestion, OptimizationResult, RatioIngredient, TargetNutrient } from "@/types";
+import { Animal, AnimalNutrientRequirement, AnimalProgram, AnimalProgramStage } from "@/types/animals";
 import { Result } from "glpk.js";
-import { Calculator, Wand, ZoomIn, Rabbit, Edit3, Eye, Plus, AlertTriangle, Save, Settings, X, Lightbulb, PlusCircle, Search, History } from "lucide-react";
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { AlertTriangle, Calculator, Edit3, Eye, History, Lightbulb, Plus, PlusCircle, Rabbit, Save, Search, Settings, Wand, X, ZoomIn } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimalSelectionModal } from "./AnimalSelectionModal";
-import { HistoryPanel } from "./HistoryPanel";
 import { ColumnConfigModal } from "./ColumnConfigModal";
+import { HistoryPanel } from "./HistoryPanel";
+import { ResultItem } from "./ResultItem";
 import { SaveFormulationModal } from "./SaveFormulationModal";
 import { TargetItem } from "./TargetItem";
-import { ResultItem } from "./ResultItem";
 
 type PanelView = 'targets' | 'results';
+
 
 export const FeedRatios = () => {
   // State management
@@ -46,14 +47,26 @@ export const FeedRatios = () => {
   const closeAnimalModal = useCallback(() => setShowAnimalModal(false), []);
 
   // Initialize targets
-  const initialTargets = useMemo(
-    () => [
-      { id: allNutrients.find((n: Nutrient) => n.name === 'Crude protein')!.id, name: 'Crude protein', value: 18 },
-      { id: allNutrients.find((n: Nutrient) => n.name === 'Crude fat')!.id, name: 'Crude fat', value: 5 },
-      { id: allNutrients.find((n: Nutrient) => n.name === 'Crude fibre')!.id, name: 'Crude fibre', value: 8 },
-    ],
-    [allNutrients]
-  );
+  const initialTargets = useMemo(() => {
+  // Define nutrient targets with their default values
+  const nutrientTargets = [
+    { name: 'Crude protein' as const, value: 18 },
+    { name: 'Crude fat' as const, value: 5 },
+    { name: 'Crude fibre' as const, value: 8 },
+  ];
+
+  return nutrientTargets.map(({ name, value }) => {
+    // Find nutrient by name
+    const nutrient = allNutrients.find(n => n.name === name);
+    if (!nutrient) {
+      // Handle missing nutrient (adjust based on your needs)
+      console.error(`Nutrient "${name}" not found in allNutrients`);
+      return null;
+    }
+    // Merge into TargetNutrient
+    return { ...nutrient, value };
+  }).filter(Boolean) as TargetNutrient[]; // Filter out nulls and assert type
+}, [allNutrients]);
 
   const [targets, setTargets] = useState<TargetNutrient[]>(initialTargets);
 
@@ -243,11 +256,13 @@ export const FeedRatios = () => {
   // Handle animal selection
   const handleAnimalSelection = (animal: Animal | null, program: AnimalProgram | null, stage: AnimalProgramStage | null) => {
     if (animal && program && stage) {
-      setTargets(stage.requirements.filter((req: AnimalNutrientRequirement) => req.nutrient?.unit === '%').map((req: AnimalNutrientRequirement) => (
+      setTargets(stage.requirements.map((req: AnimalNutrientRequirement) => (
         {
           id: req.nutrientId,
           name: req.nutrient?.name || '',
-          value: req.value
+          value: req.value,
+          unit: req.nutrient?.unit || '',
+          description: req.nutrient?.description || '',
         }
       )));
     }
@@ -689,7 +704,7 @@ export const FeedRatios = () => {
                   <div
                     key={nutrient.id}
                     className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-700/30 cursor-pointer"
-                    onClick={() => addTargets([{ id: nutrient.id, name: nutrient.name, value: 0 }])}
+                    onClick={() => addTargets([{ id: nutrient.id, name: nutrient.name, value: 0, unit: nutrient.unit, description: nutrient.description || '' }])}
                   >
                     <div className="flex items-center space-x-3">
                       <span className="text-gray-200 truncate">{nutrient.name}</span>
