@@ -36,7 +36,7 @@ const AnimalSelector: React.FC<AnimalSelectorProps> = ({ onSelectionChange }) =>
 
   useEffect(() => {
     onSelectionChange(selectedAnimal, selectedProgram, selectedStage);
-  }, [selectedAnimal, selectedProgram, selectedStage]);
+  }, [selectedAnimal, selectedProgram, selectedStage, onSelectionChange]);
 
   return (
     <div className="space-y-6 p-6 bg-gray-800 rounded-lg shadow-xl border border-gray-700">

@@ -174,3 +174,11 @@ export interface FlowRate {
   max: number | null;
   unit: string;
 }
+
+export interface Formulation {
+  id: string;
+  name: string;
+  date: string;
+  ingredients: RatioIngredient[];
+  targets: TargetNutrient[];
+}
