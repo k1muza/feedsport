@@ -62,11 +62,6 @@ export const FeedRatios = () => {
 
   const [targets, setTargets] = useState<TargetNutrient[]>(initialTargets);
 
-  // Initialize visible columns
-  useEffect(() => {
-    setVisibleColumns(targets.map(t => t.id));
-  }, [targets]);
-
   // Load/save formulations
   useEffect(() => {
     const saved = localStorage.getItem('savedFormulations');
@@ -148,37 +143,59 @@ export const FeedRatios = () => {
     setSavedFormulations(prev => prev.filter(f => f.id !== id));
   };
 
-  // Analysis and optimization
+  // Update analyzeRatios to always update ratios
   const analyzeRatios = useCallback(async () => {
     if (ingredients.length === 0) return;
     setAnalysisResult(null);
+    setSuggestedIngredients([]);
     setAnalysing(true);
-    
+
     try {
       const ratioAnalyzer = await IngredientAnalyser.getInstance();
       const result = await ratioAnalyzer.analyze(ingredients, targets);
       setAnalysisResult(result);
+
+      // Always update ratios if we have updated ingredients
+      if (result.updatedIngredients) {
+        // Scale ratios to match original total
+        const originalTotal = ingredients.reduce((sum, i) => sum + i.ratio, 0);
+        const updatedTotal = result.updatedIngredients.reduce((sum, i) => sum + i.ratio, 0);
+        const scalingFactor = originalTotal / updatedTotal;
+
+        const scaledIngredients = result.updatedIngredients.map(i => ({
+          ...i,
+          ratio: i.ratio * scalingFactor
+        }));
+
+        setIngredients(scaledIngredients);
+      }
+
+      // Always show suggestions if available
+      if (result.suggestions) {
+        setSuggestedIngredients(result.suggestions);
+      }
     } finally {
       setAnalysing(false);
     }
   }, [ingredients, targets]);
+
 
   const optimizeRatios = useCallback(async () => {
     if (ingredients.length === 0 || targets.length === 0) return;
     setOptimizationResult(null);
     setSuggestedIngredients([]);
     setOptimizing(true);
-    
+
     try {
       const ratioOptimizer = await RatioOptimizer.getInstance();
       const result = await ratioOptimizer.optimize(ingredients, targets);
-      
+
       if (result.success && result.updatedIngredients) {
         setIngredients(result.updatedIngredients);
       } else if (result.suggestions) {
         setSuggestedIngredients(result.suggestions.slice(0, 3));
       }
-      
+
       setOptimizationResult(result.rawResult || null);
     } finally {
       setOptimizing(false);
@@ -199,72 +216,80 @@ export const FeedRatios = () => {
   // Handle animal selection
   const handleAnimalSelection = (animal: Animal | null, program: AnimalProgram | null, stage: AnimalProgramStage | null) => {
     if (animal && program && stage) {
-      setTargets(stage.requirements.map((req: AnimalNutrientRequirement) => ({
-        id: req.nutrientId,
-        name: req.nutrient?.name || '',
-        value: req.value,
-        unit: req.nutrient?.unit || '',
-        description: req.nutrient?.description || '',
-      })));
+      const newTargets = stage.requirements
+        .filter((req: AnimalNutrientRequirement) => !!req.nutrient) // Filter out missing nutrients
+        .map((req: AnimalNutrientRequirement) => ({
+          id: req.nutrientId,
+          name: req.nutrient?.name || '',
+          value: req.value,
+          unit: req.nutrient?.unit || '',
+          description: req.nutrient?.description || '',
+        }))
+      setTargets(newTargets);
     }
   };
 
   return (
     <div className="space-y-6">
-      <FeedRatiosHeader 
+      <FeedRatiosHeader
         onShowHistory={() => setShowHistory(true)}
         onOptimize={optimizeRatios}
         onAnalyze={analyzeRatios}
         optimizing={optimizing}
         analysing={analysing}
       />
-      
+
       <div className="flex flex-col lg:flex-row gap-6 justify-between">
-        <TargetsPanel
-          targets={targets}
-          showLeftPanel={showLeftPanel}
-          setShowLeftPanel={setShowLeftPanel}
-          showMetTargets={showMetTargets}
-          setShowMetTargets={setShowMetTargets}
-          metTargets={metTargets}
-          unmetTargets={unmetTargets}
-          computedValues={computedValues}
-          updateTarget={updateTarget}
-          removeTarget={removeTarget}
-          onOpenAnimalModal={() => setShowAnimalModal(true)}
-          onOpenTargetModal={() => setShowTargetModal(true)}
-        />
-        
-        <IngredientsPanel
-          ingredients={ingredients}
-          targets={targets}
-          visibleColumns={visibleColumns}
-          totalPercentage={totalPercentage}
-          totalRatio={totalRatio}
-          handleRatioChange={handleRatioChange}
-          removeIngredient={removeIngredient}
-          computedValues={computedValues}
-          onOpenSaveModal={() => setShowSaveModal(true)}
-          onOpenColumnConfig={() => setShowColumnConfig(true)}
-          onOpenIngredientModal={() => setShowIngredientModal(true)}
-        />
+        <div className="w-full lg:w-96">
+          <TargetsPanel
+            targets={targets}
+            showLeftPanel={showLeftPanel}
+            setShowLeftPanel={setShowLeftPanel}
+            showMetTargets={showMetTargets}
+            setShowMetTargets={setShowMetTargets}
+            metTargets={metTargets}
+            unmetTargets={unmetTargets}
+            computedValues={computedValues}
+            updateTarget={updateTarget}
+            removeTarget={removeTarget}
+            onOpenAnimalModal={() => setShowAnimalModal(true)}
+            onOpenTargetModal={() => setShowTargetModal(true)}
+          />
+        </div>
+
+        <div className="flex-1">
+          <IngredientsPanel
+            ingredients={ingredients}
+            targets={targets}
+            visibleColumns={visibleColumns}
+            totalPercentage={totalPercentage}
+            totalRatio={totalRatio}
+            handleRatioChange={handleRatioChange}
+            removeIngredient={removeIngredient}
+            computedValues={computedValues}
+            onOpenSaveModal={() => setShowSaveModal(true)}
+            onOpenColumnConfig={() => setShowColumnConfig(true)}
+            onOpenIngredientModal={() => setShowIngredientModal(true)}
+          />
+
+          {suggestedIngredients.length > 0 && (
+            <SuggestedIngredients
+              suggestions={suggestedIngredients}
+              allIngredients={allIngredients}
+              ingredients={ingredients} // Pass current ingredients
+              addIngredient={addIngredient}
+            />
+          )}
+        </div>
       </div>
-      
-      {suggestedIngredients.length > 0 && (
-        <SuggestedIngredients 
-          suggestions={suggestedIngredients}
-          ingredients={ingredients}
-          addIngredient={addIngredient}
-        />
-      )}
-      
+
       {ingredients.length > 0 && (
-        <BatchCalculation 
+        <BatchCalculation
           ingredients={ingredients}
           totalRatio={totalRatio}
         />
       )}
-      
+
       {optimizationResult && <OptimizationResults result={optimizationResult} />}
       {analysisResult && <AnalysisResults result={analysisResult} />}
 
@@ -274,7 +299,7 @@ export const FeedRatios = () => {
         onClose={() => setShowAnimalModal(false)}
         onSelect={handleAnimalSelection}
       />
-      
+
       <ColumnConfigModal
         isOpen={showColumnConfig}
         onClose={() => setShowColumnConfig(false)}
@@ -282,7 +307,7 @@ export const FeedRatios = () => {
         visibleColumns={visibleColumns}
         setVisibleColumns={setVisibleColumns}
       />
-      
+
       <HistoryPanel
         isOpen={showHistory}
         onClose={() => setShowHistory(false)}
@@ -290,22 +315,23 @@ export const FeedRatios = () => {
         onLoad={loadFormulation}
         onDelete={deleteFormulation}
       />
-      
+
       <SaveFormulationModal
         isOpen={showSaveModal}
         onClose={() => setShowSaveModal(false)}
         onSave={saveFormulation}
       />
-      
+
       <IngredientSelectionModal
         isOpen={showIngredientModal}
         onClose={() => setShowIngredientModal(false)}
         allIngredients={allIngredients}
         ingredients={ingredients}
         targets={targets}
+        visibleColumns={visibleColumns}
         addIngredient={addIngredient}
       />
-      
+
       <TargetSelectionModal
         isOpen={showTargetModal}
         onClose={() => setShowTargetModal(false)}

@@ -1,4 +1,6 @@
+import { Ingredient } from "@/types";
 import { Search, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export const IngredientSelectionModal = ({
   isOpen,
@@ -6,9 +8,26 @@ export const IngredientSelectionModal = ({
   allIngredients,
   ingredients,
   targets,
+  visibleColumns,
   addIngredient
 }: any) => {
   if (!isOpen) return null;
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredIngredients, setFilteredIngredients] = useState(allIngredients);
+
+  useEffect(() => {
+    if(searchTerm) {
+      setFilteredIngredients(
+        allIngredients.filter((ing: Ingredient) => ing.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+    } else {
+      setFilteredIngredients(allIngredients);
+    }
+  }, [searchTerm]);
+
+  const handleSearch = (e: any) => {
+    setSearchTerm(e.target.value);
+  };
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -26,6 +45,8 @@ export const IngredientSelectionModal = ({
             <input
               type="text"
               placeholder="Filter ingredients..."
+              value={searchTerm}
+              onChange={handleSearch}
               className="w-full pl-10 pr-4 py-2 bg-gray-900 rounded-lg text-gray-200 focus:ring-2 focus:ring-indigo-500 border border-gray-700"
             />
           </div>
@@ -34,7 +55,7 @@ export const IngredientSelectionModal = ({
             <div className="col-span-4 flex items-center space-x-3">
               <span className="text-sm font-medium text-gray-400">Ingredient</span>
             </div>
-            {targets.map((target: any) => (
+            {targets.filter((t: any) => visibleColumns.includes(t.id)).map((target: any) => (
               <div
                 key={target.id}
                 className="col-span-2 flex items-center justify-end space-x-1 cursor-pointer hover:bg-gray-700/30 p-1 rounded"
@@ -49,7 +70,7 @@ export const IngredientSelectionModal = ({
 
         <div className="overflow-y-auto flex-1 p-1">
           <div className="space-y-1">
-            {allIngredients
+            {filteredIngredients
               .filter((ing: any) => !ingredients.some((i: any) => i.id === ing.id))
               .map((ingredient: any) => (
                 <div
@@ -62,7 +83,7 @@ export const IngredientSelectionModal = ({
                       {ingredient.name}
                     </span>
                   </div>
-                  {targets.map((target: any) => {
+                  {targets.filter((t: any) => visibleColumns.includes(t.id)).map((target: any) => {
                     const value = ingredient.compositions.find((c: any) => c.nutrient?.id === target.id)?.value || 0;
                     const unit = ingredient.compositions.find((c: any) => c.nutrient?.id === target.id)?.nutrient?.unit || '';
                     return (

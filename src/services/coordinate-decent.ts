@@ -6,7 +6,7 @@ type Profile = Record<string, number>;
 export class IngredientAnalyser {
   private static instance: IngredientAnalyser;
 
-  private constructor() {}
+  private constructor() { }
 
   /**
    * Retrieve the singleton instance.
@@ -80,21 +80,36 @@ export class IngredientAnalyser {
 
     profile = this.computeProfile(working);
     deficit = this.computeDeficit(profile, targets);
-    if (deficit === 0) {
-      result.success = true;
-      result.message = 'Targets met on final check.';
-      result.updatedIngredients = working;
-    } else {
-      const unmet = targets
-        .filter(t => (profile[t.name] ?? 0) < t.value)
-        .map(t => ({ name: t.name, currentValue: profile[t.name] ?? 0, targetValue: t.value }));
-      result.success = false;
-      result.message = `Unable to satisfy nutrients: ${unmet.map(u => u.name).join(', ')}`;
-      result.updatedIngredients = working;
-      result.suggestions = unmet.map(u => ({ nutrient: { id: '', name: u.name, description: '', unit: '' }, target: u.targetValue }));
-    }
 
-    return result;
+    // Return updated ingredients and suggestions
+    const unmet = targets
+      .filter(t => (profile[t.name] ?? 0) < t.value)
+      .map(t => ({
+        name: t.name,
+        currentValue: profile[t.name] ?? 0,
+        targetValue: t.value,
+        nutrientId: t.id,
+        unit: t.unit,
+        description: t.description
+      }));
+
+    return {
+      success: deficit === 0,
+      message: deficit === 0
+        ? 'Targets met after optimization.'
+        : `Unable to satisfy nutrients: ${unmet.map(u => u.name).join(', ')}`,
+      updatedIngredients: working,
+      suggestions: unmet.map(u => ({
+        nutrient: {
+          id: u.nutrientId,
+          name: u.name,
+          unit: u.unit || '',
+          description: u.description || ''
+        },
+        target: u.targetValue,
+        current: u.currentValue
+      })),
+    };
   }
 
   /** Build per-unit-ratio nutrient profile */

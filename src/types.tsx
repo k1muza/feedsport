@@ -110,7 +110,7 @@ export interface OptimizationResult {
   message: string;
   updatedIngredients?: RatioIngredient[];
   rawResult?: Result;
-  suggestions?: IngredientSuggestion[];
+  suggestions?: (IngredientSuggestion | NutrientSuggestion)[];
 }
 
 export interface Program {
@@ -179,4 +179,11 @@ export interface Formulation {
   date: string;
   ingredients: RatioIngredient[];
   targets: TargetNutrient[];
+}
+
+// Add to existing types
+export interface NutrientSuggestion {
+  nutrient: Nutrient;
+  target: number;
+  current: number;
 }
