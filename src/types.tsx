@@ -53,14 +53,10 @@ export interface Nutrient {
 }
 
 export interface TargetNutrient extends Nutrient {
-  value: number;
-}
-
-export interface NutrientGap {
-  name: string;
-  currentValue: number;
-  targetValue: number;
-  gap: number;
+  target: number;
+  actual?: number;
+  over?: number;
+  under?: number;
 }
 
 export type Composition = {
@@ -110,6 +106,8 @@ export interface OptimizationResult {
   message: string;
   updatedIngredients?: RatioIngredient[];
   rawResult?: Result;
+  nutrientDeviations?: TargetNutrient[];
+  unmetTargets?: TargetNutrient[];
   suggestions?: (IngredientSuggestion | NutrientSuggestion)[];
 }
 

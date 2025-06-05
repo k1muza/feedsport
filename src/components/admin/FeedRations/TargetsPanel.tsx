@@ -85,6 +85,28 @@ export const TargetsPanel = ({
       </div>
 
       <div className="space-y-3">
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2 mb-3">
+            <input
+              type="checkbox"
+              id="showMetTargets"
+              checked={showMetTargets}
+              onChange={(e) => setShowMetTargets(e.target.checked)}
+              className="form-checkbox h-4 w-4 text-indigo-600 rounded focus:ring-indigo-500"
+            />
+            <label htmlFor="showMetTargets" className="text-sm text-gray-400">
+              Show met targets
+            </label>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-400">
+              <span className="text-green-400">{metTargets.length}</span> met ·{' '}
+              <span className={unmetTargets.length ? "text-red-400" : "text-green-400"}>
+                {unmetTargets.length}
+              </span> unmet
+            </span>
+          </div>
+        </div>
         {showLeftPanel === 'targets' ? (
           targets.map((target) => (
             <TargetItem
@@ -114,29 +136,6 @@ export const TargetsPanel = ({
                 value={computedValues[target.name] || 0}
               />
             ))}
-
-            <div className="flex justify-between">
-              <div className="flex items-center gap-2 mb-3">
-                <input
-                  type="checkbox"
-                  id="showMetTargets"
-                  checked={showMetTargets}
-                  onChange={(e) => setShowMetTargets(e.target.checked)}
-                  className="form-checkbox h-4 w-4 text-indigo-600 rounded focus:ring-indigo-500"
-                />
-                <label htmlFor="showMetTargets" className="text-sm text-gray-400">
-                  Show met targets
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-400">
-                  <span className="text-green-400">{metTargets.length}</span> met ·{' '}
-                  <span className={unmetTargets.length ? "text-red-400" : "text-green-400"}>
-                    {unmetTargets.length}
-                  </span> unmet
-                </span>
-              </div>
-            </div>
           </>
         )}
       </div>

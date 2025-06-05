@@ -56,7 +56,7 @@ export const FeedRatios = () => {
 
     return nutrientTargets.map(({ name, value }) => {
       const nutrient = allNutrients.find(n => n.name === name);
-      return nutrient ? { ...nutrient, value } : null;
+      return nutrient ? { ...nutrient, target: value } : null;
     }).filter(Boolean) as TargetNutrient[];
   }, [allNutrients]);
 
@@ -151,8 +151,7 @@ export const FeedRatios = () => {
     setAnalysing(true);
 
     try {
-      const ratioAnalyzer = await IngredientAnalyser.getInstance();
-      const result = await ratioAnalyzer.analyze(ingredients, targets);
+      const result = IngredientAnalyser.analyze(ingredients, targets);
       setAnalysisResult(result);
 
       // Always update ratios if we have updated ingredients
@@ -189,11 +188,22 @@ export const FeedRatios = () => {
     try {
       const ratioOptimizer = await RatioOptimizer.getInstance();
       const result = await ratioOptimizer.optimize(ingredients, targets);
+      console.log(result);
 
       if (result.success && result.updatedIngredients) {
         setIngredients(result.updatedIngredients);
-      } else if (result.suggestions) {
-        setSuggestedIngredients(result.suggestions.slice(0, 3));
+      }
+
+      // Set suggestions based on unmet targets
+      if (result.unmetTargets && result.unmetTargets.length > 0) {
+        const suggestions = result.unmetTargets.map(target => ({
+          nutrient: target,
+          target: target.target,
+          current: target.actual,
+        }));
+        setSuggestedIngredients(suggestions);
+      } else {
+        setSuggestedIngredients([]);
       }
 
       setOptimizationResult(result.rawResult || null);
@@ -205,23 +215,23 @@ export const FeedRatios = () => {
   // Filtered targets
   const metTargets = useMemo(() => targets.filter(target => {
     const value = computedValues[target.name] || 0;
-    return value > target.value * 0.95;
+    return value > target.target * 0.95;
   }), [targets, computedValues]);
 
   const unmetTargets = useMemo(() => targets.filter(target => {
     const value = computedValues[target.name] || 0;
-    return value < target.value * 0.95;
+    return value < target.target * 0.95;
   }), [targets, computedValues]);
 
   // Handle animal selection
   const handleAnimalSelection = (animal: Animal | null, program: AnimalProgram | null, stage: AnimalProgramStage | null) => {
     if (animal && program && stage) {
       const newTargets = stage.requirements
-        .filter((req: AnimalNutrientRequirement) => !!req.nutrient) // Filter out missing nutrients
+        .filter((req: AnimalNutrientRequirement) => !!req.nutrient && req.nutrient.unit == '%') // Filter out missing nutrients
         .map((req: AnimalNutrientRequirement) => ({
           id: req.nutrientId,
           name: req.nutrient?.name || '',
-          value: req.value,
+          target: req.value,
           unit: req.nutrient?.unit || '',
           description: req.nutrient?.description || '',
         }))
