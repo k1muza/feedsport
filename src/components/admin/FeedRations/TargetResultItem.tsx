@@ -23,7 +23,7 @@ export const ResultItem = ({
   target: TargetNutrient;
   value: number;
 }) => {
-  const met = value >= target.value * 0.95;
+  const met = value >= target.target * 0.95;
   const statusText = met ? "Met" : "Below";
   const statusColor = met ? "text-green-400" : "text-red-400";
 
@@ -35,9 +35,9 @@ export const ResultItem = ({
       </div>
       <div className="flex items-baseline justify-between">
         <span className="text-lg font-medium">{value.toFixed(1)} {target.unit}</span>
-        <span className="text-sm text-gray-400">Target: {target.value} {target.unit}</span>
+        <span className="text-sm text-gray-400">Target: {target.target} {target.unit}</span>
       </div>
-      <ProgressBar value={value} target={target.value} met={met} />
+      <ProgressBar value={value} target={target.target} met={met} />
     </div>
   );
 };
