@@ -54,6 +54,7 @@ export interface Nutrient {
 
 export interface TargetNutrient extends Nutrient {
   target: number;
+  max?: number;
   actual?: number;
   over?: number;
   under?: number;
@@ -62,6 +63,8 @@ export interface TargetNutrient extends Nutrient {
 export type Composition = {
     value: number;
     nutrientId: number | string;
+    basis?: string;
+    table?: string;
     nutrient?: Nutrient;
 };
 

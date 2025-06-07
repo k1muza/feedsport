@@ -121,3 +121,7 @@ export const getProductsByCategory = (categoryId: string): Product[] => {
 export const getProductById = (id: string): Product | undefined => {
   return getProducts().find(product => product.id === id);
 };
+
+export const getProductByIngredientId = (ingredientId: string): Product | undefined => {
+  return getProducts().find(product => product.ingredientId === ingredientId);
+}

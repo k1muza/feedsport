@@ -194,13 +194,6 @@ export class IngredientAnalyser {
 
     // Use the best solution found during optimization for the final result
     const finalMetrics = this.computeBlendMetrics(bestSolution);
-    const finalCost = this.computeCost(
-      finalMetrics.concentrationProfile, 
-      targetMap, 
-      finalMetrics.totalRatio,
-      blendTotalRatioPenaltyMultiplier, 
-      minBlendRatioForPenalty
-    );
     
     // Set success based on the best cost achieved
     result.success = bestCost < tolerance; 

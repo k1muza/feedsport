@@ -1,8 +1,9 @@
 import { TargetNutrient } from "@/types";
 
-const ProgressBar = ({ value, target, met }: {
+const ProgressBar = ({ value, target, max, met }: {
   value: number;
   target: number;
+  max?: number;
   met: boolean;
 }) => (
   <div className="mt-2 h-1.5 bg-gray-700 rounded-full overflow-hidden">
@@ -23,8 +24,20 @@ export const ResultItem = ({
   target: TargetNutrient;
   value: number;
 }) => {
-  const met = value >= target.target * 0.95;
-  const statusText = met ? "Met" : "Below";
+  // Determine if target is met
+  let met = true;
+  let tolerance = 0.02;
+  let statusText = "Met";
+
+  if (target.target !== undefined && value < target.target * (1 - tolerance)){
+    met = false;
+    statusText = "Below";
+  }
+  if (target.max !== undefined && value > target.max * (1 + tolerance)){
+    met = false;
+    statusText = "Above";
+  }
+
   const statusColor = met ? "text-green-400" : "text-red-400";
 
   return (
@@ -34,10 +47,18 @@ export const ResultItem = ({
         <span className={`text-xs ${statusColor}`}>{statusText}</span>
       </div>
       <div className="flex items-baseline justify-between">
-        <span className="text-lg font-medium">{value.toFixed(1)} {target.unit}</span>
-        <span className="text-sm text-gray-400">Target: {target.target} {target.unit}</span>
+        <span className="text-lg font-medium">{value.toFixed(2)} {target.unit}</span>
+        <span className="text-sm text-gray-400">
+          {target.target !== undefined && `Min: ${target.target} `}
+          {target.max !== undefined && `Max: ${target.max}`}
+        </span>
       </div>
-      <ProgressBar value={value} target={target.target} met={met} />
+      <ProgressBar 
+        value={value} 
+        target={target.target} 
+        max={target.max} 
+        met={met} 
+      />
     </div>
   );
 };

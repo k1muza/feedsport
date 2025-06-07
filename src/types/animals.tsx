@@ -9,6 +9,8 @@ export type FeedingAmount = {
 export type AnimalNutrientRequirement = {
   nutrientId: string;
   value: number;
+  min: number;
+  max: number;
   nutrient?: Nutrient;
 }
 

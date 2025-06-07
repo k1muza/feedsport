@@ -28,7 +28,8 @@ export const SuggestedIngredients = ({
         );
         return {
           ...ingredient,
-          compositionValue: composition?.value || 0
+          compositionValue: composition?.value || 0,
+          compositionUnit: composition?.nutrient?.unit,
         };
       })
       // Sort by composition value descending
@@ -94,7 +95,7 @@ export const SuggestedIngredients = ({
                       <div>
                         <span className="text-sm">{ingredient.name}</span>
                         <span className="text-xs text-gray-400 ml-2">
-                          ({ingredient.compositionValue.toFixed(2)}{ingredient.compositions[0]?.nutrient?.unit || ''})
+                          ({ingredient.compositionValue.toFixed(2)}{ingredient.compositionUnit || ''})
                         </span>
                       </div>
                       <button

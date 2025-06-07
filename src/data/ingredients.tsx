@@ -34,3 +34,55 @@ export const getIngredients = (): Ingredient[] => (ingredients as Ingredient[]).
 })
 
 export const getIngredientById = (id: string): Ingredient|undefined => getIngredients().find(i => i.id === id)
+
+export const getNutrientAverages = () => {
+  // Flatten all compositions from all ingredients
+  const allCompositions = getIngredients().flatMap(ingredient => 
+    ingredient.compositions.map(comp => ({
+      ...comp,
+      ingredientId: ingredient.id
+    }))
+  );
+
+  // Group by nutrient name
+  const compositionsByName: Record<string, { value: number, unit: string, table?: string, basis?: string }[]> = {};
+
+  allCompositions.forEach(comp => {
+    if (comp.nutrient) {
+      const name = comp.nutrient.name;
+      if (!compositionsByName[name]) {
+        compositionsByName[name] = [];
+      }
+      compositionsByName[name].push({
+        value: comp.value,
+        unit: comp.nutrient.unit || 'g/kg',
+        table: comp.table,
+        basis: comp.basis
+      });
+    }
+  });
+
+  // Compute average for each nutrient
+  const averages: Record<string, { avg: number, unit: string, count: number }> = {};
+
+  Object.entries(compositionsByName).forEach(([name, entries]) => {
+    const values = entries.map(e => e.value);
+    const sum = values.reduce((acc, val) => acc + val, 0);
+    const avg = sum / values.length;
+    
+    // Use the most common unit
+    const unitCounts: Record<string, number> = {};
+    entries.forEach(e => {
+      unitCounts[e.unit] = (unitCounts[e.unit] || 0) + 1;
+    });
+    const mostCommonUnit = Object.entries(unitCounts).sort((a, b) => b[1] - a[1])[0][0];
+    
+    averages[name] = {
+      avg,
+      unit: mostCommonUnit,
+      count: values.length
+    };
+  });
+
+  return averages;
+};

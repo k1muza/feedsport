@@ -1,27 +1,27 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { AnimalSelectionModal } from "./AnimalSelectionModal";
-import { ColumnConfigModal } from "./ColumnConfigModal";
-import { HistoryPanel } from "./HistoryPanel";
-import { SaveFormulationModal } from "./SaveFormulationModal";
-import { Formulation, Ingredient, IngredientSuggestion, OptimizationResult, RatioIngredient, TargetNutrient } from "@/types";
 import { getIngredients } from "@/data/ingredients";
 import { getNutrients } from "@/data/nutrients";
 import { IngredientAnalyser } from "@/services/coordinate-decent";
 import { RatioOptimizer } from "@/services/simplex";
-import { Animal, AnimalProgram, AnimalProgramStage, AnimalNutrientRequirement } from "@/types/animals";
+import { Formulation, Ingredient, IngredientSuggestion, OptimizationResult, RatioIngredient, TargetNutrient } from "@/types";
+import { Animal, AnimalNutrientRequirement, AnimalProgram, AnimalProgramStage } from "@/types/animals";
 import { Result } from "glpk.js";
-import { AnalysisResults } from "./AnalysisResults";
+import { AnimalSelectionModal } from "./AnimalSelectionModal";
 import { BatchCalculation } from "./BatchCalculation";
+import { ColumnConfigModal } from "./ColumnConfigModal";
 import { FeedRatiosHeader } from "./FeedRatiosHeader";
+import { HistoryPanel } from "./HistoryPanel";
 import { IngredientSelectionModal } from "./IngredientSelectionModal";
 import { IngredientsPanel } from "./IngredientsPanel";
-import { OptimizationResults } from "./OptimizationResults";
+import { SaveFormulationModal } from "./SaveFormulationModal";
 import { SuggestedIngredients } from "./SuggestedIngredients";
 import { TargetSelectionModal } from "./TargetSelectionModal";
 import { TargetsPanel } from "./TargetsPanel";
 
 export type PanelView = 'targets' | 'results';
+
+const TOLERANCE = 0.02;
 
 export const FeedRatios = () => {
   // State management
@@ -117,8 +117,10 @@ export const FeedRatios = () => {
     setTargets(curr => curr.filter(t => t.id !== id));
   }, []);
 
-  const updateTarget = useCallback((id: string, v: number) => {
-    setTargets(curr => curr.map(t => (t.id === id ? { ...t, value: v } : t)));
+  const updateTarget = useCallback((id: string, field: 'max' | 'target', v: number) => {
+    setTargets(curr => curr.map(t =>
+      t.id === id ? { ...t, [field]: v } : t
+    ));
   }, []);
 
   // Formulation management
@@ -188,7 +190,6 @@ export const FeedRatios = () => {
     try {
       const ratioOptimizer = await RatioOptimizer.getInstance();
       const result = await ratioOptimizer.optimize(ingredients, targets);
-      console.log(result);
 
       if (result.success && result.updatedIngredients) {
         setIngredients(result.updatedIngredients);
@@ -215,12 +216,18 @@ export const FeedRatios = () => {
   // Filtered targets
   const metTargets = useMemo(() => targets.filter(target => {
     const value = computedValues[target.name] || 0;
-    return value > target.target * 0.95;
+    const upper_bound = target.max ? target.max * (1 + TOLERANCE) : Infinity;
+    const lower_bound = target.target * (1 - TOLERANCE)
+
+    return value < upper_bound && value > lower_bound;
   }), [targets, computedValues]);
 
   const unmetTargets = useMemo(() => targets.filter(target => {
     const value = computedValues[target.name] || 0;
-    return value < target.target * 0.95;
+    const upper_bound = target.max ? target.max * (1 + TOLERANCE) : Infinity;
+    const lower_bound = target.target * (1 - TOLERANCE)
+
+    return value > upper_bound || value < lower_bound;
   }), [targets, computedValues]);
 
   // Handle animal selection
@@ -231,7 +238,8 @@ export const FeedRatios = () => {
         .map((req: AnimalNutrientRequirement) => ({
           id: req.nutrientId,
           name: req.nutrient?.name || '',
-          target: req.value,
+          target: req.min || req.value,
+          max: req.max,
           unit: req.nutrient?.unit || '',
           description: req.nutrient?.description || '',
         }))
@@ -260,7 +268,7 @@ export const FeedRatios = () => {
             metTargets={metTargets}
             unmetTargets={unmetTargets}
             computedValues={computedValues}
-            updateTarget={updateTarget}
+            updateTarget={(id: string, field: 'max' | 'target', value: number) => updateTarget(id, field, value)}
             removeTarget={removeTarget}
             onOpenAnimalModal={() => setShowAnimalModal(true)}
             onOpenTargetModal={() => setShowTargetModal(true)}
@@ -299,9 +307,6 @@ export const FeedRatios = () => {
           totalRatio={totalRatio}
         />
       )}
-
-      {optimizationResult && <OptimizationResults result={optimizationResult} />}
-      {analysisResult && <AnalysisResults result={analysisResult} />}
 
       {/* Modals */}
       <AnimalSelectionModal

@@ -3,6 +3,7 @@ import { TargetItem } from "./TargetInputItem";
 import { ResultItem } from "./TargetResultItem";
 import { TargetNutrient } from "@/types";
 import { PanelView } from "./FeedRatios";
+import { useMemo } from "react";
 
 interface TargetsPanelProps {
   targets: TargetNutrient[];
@@ -13,7 +14,7 @@ interface TargetsPanelProps {
   metTargets: TargetNutrient[];
   unmetTargets: TargetNutrient[];
   computedValues: Record<string, number>;
-  updateTarget: (id: string, value: number) => void;
+  updateTarget: (id: string, field: 'max' | 'target', value: number) => void;
   removeTarget: (id: string) => void;
   onOpenAnimalModal: () => void;
   onOpenTargetModal: () => void;
@@ -35,6 +36,15 @@ export const TargetsPanel = ({
 }: TargetsPanelProps) => {
   // Check if all targets are met
   const allTargetsMet = unmetTargets.length === 0 && targets.length > 0;
+
+  // Create a normalized computed values map by nutrient ID
+  const computedValuesById = useMemo(() => {
+    const valuesMap: Record<string, number> = {};
+    targets.forEach(target => {
+      valuesMap[target.id] = computedValues[target.name] || 0;
+    });
+    return valuesMap;
+  }, [computedValues, targets]);
 
   return (
     <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
@@ -112,7 +122,7 @@ export const TargetsPanel = ({
             <TargetItem
               key={target.id}
               target={target}
-              onUpdate={(v) => updateTarget(target.id, v)}
+              onUpdate={(field, value) => updateTarget(target.id, field, value)} // Updated
               onRemove={() => removeTarget(target.id)}
             />
           ))
@@ -133,7 +143,7 @@ export const TargetsPanel = ({
               <ResultItem
                 key={target.id}
                 target={target}
-                value={computedValues[target.name] || 0}
+                value={computedValuesById[target.id] || 0}
               />
             ))}
           </>

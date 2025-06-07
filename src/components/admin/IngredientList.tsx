@@ -1,9 +1,10 @@
-import { ChevronDown, ChevronUp, Database, Edit2, Filter, Plus, Search, Settings, Trash2, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Database, Edit2, Eye, Filter, Plus, Search, Settings, Trash2, X } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { getIngredients } from "@/data/ingredients";
 import { Ingredient as DataIngredient, Nutrient } from "@/types";
 import { getProducts } from "@/data/products";
 import { getNutrients } from "@/data/nutrients";
+import Link from "next/link";
 
 // ============ Types ============
 interface UIIngredient extends DataIngredient {
@@ -297,61 +298,17 @@ const TableHeader = ({
   </th>
 );
 
-// ============ Ingredient Details Component ============
-const IngredientDetails = ({ ingredient }: { ingredient: UIIngredient }) => (
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div>
-      <h4 className="text-sm font-medium text-gray-400 mb-2">Nutritional Values</h4>
-      <div className="space-y-2">
-        {['Crude Protein', 'Fat (Ether Extract)', 'Crude Fiber'].map(n => {
-          const comp = ingredient.compositions.find(c => c.nutrient?.name === n);
-          return (
-            <div key={n} className="flex justify-between">
-              <span className="text-gray-500">{comp?.nutrient?.name.replace(' (Ether Extract)', '')}: </span>
-              <span className="text-gray-200">{comp?.value}{comp?.nutrient?.unit}</span>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-
-    <div>
-      <h4 className="text-sm font-medium text-gray-400 mb-2">Cost Analysis</h4>
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <span className="text-gray-500">Price/unit:</span>
-          <span className="text-gray-200">${ingredient.cost.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-500">Cost per % protein:</span>
-          <span className="text-gray-200">${(ingredient.cost / (ingredient.compositions.find(c => c.nutrient?.name === 'Crude Protein')?.value || 1)).toFixed(3)}/%</span>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <h4 className="text-sm font-medium text-gray-400 mb-2">Description</h4>
-      <p className="text-gray-200">{ingredient.description}</p>
-    </div>
-  </div>
-);
-
 // ============ Ingredient Row Component ============
 const IngredientRow = ({
   ingredient,
-  isExpanded,
-  toggleExpand,
   visibleNutrientColumns
 }: {
   ingredient: UIIngredient;
-  isExpanded: boolean;
-  toggleExpand: (id: string) => void;
   visibleNutrientColumns: Nutrient[];
 }) => (
   <>
     <tr
       className="hover:bg-gray-700/50 transition-colors cursor-pointer"
-      onClick={() => toggleExpand(ingredient.id)}
     >
       <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-200">{ingredient.name}</td>
       <td className="px-6 py-4 whitespace-nowrap">{ingredient.category}</td>
@@ -365,23 +322,15 @@ const IngredientRow = ({
         );
       })}
 
-      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-        <button className="text-indigo-400 hover:text-indigo-300 mr-4 transition-colors">
-          <Edit2 className="w-4 h-4" />
-        </button>
-        <button className="text-red-400 hover:text-red-300 transition-colors">
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex">
+        <Link href={`/admin/ingredients/${ingredient.id}`} className="text-indigo-400 hover:text-indigo-300 mr-4 transition-colors">
+          <Eye className="w-4 h-4" />
+        </Link>
+        <Link href={`/admin/ingredients/${ingredient.id}/delete`}  className="text-red-400 hover:text-red-300 transition-colors">
           <Trash2 className="w-4 h-4" />
-        </button>
+        </Link>
       </td>
     </tr>
-
-    {isExpanded && (
-      <tr className="bg-gray-800/70">
-        <td colSpan={3 + visibleNutrientColumns.length} className="px-6 py-4">
-          <IngredientDetails ingredient={ingredient} />
-        </td>
-      </tr>
-    )}
   </>
 );
 
@@ -425,11 +374,10 @@ const PageHeader = ({ setShowForm }: { setShowForm: (show: boolean) => void }) =
 );
 
 // ============ Main Component ============
-export const IngredientInfo = () => {
+export const IngredientList = () => {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [showColumnConfig, setShowColumnConfig] = useState(false);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
@@ -548,10 +496,6 @@ export const IngredientInfo = () => {
     setSortConfig({ key, direction });
   };
 
-  const toggleExpand = (id: string) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
-
   return (
     <div className="space-y-6">
       <PageHeader setShowForm={setShowForm} />
@@ -646,8 +590,6 @@ export const IngredientInfo = () => {
                 <IngredientRow
                   key={item.id}
                   ingredient={item}
-                  isExpanded={expandedId === item.id}
-                  toggleExpand={toggleExpand}
                   visibleNutrientColumns={visibleNutrientColumns}
                 />
               ))}

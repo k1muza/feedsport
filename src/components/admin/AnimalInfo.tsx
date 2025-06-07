@@ -169,12 +169,15 @@ const NutritionPanel = ({
   <div className="rounded-xl p-6 bg-gray-800/50 border border-gray-700 backdrop-blur-sm">
     <h3 className={`text-lg font-semibold ${colorClass} mb-4`}>{title}</h3>
     <div className="grid gap-3">
-      {requirements.map((req) => (
+      {requirements.map((req: AnimalNutrientRequirement) => (
         <div key={req.nutrientId} className="flex justify-between items-center p-3 hover:bg-gray-700/20 rounded-lg transition-colors">
           <span className="text-gray-300 capitalize">{req.nutrient?.name}</span>
-          <span className="font-medium text-gray-100">
+          {req.min && <span className="font-medium text-gray-100">
+            {req.min} - {req.max} {req.nutrient?.unit}
+          </span>}
+          {req.value && !req.min && <span className="font-medium text-gray-100">
             {req.value} {req.nutrient?.unit}
-          </span>
+          </span>}
         </div>
       ))}
     </div>
