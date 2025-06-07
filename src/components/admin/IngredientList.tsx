@@ -1,10 +1,10 @@
-import { ChevronDown, ChevronUp, Database, Edit2, Eye, Filter, Plus, Search, Settings, Trash2, X } from "lucide-react";
-import { useState, useMemo, useEffect } from "react";
 import { getIngredients } from "@/data/ingredients";
-import { Ingredient as DataIngredient, Nutrient } from "@/types";
-import { getProducts } from "@/data/products";
 import { getNutrients } from "@/data/nutrients";
+import { getProducts } from "@/data/products";
+import { Ingredient as DataIngredient, Nutrient } from "@/types";
+import { ChevronDown, ChevronUp, Database, Eye, Filter, Plus, Search, Settings, Trash2, X } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
 // ============ Types ============
 interface UIIngredient extends DataIngredient {

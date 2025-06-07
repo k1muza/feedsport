@@ -102,6 +102,7 @@ export interface IngredientSuggestion {
   ingredient?: Ingredient;
   nutrient?: Nutrient;
   target?: number;
+  current?: number;
 }
 
 export interface OptimizationResult {
@@ -187,4 +188,21 @@ export interface NutrientSuggestion {
   nutrient: Nutrient;
   target: number;
   current: number;
+}
+
+export type NutrientReference = Record<string, { avg: number }>;
+export type NutrientRankings = Record<string, number>;
+
+export interface RankedComposition extends Composition {
+  diff: number;
+  nutrient: Nutrient; // Make nutrient required
+}
+
+export interface TopRankedNutrient {
+  name: string;
+  rank: number;
+  value: number;
+  unit: string;
+  diff: number;
+  avg: number;
 }

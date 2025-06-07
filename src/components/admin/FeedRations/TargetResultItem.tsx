@@ -1,6 +1,6 @@
 import { TargetNutrient } from "@/types";
 
-const ProgressBar = ({ value, target, max, met }: {
+const ProgressBar = ({ value, target, met }: {
   value: number;
   target: number;
   max?: number;
@@ -26,7 +26,7 @@ export const ResultItem = ({
 }) => {
   // Determine if target is met
   let met = true;
-  let tolerance = 0.02;
+  const tolerance = 0.02;
   let statusText = "Met";
 
   if (target.target !== undefined && value < target.target * (1 - tolerance)){
@@ -56,7 +56,6 @@ export const ResultItem = ({
       <ProgressBar 
         value={value} 
         target={target.target} 
-        max={target.max} 
         met={met} 
       />
     </div>

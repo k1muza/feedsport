@@ -4,9 +4,8 @@ import { getIngredients } from "@/data/ingredients";
 import { getNutrients } from "@/data/nutrients";
 import { IngredientAnalyser } from "@/services/coordinate-decent";
 import { RatioOptimizer } from "@/services/simplex";
-import { Formulation, Ingredient, IngredientSuggestion, OptimizationResult, RatioIngredient, TargetNutrient } from "@/types";
+import { Formulation, Ingredient, IngredientSuggestion, RatioIngredient, TargetNutrient } from "@/types";
 import { Animal, AnimalNutrientRequirement, AnimalProgram, AnimalProgramStage } from "@/types/animals";
-import { Result } from "glpk.js";
 import { AnimalSelectionModal } from "./AnimalSelectionModal";
 import { BatchCalculation } from "./BatchCalculation";
 import { ColumnConfigModal } from "./ColumnConfigModal";
@@ -30,9 +29,7 @@ export const FeedRatios = () => {
   const [showTargetModal, setShowTargetModal] = useState(false);
   const [showLeftPanel, setShowLeftPanel] = useState<PanelView>('targets');
   const [optimizing, setOptimizing] = useState(false);
-  const [optimizationResult, setOptimizationResult] = useState<Result | null>(null);
   const [analysing, setAnalysing] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState<OptimizationResult | null>(null);
   const [suggestedIngredients, setSuggestedIngredients] = useState<IngredientSuggestion[]>([]);
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
   const [showColumnConfig, setShowColumnConfig] = useState(false);
@@ -148,14 +145,11 @@ export const FeedRatios = () => {
   // Update analyzeRatios to always update ratios
   const analyzeRatios = useCallback(async () => {
     if (ingredients.length === 0) return;
-    setAnalysisResult(null);
     setSuggestedIngredients([]);
     setAnalysing(true);
 
     try {
       const result = IngredientAnalyser.analyze(ingredients, targets);
-      setAnalysisResult(result);
-
       // Always update ratios if we have updated ingredients
       if (result.updatedIngredients) {
         // Scale ratios to match original total
@@ -183,7 +177,6 @@ export const FeedRatios = () => {
 
   const optimizeRatios = useCallback(async () => {
     if (ingredients.length === 0 || targets.length === 0) return;
-    setOptimizationResult(null);
     setSuggestedIngredients([]);
     setOptimizing(true);
 
@@ -206,8 +199,6 @@ export const FeedRatios = () => {
       } else {
         setSuggestedIngredients([]);
       }
-
-      setOptimizationResult(result.rawResult || null);
     } finally {
       setOptimizing(false);
     }
@@ -284,7 +275,6 @@ export const FeedRatios = () => {
             totalRatio={totalRatio}
             handleRatioChange={handleRatioChange}
             removeIngredient={removeIngredient}
-            computedValues={computedValues}
             onOpenSaveModal={() => setShowSaveModal(true)}
             onOpenColumnConfig={() => setShowColumnConfig(true)}
             onOpenIngredientModal={() => setShowIngredientModal(true)}

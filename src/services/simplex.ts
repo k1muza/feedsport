@@ -5,7 +5,7 @@ import { GLPK, Result } from 'glpk.js';
 // These values are multiplied by the deviation amount in the objective function.
 // Higher values mean a stronger penalty for deviating.
 const DEFAULT_UNDER_PENALTY_FACTOR = 1000; // Penalty for being under a target (e.g., 1000 per unit of deviation)
-const DEFAULT_OVER_PENALTY_FACTOR = 600;  // Penalty for being over a target (e.g., 600 per unit of deviation)
+const DEFAULT_OVER_PENALTY_FACTOR = 10000;  // Penalty for being over a target (e.g., 600 per unit of deviation)
 const FLOATING_POINT_TOLERANCE = 1e-6; // Tolerance for floating point comparisons (e.g., for 'unmet' targets)
 
 /**

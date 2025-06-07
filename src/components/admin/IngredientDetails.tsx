@@ -5,12 +5,12 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { useMemo } from 'react';
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, 
-  ResponsiveContainer, PieChart, Pie, Cell, Legend 
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
+  ResponsiveContainer, PieChart, Pie, Cell, Legend
 } from 'recharts';
 import { motion } from 'framer-motion';
-import { Composition } from '@/types';
+import { Composition, Ingredient, NutrientRankings, TopRankedNutrient } from '@/types';
 
 const COLORS = ['#4f46e5', '#818cf8', '#c7d2fe', '#e0e7ff', '#a5b4fc', '#8b5cf6', '#ec4899', '#10b981'];
 
@@ -112,15 +112,15 @@ const NutrientCategoryWidget = ({
   nutrientRankings
 }: { 
   title: string; 
-  data: any[];
+  data: Composition[];
   nutrientRankings: Record<string, number>;
 }) => {
   // Group by unit for consistent charts
   const unitGroups = useMemo(() => {
-    const groups: Record<string, any[]> = {};
+    const groups: Record<string, Composition[]> = {};
     
     data.forEach(comp => {
-      const unit = comp.nutrient.unit || 'g/kg';
+      const unit = comp.nutrient?.unit || 'g/kg';
       if (!groups[unit]) groups[unit] = [];
       groups[unit].push(comp);
     });
@@ -142,7 +142,7 @@ const NutrientCategoryWidget = ({
             {unitData.length > 3 ? (
               <NutrientBarChart 
                 data={unitData.map(comp => ({
-                  name: comp.nutrient.name,
+                  name: comp.nutrient?.name || 'N/A',
                   value: comp.value,
                 }))} 
                 unit={unit}
@@ -151,9 +151,9 @@ const NutrientCategoryWidget = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 {unitData.map((comp) => (
                   <div key={comp.nutrientId} className="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
-                    <div className="text-sm text-gray-400">{comp.nutrient.name}</div>
+                    <div className="text-sm text-gray-400">{comp.nutrient?.name}</div>
                     <div className="text-xl font-bold text-white">
-                      {comp.value} {comp.nutrient.unit || 'g/kg'}
+                      {comp.value} {comp.nutrient?.unit || 'g/kg'}
                     </div>
                   </div>
                 ))}
@@ -168,13 +168,13 @@ const NutrientCategoryWidget = ({
   );
 };
 
-const TopNutrientsWidget = ({ data }: { data: any[] }) => {
+const TopNutrientsWidget = ({ data }: { data: Composition[] }) => {
   // Calculate relative rankings compared to averages
   const rankedNutrients = useMemo(() => {
     return data
       .filter(comp => comp.nutrient && comp.value > 0)
       .map(comp => {
-        const reference = NUTRIENT_REFERENCE[comp.nutrient.name as keyof typeof NUTRIENT_REFERENCE];
+        const reference = NUTRIENT_REFERENCE[comp.nutrient?.name as keyof typeof NUTRIENT_REFERENCE];
         const diff = reference ? ((comp.value - reference.avg) / reference.avg) * 100 : 0;
         return { ...comp, diff };
       })
@@ -191,9 +191,9 @@ const TopNutrientsWidget = ({ data }: { data: any[] }) => {
       
       <div className="space-y-4">
         {rankedNutrients.map((nutrient, index) => {
-          const reference = NUTRIENT_REFERENCE[nutrient.nutrient.name as keyof typeof NUTRIENT_REFERENCE];
+          const reference = NUTRIENT_REFERENCE[nutrient.nutrient?.name as keyof typeof NUTRIENT_REFERENCE];
           const avgValue = reference ? reference.avg?.toFixed(2) : null;
-          const unit = nutrient.nutrient.unit || 'g/kg';
+          const unit = nutrient.nutrient?.unit || 'g/kg';
           
           return (
             <motion.div
@@ -208,7 +208,7 @@ const TopNutrientsWidget = ({ data }: { data: any[] }) => {
                   <span className="text-indigo-400 font-bold">{index + 1}</span>
                 </div>
                 <div>
-                  <div className="font-medium text-white">{nutrient.nutrient.name}</div>
+                  <div className="font-medium text-white">{nutrient.nutrient?.name}</div>
                   <div className="text-sm text-gray-400">
                     {nutrient.value} {unit} vs avg {avgValue} {unit}
                   </div>
@@ -233,21 +233,21 @@ const TopNutrientsWidget = ({ data }: { data: any[] }) => {
 };
 
 // Helper function to calculate nutrient rankings
-const calculateNutrientRankings = (ingredient: any) => {
+const calculateNutrientRankings = (ingredient: Ingredient): NutrientRankings => {
   const allIngredients = getIngredients();
   const rankings: { [key: string]: number } = {};
-  
+
   // Get list of all nutrient IDs in the current ingredient
   const nutrientIds = ingredient.compositions
-    .filter((comp: any) => comp.nutrient)
-    .map((comp: any) => comp.nutrientId.toString());
+    .filter(comp => comp.nutrient)
+    .map(comp => comp.nutrientId.toString());
 
   // Calculate ranking for each nutrient
   nutrientIds.forEach((nutrientId: string) => {
     // Get all values for this nutrient across all ingredients
     const values = allIngredients
       .map(ing => {
-        const comp = ing.compositions.find((c: any) => c.nutrientId.toString() === nutrientId);
+        const comp = ing.compositions.find(c => c.nutrientId.toString() === nutrientId);
         return comp ? comp.value : 0;
       })
       .filter((val: number) => val > 0)
@@ -255,14 +255,14 @@ const calculateNutrientRankings = (ingredient: any) => {
 
     // Find current ingredient's value
     const currentValue = ingredient.compositions.find(
-      (c: any) => c.nutrientId.toString() === nutrientId
+      c => c.nutrientId.toString() === nutrientId
     )?.value || 0;
 
     // Calculate rank (1-based index)
     const rankIndex = values.findIndex((val: number) => val === currentValue);
     if (rankIndex !== -1) {
       const nutrientName = ingredient.compositions.find(
-        (c: any) => c.nutrientId.toString() === nutrientId
+        c => c.nutrientId.toString() === nutrientId
       )?.nutrient?.name || '';
       rankings[nutrientName] = rankIndex + 1;
     }
@@ -273,25 +273,27 @@ const calculateNutrientRankings = (ingredient: any) => {
 
 export function IngredientDetails({ id }: { id: string }) {
   const ingredient = getIngredientById(id);
+  
+  // Compute all derived data unconditionally
   const nutrientRankings = useMemo(() => 
     ingredient ? calculateNutrientRankings(ingredient) : {}
   , [ingredient]);
 
-  if (!ingredient) return notFound();
+  const compositions = ingredient?.compositions || [];
 
-  // Get top 4 ranked nutrients
   const topRankedNutrients = useMemo(() => {
+    if (!ingredient) return [];
     return Object.entries(nutrientRankings)
       .map(([nutrientName, rank]) => {
         const comp = ingredient.compositions.find(
-          (c: any) => c.nutrient?.name === nutrientName
+          c => c.nutrient?.name === nutrientName
         );
         if (!comp) return null;
-        
+
         const reference = NUTRIENT_REFERENCE[nutrientName as keyof typeof NUTRIENT_REFERENCE];
         const avg = reference?.avg || 0;
         const diff = avg ? ((comp.value - avg) / avg * 100) : 0;
-        
+
         return {
           name: nutrientName,
           rank,
@@ -301,14 +303,13 @@ export function IngredientDetails({ id }: { id: string }) {
           avg
         };
       })
-      .filter((item): item is NonNullable<typeof item> => item !== null)
+      .filter((item): item is TopRankedNutrient => item !== null)
       .sort((a, b) => a.rank - b.rank)
       .slice(0, 4);
   }, [ingredient, nutrientRankings]);
 
-  // Group compositions by table
   const groupedCompositions = useMemo(() => {
-    return ingredient.compositions.reduce((acc: Record<string, any[]>, comp) => {
+    return compositions.reduce((acc: Record<string, Composition[]>, comp) => {
       if (comp.nutrient) {
         if (comp.table && !acc[comp.table]) {
           acc[comp.table] = [];
@@ -318,22 +319,22 @@ export function IngredientDetails({ id }: { id: string }) {
       }
       return acc;
     }, {});
-  }, [ingredient.compositions]);
+  }, [compositions]);
 
   // Find key nutrients for pie chart
-  const protein = ingredient.compositions.find(c => 
+  const protein = compositions.find(c =>
     c.nutrient?.name === 'Crude protein'
   )?.value || 0;
-  
-  const fat = ingredient.compositions.find(c => 
+
+  const fat = compositions.find(c =>
     c.nutrient?.name === 'Crude fat'
   )?.value || 0;
-  
-  const fiber = ingredient.compositions.find(c => 
+
+  const fiber = compositions.find(c =>
     c.nutrient?.name === 'Crude fibre'
   )?.value || 0;
-  
-  const ash = ingredient.compositions.find(c => 
+
+  const ash = compositions.find(c =>
     c.nutrient?.name === 'Ash'
   )?.value || 0;
 
@@ -343,6 +344,9 @@ export function IngredientDetails({ id }: { id: string }) {
     { name: 'Fiber', value: fiber },
     { name: 'Ash', value: ash },
   ];
+
+  // Return notFound after all hooks
+  if (!ingredient) return notFound();
 
   return (
     <motion.div

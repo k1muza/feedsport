@@ -1,12 +1,20 @@
 import { Calculator, History, Wand, ZoomIn } from "lucide-react";
 
+interface FeedRatiosHeaderProps {
+  onShowHistory: () => void;
+  onOptimize: () => void;
+  onAnalyze: () => void;
+  optimizing: boolean;
+  analysing: boolean;
+}
+
 export const FeedRatiosHeader = ({
   onShowHistory,
   onOptimize,
   onAnalyze,
   optimizing,
   analysing
-}: any) => (
+}: FeedRatiosHeaderProps) => (
   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
     <div className="flex items-center space-x-3">
       <Calculator className="w-6 h-6 text-indigo-400" />

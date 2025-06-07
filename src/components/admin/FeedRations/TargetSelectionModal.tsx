@@ -1,5 +1,14 @@
 // TargetSelectionModal.jsx
+import { Nutrient, TargetNutrient } from "@/types";
 import { Search, X } from "lucide-react";
+
+interface TargetSelectionModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  allNutrients: Nutrient[];
+  targets: TargetNutrient[];
+  addTargets: (targets: TargetNutrient[]) => void;
+}
 
 export const TargetSelectionModal = ({
   isOpen,
@@ -7,7 +16,7 @@ export const TargetSelectionModal = ({
   allNutrients,
   targets,
   addTargets
-}: any) => {
+}: TargetSelectionModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -39,15 +48,15 @@ export const TargetSelectionModal = ({
 
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
           {allNutrients
-            .filter((n: any) => !targets.some((t: any) => t.id === n.id))
-            .map((nutrient: any) => (
+            .filter(n => !targets.some(t => t.id === n.id))
+            .map(nutrient => (
               <div
                 key={nutrient.id}
                 className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-700/30 cursor-pointer"
                 onClick={() => addTargets([{ 
                   id: nutrient.id, 
                   name: nutrient.name, 
-                  value: 0, 
+                  target: 0, 
                   unit: nutrient.unit, 
                   description: nutrient.description || '' 
                 }])}

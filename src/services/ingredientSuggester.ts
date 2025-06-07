@@ -21,7 +21,7 @@ export class IngredientSuggestionService {
           return comp?.value ?? 0;
         })
       );
-      return maxSupply < target.value;
+      return maxSupply < target.target;
     });
   }
 
@@ -54,7 +54,7 @@ export class IngredientSuggestionService {
         // No ingredient has any of this nutrient at all
         suggestions.push({
           nutrient: getNutrientById(target.id),
-          target: target.value,
+          target: target.target,
         });
       } else {
         candidates.forEach(({ ing, value }) => {

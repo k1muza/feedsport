@@ -1,30 +1,45 @@
-import { useState } from "react";
+import {
+  Ingredient,
+  IngredientSuggestion,
+  NutrientSuggestion
+} from "@/types";
 import { Lightbulb, PlusCircle } from "lucide-react";
-import { Ingredient } from "@/types";
+import { useState } from "react";
+
+// New type for enriched ingredient with composition data
+type EnrichedIngredient = Ingredient & {
+  compositionValue: number;
+  compositionUnit?: string;
+};
+
+interface SuggestedIngredientsProps {
+  suggestions: (NutrientSuggestion | IngredientSuggestion)[];
+  allIngredients: Ingredient[];
+  ingredients: Ingredient[];
+  addIngredient: (ingredient: Ingredient) => void;
+}
 
 export const SuggestedIngredients = ({
   suggestions,
   allIngredients,
-  ingredients, // Current ingredients in panel
+  ingredients,
   addIngredient
-}: any) => {
+}: SuggestedIngredientsProps) => {
   const [expandedNutrient, setExpandedNutrient] = useState<string | null>(null);
   
   // Find ingredients rich in a specific nutrient
-  const findNutrientSources = (nutrientName: string) => {
+  const findNutrientSources = (nutrientName: string): EnrichedIngredient[] => {
     return allIngredients
-      .filter((ingredient: Ingredient) => {
-        // Filter out ingredients already in panel
-        const isAlreadyAdded = ingredients.some((i: any) => i.id === ingredient.id);
+      .filter((ingredient) => {
+        const isAlreadyAdded = ingredients.some(i => i.id === ingredient.id);
         return !isAlreadyAdded && 
           ingredient.compositions.some(c => 
             c.nutrient?.name === nutrientName && c.value > 0.1
           );
       })
-      .map((ingredient: Ingredient) => {
-        // Find composition value for this nutrient
+      .map((ingredient) => {
         const composition = ingredient.compositions.find(
-          (c: any) => c.nutrient?.name === nutrientName
+          c => c.nutrient?.name === nutrientName
         );
         return {
           ...ingredient,
@@ -32,9 +47,7 @@ export const SuggestedIngredients = ({
           compositionUnit: composition?.nutrient?.unit,
         };
       })
-      // Sort by composition value descending
-      .sort((a: any, b: any) => b.compositionValue - a.compositionValue)
-      // Limit to top 6 per nutrient
+      .sort((a, b) => b.compositionValue - a.compositionValue)
       .slice(0, 6);
   };
 
@@ -46,51 +59,59 @@ export const SuggestedIngredients = ({
       </div>
 
       <div className="space-y-4">
-        {suggestions.map((suggestion: any, index: number) => (
+        {suggestions.map((suggestion, index) => (
           <div key={index} className="bg-gray-800 rounded-lg p-4 border border-gray-700">
             <div className="flex justify-between items-start">
               <div>
-                <h4 className="font-medium text-gray-100">
-                  {suggestion.nutrient 
-                    ? `More ${suggestion.nutrient.name} needed` 
-                    : `Add ${suggestion.ingredient?.name}`}
-                </h4>
-                {suggestion.nutrient && (
-                  <p className="text-sm text-gray-400">
-                    Current: {suggestion.current.toFixed(2)}{suggestion.nutrient.unit} · 
-                    Target: {suggestion.target.toFixed(2)}{suggestion.nutrient.unit}
-                  </p>
+                {'nutrient' in suggestion ? (
+                  <>
+                    <h4 className="font-medium text-gray-100">
+                      More {suggestion.nutrient?.name} needed
+                    </h4>
+                    <p className="text-sm text-gray-400">
+                      Current: {suggestion.current?.toFixed(2)}{suggestion.nutrient?.unit} · 
+                      Target: {suggestion.target?.toFixed(2)}{suggestion.nutrient?.unit}
+                    </p>
+                  </>
+                ) : (
+                  suggestion.ingredient && (
+                    <h4 className="font-medium text-gray-100">
+                      Add {suggestion.ingredient.name}
+                    </h4>
+                  )
                 )}
               </div>
               
-              {suggestion.nutrient ? (
+              {'nutrient' in suggestion ? (
                 <button
                   onClick={() => setExpandedNutrient(
-                    expandedNutrient === suggestion.nutrient.name 
+                    expandedNutrient === suggestion.nutrient?.name 
                       ? null 
-                      : suggestion.nutrient.name
+                      : suggestion.nutrient?.name ?? ''
                   )}
                   className="flex items-center gap-1 px-3 py-1 bg-green-600 hover:bg-green-700 rounded-md text-sm font-medium transition-colors"
                 >
                   <PlusCircle className="h-4 w-4" />
-                  {expandedNutrient === suggestion.nutrient.name ? 'Hide Sources' : 'Find Sources'}
+                  {expandedNutrient === suggestion.nutrient?.name ? 'Hide Sources' : 'Find Sources'}
                 </button>
               ) : (
-                <button
-                  onClick={() => suggestion.ingredient && addIngredient(suggestion.ingredient)}
-                  className="flex items-center gap-1 px-3 py-1 bg-green-600 hover:bg-green-700 rounded-md text-sm font-medium transition-colors"
-                >
-                  <PlusCircle className="h-4 w-4" />
-                  Add
-                </button>
+                suggestion.ingredient && (
+                  <button
+                    onClick={() => addIngredient(suggestion.ingredient!)}
+                    className="flex items-center gap-1 px-3 py-1 bg-green-600 hover:bg-green-700 rounded-md text-sm font-medium transition-colors"
+                  >
+                    <PlusCircle className="h-4 w-4" />
+                    Add
+                  </button>
+                )
               )}
             </div>
             
-            {suggestion.nutrient && expandedNutrient === suggestion.nutrient.name && (
+            {'nutrient' in suggestion && expandedNutrient === suggestion.nutrient?.name && (
               <div className="mt-4">
                 <p className="text-sm text-gray-300 mb-2">High sources of {suggestion.nutrient.name}:</p>
                 <div className="space-y-2">
-                  {findNutrientSources(suggestion.nutrient.name).map((ingredient: any) => (
+                  {findNutrientSources(suggestion.nutrient.name).map((ingredient) => (
                     <div key={ingredient.id} className="flex justify-between items-center bg-gray-700/50 rounded p-2">
                       <div>
                         <span className="text-sm">{ingredient.name}</span>

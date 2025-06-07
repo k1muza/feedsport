@@ -15,7 +15,10 @@ export function getAnimals(): Animal[] {
               requirements: stage.requirements.map(requirement => {
                 return {
                   ...requirement,
-                  nutrient: getNutrients().find(nutrient => nutrient.id === requirement.nutrientId)
+                  nutrient: getNutrients().find(nutrient => nutrient.id === requirement.nutrientId),
+                  min: requirement.min?.valueOf() ?? 0, // use optional chaining to handle undefined min
+                  max: requirement.max?.valueOf() ?? 0, // use optional chaining to handle undefined max
+                  value: requirement.value?.valueOf() ?? 0
                 }
               })
             }

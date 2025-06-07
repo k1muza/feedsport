@@ -1,6 +1,16 @@
-import { Ingredient } from "@/types";
+import { Ingredient, TargetNutrient } from "@/types";
 import { Search, X } from "lucide-react";
 import { useEffect, useState } from "react";
+
+interface IngredientSelectionModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  allIngredients: Ingredient[];
+  ingredients: Ingredient[];
+  targets: TargetNutrient[];
+  visibleColumns: string[];
+  addIngredient: (ingredient: Ingredient) => void;
+}
 
 export const IngredientSelectionModal = ({
   isOpen,
@@ -10,24 +20,29 @@ export const IngredientSelectionModal = ({
   targets,
   visibleColumns,
   addIngredient
-}: any) => {
-  if (!isOpen) return null;
+}: IngredientSelectionModalProps) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredIngredients, setFilteredIngredients] = useState(allIngredients);
+  const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>([]);
 
   useEffect(() => {
-    if(searchTerm) {
-      setFilteredIngredients(
-        allIngredients.filter((ing: Ingredient) => ing.name.toLowerCase().includes(searchTerm.toLowerCase()))
-      );
-    } else {
-      setFilteredIngredients(allIngredients);
+    if (isOpen) {
+      if (searchTerm) {
+        setFilteredIngredients(
+          allIngredients.filter((ing: Ingredient) => 
+            ing.name.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        );
+      } else {
+        setFilteredIngredients(allIngredients);
+      }
     }
-  }, [searchTerm]);
+  }, [searchTerm, allIngredients, isOpen]);
 
-  const handleSearch = (e: any) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -55,7 +70,7 @@ export const IngredientSelectionModal = ({
             <div className="col-span-4 flex items-center space-x-3">
               <span className="text-sm font-medium text-gray-400">Ingredient</span>
             </div>
-            {targets.filter((t: any) => visibleColumns.includes(t.id)).map((target: any) => (
+            {targets.filter(t => visibleColumns.includes(t.id)).map(target => (
               <div
                 key={target.id}
                 className="col-span-2 flex items-center justify-end space-x-1 cursor-pointer hover:bg-gray-700/30 p-1 rounded"
@@ -71,8 +86,8 @@ export const IngredientSelectionModal = ({
         <div className="overflow-y-auto flex-1 p-1">
           <div className="space-y-1">
             {filteredIngredients
-              .filter((ing: any) => !ingredients.some((i: any) => i.id === ing.id))
-              .map((ingredient: any) => (
+              .filter(ing => !ingredients.some(i => i.id === ing.id))
+              .map(ingredient => (
                 <div
                   key={ingredient.id}
                   className="grid grid-cols-12 gap-4 items-center p-3 rounded-lg hover:bg-gray-700/30 cursor-pointer"
@@ -83,9 +98,9 @@ export const IngredientSelectionModal = ({
                       {ingredient.name}
                     </span>
                   </div>
-                  {targets.filter((t: any) => visibleColumns.includes(t.id)).map((target: any) => {
-                    const value = ingredient.compositions.find((c: any) => c.nutrient?.id === target.id)?.value || 0;
-                    const unit = ingredient.compositions.find((c: any) => c.nutrient?.id === target.id)?.nutrient?.unit || '';
+                  {targets.filter(t => visibleColumns.includes(t.id)).map(target => {
+                    const value = ingredient.compositions.find(c => c.nutrient?.id === target.id)?.value || 0;
+                    const unit = ingredient.compositions.find(c => c.nutrient?.id === target.id)?.nutrient?.unit || '';
                     return (
                       <div
                         key={target.id}

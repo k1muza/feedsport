@@ -1,4 +1,18 @@
+import { RatioIngredient, TargetNutrient } from "@/types";
 import { AlertTriangle, Plus, Save, Settings, X } from "lucide-react";
+
+interface IngredientsPanelProps {
+  ingredients: RatioIngredient[];
+  targets: TargetNutrient[];
+  visibleColumns: string[];
+  totalPercentage: number;
+  totalRatio: number;
+  handleRatioChange: (id: string, val: string) => void;
+  removeIngredient: (id: string) => void;
+  onOpenSaveModal: () => void;
+  onOpenColumnConfig: () => void;
+  onOpenIngredientModal: () => void;
+}
 
 export const IngredientsPanel = ({
   ingredients,
@@ -8,11 +22,10 @@ export const IngredientsPanel = ({
   totalRatio,
   handleRatioChange,
   removeIngredient,
-  computedValues,
   onOpenSaveModal,
   onOpenColumnConfig,
   onOpenIngredientModal
-}: any) => (
+}: IngredientsPanelProps) => (
   <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-4">
     <div className="flex justify-between items-center mb-4">
       <h3 className="text-lg font-medium">Ingredient Composition</h3>
@@ -56,8 +69,8 @@ export const IngredientsPanel = ({
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Ratio</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">%</th>
               {targets
-                .filter((t: any) => visibleColumns.includes(t.id))
-                .map((t: any) => (
+                .filter(t => visibleColumns.includes(t.id))
+                .map(t => (
                   <th key={t.id} className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                     {t.name}
                   </th>
@@ -66,7 +79,7 @@ export const IngredientsPanel = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
-            {ingredients.map((ingredient: any) => {
+            {ingredients.map(ingredient => {
               const pct = totalRatio ? (ingredient.ratio / totalRatio) * 100 : 0;
               return (
                 <tr key={ingredient.id} className="hover:bg-gray-700/50">
@@ -82,9 +95,9 @@ export const IngredientsPanel = ({
                   </td>
                   <td className="px-4 py-3 text-gray-200">{pct.toFixed(1)}%</td>
                   {targets
-                    .filter((t: any) => visibleColumns.includes(t.id))
-                    .map((target: any) => {
-                      const comp = ingredient.compositions.find((c: any) => c.nutrient?.name === target.name)?.value || 0;
+                    .filter(t => visibleColumns.includes(t.id))
+                    .map(target => {
+                      const comp = ingredient.compositions.find(c => c.nutrient?.name === target.name)?.value || 0;
                       return (
                         <td key={`${ingredient.id}-${target.id}`} className="px-4 py-3 text-gray-400">
                           {((comp * pct) / 100).toFixed(2)} {target.unit}
