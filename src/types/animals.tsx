@@ -10,7 +10,7 @@ export type AnimalNutrientRequirement = {
   nutrientId: string;
   value: number;
   min: number;
-  max: number;
+  max?: number;
   nutrient?: Nutrient;
 }
 

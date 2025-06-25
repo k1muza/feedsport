@@ -58,6 +58,8 @@ export interface TargetNutrient extends Nutrient {
   actual?: number;
   over?: number;
   under?: number;
+  underPenaltyFactor?: number;
+  overPenaltyFactor?: number;
 }
 
 export type Composition = {
@@ -96,6 +98,8 @@ export type Product = {
 export interface RatioIngredient extends Ingredient {
   ratio: number;
   costPerKg?: number;
+  min?: number; // Add min constraint
+  max?: number; // Add max constraint
 }
 
 export interface IngredientSuggestion {

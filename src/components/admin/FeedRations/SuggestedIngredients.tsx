@@ -52,7 +52,7 @@ export const SuggestedIngredients = ({
   };
 
   return (
-    <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+    <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-4">
       <div className="flex items-center gap-2 mb-4">
         <Lightbulb className="h-5 w-5 text-yellow-400" />
         <h3 className="text-lg font-medium">Nutrient Suggestions</h3>
@@ -97,7 +97,10 @@ export const SuggestedIngredients = ({
               ) : (
                 suggestion.ingredient && (
                   <button
-                    onClick={() => addIngredient(suggestion.ingredient!)}
+                    onClick={() => {
+                      setExpandedNutrient(null);
+                      addIngredient(suggestion.ingredient!)
+                    }}
                     className="flex items-center gap-1 px-3 py-1 bg-green-600 hover:bg-green-700 rounded-md text-sm font-medium transition-colors"
                   >
                     <PlusCircle className="h-4 w-4" />

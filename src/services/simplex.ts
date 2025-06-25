@@ -21,8 +21,6 @@ const FLOATING_POINT_TOLERANCE = 1e-6; // Tolerance for floating point compariso
  * They will be internally converted to fractions (0-1) for GLPK.js calculations.
  */
 export class RatioOptimizer {
-  private underPenaltyFactor: number;
-  private overPenaltyFactor: number;
 
   /**
    * Constructs a RatioOptimizer instance.
@@ -31,14 +29,8 @@ export class RatioOptimizer {
    */
   constructor(
     private glpk: GLPK,
-    config?: {
-      underPenaltyFactor?: number;
-      overPenaltyFactor?: number;
-    }
   ) {
     this.glpk = glpk;
-    this.underPenaltyFactor = config?.underPenaltyFactor ?? DEFAULT_UNDER_PENALTY_FACTOR;
-    this.overPenaltyFactor = config?.overPenaltyFactor ?? DEFAULT_OVER_PENALTY_FACTOR;
   }
 
   /**
@@ -46,14 +38,9 @@ export class RatioOptimizer {
    * This is necessary because glpk.js needs to be initialized asynchronously.
    * @returns A Promise that resolves to a RatioOptimizer instance.
    */
-  public static async getInstance(
-    config?: {
-      underPenaltyFactor?: number;
-      overPenaltyFactor?: number;
-    }
-  ): Promise<RatioOptimizer> {
+  public static async getInstance(): Promise<RatioOptimizer> {
     const GLPKModule = await import('glpk.js');
-    return new RatioOptimizer(await GLPKModule.default(), config);
+    return new RatioOptimizer(await GLPKModule.default());
   }
 
   /**
@@ -81,16 +68,21 @@ export class RatioOptimizer {
       // Coefficients are costs per kg (minimized in objective)
       const ingredientVars = ingredients.map(ing => ({
         name: `x${ing.id.replace(/-/g, '')}`, // Sanitize ID for GLPK variable name
-        coef: ing.costPerKg || 0, // Minimize total cost. Default to 0 if no cost specified.
+        coef: 3 * (ing.costPerKg || 0), // Minimize total cost. Default to 0 if no cost specified.
       }));
 
       // 2. Create deviation variables (d_pos_j, d_neg_j) for each target nutrient
       // These are penalized in the objective function.
       const deviationVars = targets.flatMap(target => {
-        const safeName = target.name.replace(/\s+/g, '_'); // Sanitize nutrient name
+        const safeName = target.name.replace(/\s+/g, '_');
+
+        // Use nutrient-specific penalties or defaults
+        const underPenaltyFactor = target.underPenaltyFactor ?? DEFAULT_UNDER_PENALTY_FACTOR;
+        const overPenaltyFactor = target.overPenaltyFactor ?? DEFAULT_OVER_PENALTY_FACTOR;
+
         return [
-          { name: `d_pos_${safeName}`, coef: this.overPenaltyFactor }, // Penalty for going over target
-          { name: `d_neg_${safeName}`, coef: this.underPenaltyFactor }, // Penalty for going under target
+          { name: `d_pos_${safeName}`, coef: overPenaltyFactor },
+          { name: `d_neg_${safeName}`, coef: underPenaltyFactor },
         ];
       });
 
@@ -120,8 +112,8 @@ export class RatioOptimizer {
           constraintType = GLP_DB;
         } else if (target.target !== undefined) {
           lowerBound = target.target / 100;
-          upperBound = Infinity; // Effectively a lower-bounded constraint
-          constraintType = GLP_LO;
+          upperBound = target.target / 100; // Effectively a lower-bounded constraint
+          constraintType = GLP_FX;
         } else if (target.max !== undefined) {
           lowerBound = 0; // Effectively an upper-bounded constraint
           upperBound = target.max / 100;
@@ -165,9 +157,9 @@ export class RatioOptimizer {
         // Ingredient ratios must be between 0 and 1 (0% to 100%)
         ...ingredients.map(ing => ({
           name: `x${ing.id.replace(/-/g, '')}`,
-          type: GLP_LO, // Lower-bounded (0 to Infinity)
-          lb: 0,
-          ub: 1, // Upper bound at 1 (100%)
+          type: GLP_DB, // Double-bounded variable
+          lb: ing.min ? ing.min / 100 : 0, // Convert percentage to fraction
+          ub: ing.max ? ing.max / 100 : 1 // Convert percentage to fraction
         })),
         // Deviation variables must be non-negative
         ...targets.flatMap(target => {

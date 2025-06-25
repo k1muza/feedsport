@@ -17,7 +17,7 @@ export function getAnimals(): Animal[] {
                   ...requirement,
                   nutrient: getNutrients().find(nutrient => nutrient.id === requirement.nutrientId),
                   min: requirement.min?.valueOf() ?? 0, // use optional chaining to handle undefined min
-                  max: requirement.max?.valueOf() ?? 0, // use optional chaining to handle undefined max
+                  max: requirement.max?.valueOf(),
                   value: requirement.value?.valueOf() ?? 0
                 }
               })

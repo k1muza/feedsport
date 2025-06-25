@@ -12,6 +12,9 @@ interface IngredientsPanelProps {
   onOpenSaveModal: () => void;
   onOpenColumnConfig: () => void;
   onOpenIngredientModal: () => void;
+  handleCostChange: (id: string, val: string) => void;
+  handleMinChange: (id: string, val: string) => void;
+  handleMaxChange: (id: string, val: string) => void;
 }
 
 export const IngredientsPanel = ({
@@ -21,6 +24,9 @@ export const IngredientsPanel = ({
   totalPercentage,
   totalRatio,
   handleRatioChange,
+  handleCostChange,
+  handleMinChange,
+  handleMaxChange,
   removeIngredient,
   onOpenSaveModal,
   onOpenColumnConfig,
@@ -67,7 +73,10 @@ export const IngredientsPanel = ({
             <tr>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Ingredient</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Ratio</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Cost ($/kg)</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">%</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Min (%)</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Max (%)</th>
               {targets
                 .filter(t => visibleColumns.includes(t.id))
                 .map(t => (
@@ -88,12 +97,46 @@ export const IngredientsPanel = ({
                     <input
                       type="number"
                       min={0}
+                      step={0.0001}
                       value={ingredient.ratio}
                       onChange={e => handleRatioChange(ingredient.id, e.target.value)}
                       className="w-20 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-gray-200"
                     />
                   </td>
+                  <td className="px-4 py-3">
+                    <input
+                      type="number"
+                      min={0}
+                      step={0.01}
+                      value={ingredient.costPerKg ?? ''}
+                      onChange={e => handleCostChange(ingredient.id, e.target.value)}
+                      className="w-24 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-gray-200"
+                    />
+                  </td>
                   <td className="px-4 py-3 text-gray-200">{pct.toFixed(1)}%</td>
+                  <td className="px-4 py-3">
+                    <input
+                      type="number"
+                      min={0}
+                      max={100}
+                      value={ingredient.min ?? ''}
+                      onChange={e => handleMinChange(ingredient.id, e.target.value)}
+                      className="w-16 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
+                      placeholder="Min"
+                    />
+                  </td>
+
+                  <td className="px-4 py-3">
+                    <input
+                      type="number"
+                      min={0}
+                      max={100}
+                      value={ingredient.max ?? ''}
+                      onChange={e => handleMaxChange(ingredient.id, e.target.value)}
+                      className="w-16 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
+                      placeholder="Max"
+                    />
+                  </td>
                   {targets
                     .filter(t => visibleColumns.includes(t.id))
                     .map(target => {

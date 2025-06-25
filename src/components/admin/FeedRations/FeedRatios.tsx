@@ -17,6 +17,7 @@ import { SaveFormulationModal } from "./SaveFormulationModal";
 import { SuggestedIngredients } from "./SuggestedIngredients";
 import { TargetSelectionModal } from "./TargetSelectionModal";
 import { TargetsPanel } from "./TargetsPanel";
+import { ContributionChart } from "./ContributionChart";
 
 export type PanelView = 'targets' | 'results';
 
@@ -27,7 +28,6 @@ export const FeedRatios = () => {
   const [ingredients, setIngredients] = useState<RatioIngredient[]>([]);
   const [showIngredientModal, setShowIngredientModal] = useState(false);
   const [showTargetModal, setShowTargetModal] = useState(false);
-  const [showLeftPanel, setShowLeftPanel] = useState<PanelView>('targets');
   const [optimizing, setOptimizing] = useState(false);
   const [analysing, setAnalysing] = useState(false);
   const [suggestedIngredients, setSuggestedIngredients] = useState<IngredientSuggestion[]>([]);
@@ -84,6 +84,25 @@ export const FeedRatios = () => {
     setIngredients(curr => curr.map(i => (i.id === id ? { ...i, ratio: n } : i)));
   }, []);
 
+  const handleCostChange = useCallback((id: string, val: string) => {
+    const n = Math.max(0, parseFloat(val) || 0);
+    setIngredients(curr => curr.map(i => (i.id === id ? { ...i, costPerKg: n } : i)));
+  }, []);
+
+  const handleMinChange = (id: string, val: string) => {
+    const n = val === '' ? undefined : Math.max(0, parseFloat(val));
+    setIngredients(curr =>
+      curr.map(i => i.id === id ? { ...i, min: n } : i)
+    );
+  };
+
+  const handleMaxChange = (id: string, val: string) => {
+    const n = val === '' ? undefined : Math.max(0, parseFloat(val));
+    setIngredients(curr =>
+      curr.map(i => i.id === id ? { ...i, max: n } : i)
+    );
+  };
+
   const totalRatio = useMemo(() => ingredients.reduce((sum, i) => sum + i.ratio, 0), [ingredients]);
   const totalPercentage = useMemo(() => ingredients.reduce((sum, i) => sum + (i.ratio / totalRatio * 100), 0), [ingredients, totalRatio]);
 
@@ -114,7 +133,11 @@ export const FeedRatios = () => {
     setTargets(curr => curr.filter(t => t.id !== id));
   }, []);
 
-  const updateTarget = useCallback((id: string, field: 'max' | 'target', v: number) => {
+  const updateTarget = useCallback((
+    id: string,
+    field: 'max' | 'target' | 'underPenaltyFactor' | 'overPenaltyFactor',
+    v: number
+  ) => {
     setTargets(curr => curr.map(t =>
       t.id === id ? { ...t, [field]: v } : t
     ));
@@ -225,7 +248,7 @@ export const FeedRatios = () => {
   const handleAnimalSelection = (animal: Animal | null, program: AnimalProgram | null, stage: AnimalProgramStage | null) => {
     if (animal && program && stage) {
       const newTargets = stage.requirements
-        .filter((req: AnimalNutrientRequirement) => !!req.nutrient && req.nutrient.unit == '%') // Filter out missing nutrients
+        .filter((req: AnimalNutrientRequirement) => !!req.nutrient) // Filter out missing nutrients
         .map((req: AnimalNutrientRequirement) => ({
           id: req.nutrientId,
           name: req.nutrient?.name || '',
@@ -252,14 +275,12 @@ export const FeedRatios = () => {
         <div className="w-full lg:w-96">
           <TargetsPanel
             targets={targets}
-            showLeftPanel={showLeftPanel}
-            setShowLeftPanel={setShowLeftPanel}
             showMetTargets={showMetTargets}
             setShowMetTargets={setShowMetTargets}
             metTargets={metTargets}
             unmetTargets={unmetTargets}
             computedValues={computedValues}
-            updateTarget={(id: string, field: 'max' | 'target', value: number) => updateTarget(id, field, value)}
+            updateTarget={(id: string, field: "max" | "target" | "underPenaltyFactor" | "overPenaltyFactor", value: number) => updateTarget(id, field, value)}
             removeTarget={removeTarget}
             onOpenAnimalModal={() => setShowAnimalModal(true)}
             onOpenTargetModal={() => setShowTargetModal(true)}
@@ -274,6 +295,9 @@ export const FeedRatios = () => {
             totalPercentage={totalPercentage}
             totalRatio={totalRatio}
             handleRatioChange={handleRatioChange}
+            handleCostChange={handleCostChange}
+            handleMinChange={handleMinChange}
+            handleMaxChange={handleMaxChange}
             removeIngredient={removeIngredient}
             onOpenSaveModal={() => setShowSaveModal(true)}
             onOpenColumnConfig={() => setShowColumnConfig(true)}
@@ -288,15 +312,24 @@ export const FeedRatios = () => {
               addIngredient={addIngredient}
             />
           )}
+
+          {ingredients.length > 0 && targets.length > 0 && (
+            <ContributionChart
+              ingredients={ingredients}
+              computedValues={computedValues}
+              totalRatio={totalRatio}
+              targets={targets}
+            />
+          )}
+
+          {ingredients.length > 0 && (
+            <BatchCalculation
+              ingredients={ingredients}
+              totalRatio={totalRatio}
+            />
+          )}
         </div>
       </div>
-
-      {ingredients.length > 0 && (
-        <BatchCalculation
-          ingredients={ingredients}
-          totalRatio={totalRatio}
-        />
-      )}
 
       {/* Modals */}
       <AnimalSelectionModal

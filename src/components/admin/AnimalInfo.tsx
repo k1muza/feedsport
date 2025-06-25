@@ -161,6 +161,14 @@ interface NutritionPanelProps {
   colorClass?: string;
 }
 
+const NutritionPanelValue = ({ nutrient }: { nutrient: AnimalNutrientRequirement }) => {
+  if (nutrient.min > 0) {
+    return `${nutrient.min} - ${nutrient.max} ${nutrient.nutrient?.unit}`;
+  } else {
+    return `${nutrient.value} ${nutrient.nutrient?.unit}`;
+  }
+}
+
 const NutritionPanel = ({
   title,
   requirements,
@@ -172,12 +180,7 @@ const NutritionPanel = ({
       {requirements.map((req: AnimalNutrientRequirement) => (
         <div key={req.nutrientId} className="flex justify-between items-center p-3 hover:bg-gray-700/20 rounded-lg transition-colors">
           <span className="text-gray-300 capitalize">{req.nutrient?.name}</span>
-          {req.min && <span className="font-medium text-gray-100">
-            {req.min} - {req.max} {req.nutrient?.unit}
-          </span>}
-          {req.value && !req.min && <span className="font-medium text-gray-100">
-            {req.value} {req.nutrient?.unit}
-          </span>}
+          <span className="text-gray-300">{NutritionPanelValue({ nutrient: req })}</span>
         </div>
       ))}
     </div>

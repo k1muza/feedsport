@@ -17,7 +17,7 @@ const ProgressBar = ({ value, target, met }: {
   </div>
 );
 
-export const ResultItem = ({
+export const TargetResultItem = ({
   target,
   value
 }: {
@@ -43,7 +43,7 @@ export const ResultItem = ({
   return (
     <div className="p-3 bg-gray-700/30 rounded-lg">
       <div className="flex justify-between items-center mb-1">
-        <span className="text-sm text-gray-300">{target.name}</span>
+        <span className="text-sm text-gray-400">Status</span>
         <span className={`text-xs ${statusColor}`}>{statusText}</span>
       </div>
       <div className="flex items-baseline justify-between">

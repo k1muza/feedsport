@@ -1,20 +1,16 @@
-import { Edit3, Eye, Plus, Rabbit, CheckCircle } from "lucide-react";
-import { TargetItem } from "./TargetInputItem";
-import { ResultItem } from "./TargetResultItem";
 import { TargetNutrient } from "@/types";
-import { PanelView } from "./FeedRatios";
+import { CheckCircle, Plus, Rabbit } from "lucide-react";
 import { useMemo } from "react";
+import { TargetItem } from "./TargetItem";
 
 interface TargetsPanelProps {
   targets: TargetNutrient[];
-  showLeftPanel: PanelView;
-  setShowLeftPanel: (view: PanelView) => void;
   showMetTargets: boolean;
   setShowMetTargets: (show: boolean) => void;
   metTargets: TargetNutrient[];
   unmetTargets: TargetNutrient[];
   computedValues: Record<string, number>;
-  updateTarget: (id: string, field: 'max' | 'target', value: number) => void;
+  updateTarget: (id: string, field: "max" | "target" | "underPenaltyFactor" | "overPenaltyFactor", value: number) => void;
   removeTarget: (id: string) => void;
   onOpenAnimalModal: () => void;
   onOpenTargetModal: () => void;
@@ -22,8 +18,6 @@ interface TargetsPanelProps {
 
 export const TargetsPanel = ({
   targets,
-  showLeftPanel,
-  setShowLeftPanel,
   showMetTargets,
   setShowMetTargets,
   metTargets,
@@ -53,7 +47,7 @@ export const TargetsPanel = ({
           <h3 className="text-lg font-semibold text-gray-100">Nutrient Targets</h3>
 
           {/* Success indicator when all targets are met */}
-          {showLeftPanel === 'results' && allTargetsMet && (
+          {allTargetsMet && (
             <span
               className="flex items-center gap-1 text-sm bg-green-900/50 text-green-400 px-2 py-1 rounded-full"
               title="All nutrient targets are met"
@@ -72,18 +66,6 @@ export const TargetsPanel = ({
             type="button"
           >
             <Rabbit className="w-5 h-5" />
-          </button>
-          <button
-            onClick={() => setShowLeftPanel('targets')}
-            className={`p-2 rounded-md ${showLeftPanel === 'targets' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:bg-gray-700'}`}
-          >
-            <Edit3 className="w-5 h-5" />
-          </button>
-          <button
-            onClick={() => setShowLeftPanel('results')}
-            className={`p-2 rounded-md ${showLeftPanel === 'results' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:bg-gray-700'}`}
-          >
-            <Eye className="w-5 h-5" />
           </button>
           <button
             onClick={onOpenTargetModal}
@@ -117,37 +99,26 @@ export const TargetsPanel = ({
             </span>
           </div>
         </div>
-        {showLeftPanel === 'targets' ? (
-          targets.map((target) => (
-            <TargetItem
-              key={target.id}
-              target={target}
-              onUpdate={(field, value) => updateTarget(target.id, field, value)} // Updated
-              onRemove={() => removeTarget(target.id)}
-            />
-          ))
-        ) : (
-          <>
-            {/* Success message when all targets are met */}
-            {allTargetsMet && (
-              <div className="bg-green-900/20 border border-green-800/50 rounded-lg p-3 flex items-center gap-2 text-green-400">
-                <CheckCircle className="w-5 h-5 flex-shrink-0" />
-                <div>
-                  <p className="font-medium">All nutrient targets met!</p>
-                  <p className="text-xs opacity-80">Your formulation meets all nutritional requirements</p>
-                </div>
-              </div>
-            )}
-
-            {(showMetTargets ? targets : unmetTargets).map((target) => (
-              <ResultItem
-                key={target.id}
-                target={target}
-                value={computedValuesById[target.id] || 0}
-              />
-            ))}
-          </>
+        {/* Success message when all targets are met */}
+        {allTargetsMet && (
+          <div className="bg-green-900/20 border border-green-800/50 rounded-lg p-3 flex items-center gap-2 text-green-400">
+            <CheckCircle className="w-5 h-5 flex-shrink-0" />
+            <div>
+              <p className="font-medium">All nutrient targets met!</p>
+              <p className="text-xs opacity-80">Your formulation meets all nutritional requirements</p>
+            </div>
+          </div>
         )}
+
+        {targets.map((target) => (
+          <TargetItem
+            key={target.id}
+            value={computedValuesById[target.id] || 0}
+            target={target}
+            onUpdate={(field, value) => updateTarget(target.id, field, value)} // Updated
+            onRemove={() => removeTarget(target.id)}
+          />
+        ))}
       </div>
     </div>
   );
