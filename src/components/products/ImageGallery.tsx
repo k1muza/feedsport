@@ -3,8 +3,13 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-export default function ImageGallery({ images, name }: { images: string[], name: string }) {
-    const [selectedImage, setSelectedImage] = useState(0);
+interface ImageGalleryProps {
+    images: string[];
+    name: string;
+}
+
+export default function ImageGallery({ images, name }: ImageGalleryProps) {
+    const [selectedImage, setSelectedImage] = useState<number>(0);
 
     return (
         <div>
