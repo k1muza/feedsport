@@ -186,20 +186,6 @@ export default function NavBar() {
             </div>
           </motion.div>
 
-          {/* CTA */}
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <Link
-              href="https://wa.me/263774684534"
-              target="_blank"
-              className="hidden sm:inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
-            >
-              Get Quote
-            </Link>
-          </motion.div>
-
           {/* Login */}
           <Link
             href="/login"
@@ -257,14 +243,6 @@ export default function NavBar() {
                 onClick={() => setMobileOpen(false)}
               >
                 Login
-              </Link>
-              <Link
-                href="https://wa.me/263774684534"
-                target="_blank"
-                className="block mt-2 px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg text-center shadow-md hover:shadow-lg transition-all"
-                onClick={() => setMobileOpen(false)}
-              >
-                Get Quote
               </Link>
             </div>
           </motion.div>
