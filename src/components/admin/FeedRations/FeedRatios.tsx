@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { getIngredients } from "@/data/ingredients";
 import { getNutrients } from "@/data/nutrients";
-import { IngredientAnalyser } from "@/services/coordinate-decent";
 import { RatioOptimizer } from "@/services/simplex";
 import { Formulation, Ingredient, IngredientSuggestion, RatioIngredient, TargetNutrient } from "@/types";
 import { Animal, AnimalNutrientRequirement, AnimalProgram, AnimalProgramStage } from "@/types/animals";
@@ -29,7 +28,6 @@ export const FeedRatios = () => {
   const [showIngredientModal, setShowIngredientModal] = useState(false);
   const [showTargetModal, setShowTargetModal] = useState(false);
   const [optimizing, setOptimizing] = useState(false);
-  const [analysing, setAnalysing] = useState(false);
   const [suggestedIngredients, setSuggestedIngredients] = useState<IngredientSuggestion[]>([]);
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
   const [showColumnConfig, setShowColumnConfig] = useState(false);
@@ -165,39 +163,6 @@ export const FeedRatios = () => {
     setSavedFormulations(prev => prev.filter(f => f.id !== id));
   };
 
-  // Update analyzeRatios to always update ratios
-  const analyzeRatios = useCallback(async () => {
-    if (ingredients.length === 0) return;
-    setSuggestedIngredients([]);
-    setAnalysing(true);
-
-    try {
-      const result = IngredientAnalyser.analyze(ingredients, targets);
-      // Always update ratios if we have updated ingredients
-      if (result.updatedIngredients) {
-        // Scale ratios to match original total
-        const originalTotal = ingredients.reduce((sum, i) => sum + i.ratio, 0);
-        const updatedTotal = result.updatedIngredients.reduce((sum, i) => sum + i.ratio, 0);
-        const scalingFactor = originalTotal / updatedTotal;
-
-        const scaledIngredients = result.updatedIngredients.map(i => ({
-          ...i,
-          ratio: i.ratio * scalingFactor
-        }));
-
-        setIngredients(scaledIngredients);
-      }
-
-      // Always show suggestions if available
-      if (result.suggestions) {
-        setSuggestedIngredients(result.suggestions);
-      }
-    } finally {
-      setAnalysing(false);
-    }
-  }, [ingredients, targets]);
-
-
   const optimizeRatios = useCallback(async () => {
     if (ingredients.length === 0 || targets.length === 0) return;
     setSuggestedIngredients([]);
@@ -266,9 +231,7 @@ export const FeedRatios = () => {
       <FeedRatiosHeader
         onShowHistory={() => setShowHistory(true)}
         onOptimize={optimizeRatios}
-        onAnalyze={analyzeRatios}
         optimizing={optimizing}
-        analysing={analysing}
       />
 
       <div className="flex flex-col lg:flex-row gap-6 justify-between">
