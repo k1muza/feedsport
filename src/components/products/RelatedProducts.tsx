@@ -1,27 +1,32 @@
+'use client';
+import { useEffect, useState } from 'react';
 import { getProducts } from '../../data/products';
 import ProductCard from './ProductCard';
+import { Product } from '@/types';
 
-async function getRelatedProducts(category: string, excludeId: string) {
-  // In a real app, fetch from API
-
-  return getProducts().filter(
-    product => product.ingredient?.category === category && product.id !== excludeId
-  ).slice(0, 4);
-}
-
-export default async function RelatedProducts({ 
-  currentProductId, 
-  category 
-}: { 
-  currentProductId: string, 
+export default function RelatedProducts({
+  currentProductId,
+  category
+}: {
+  currentProductId: string,
   category: string | undefined
 }) {
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
-  if (!category) return null;
-  
-  const relatedProducts = await getRelatedProducts(category, currentProductId);
+  useEffect(() => {
+    async function load() {
+      if (!category) return;
+      const products = await getProducts();
+      setRelatedProducts(
+        products
+          .filter(p => p.ingredient?.category === category && p.id !== currentProductId)
+          .slice(0, 4)
+      );
+    }
+    load();
+  }, [category, currentProductId]);
 
-  if (relatedProducts.length === 0) return null;
+  if (!category || relatedProducts.length === 0) return null;
 
   return (
     <div>

@@ -1,10 +1,10 @@
 // IngredientDetails.tsx
 'use client';
-import { getIngredientById, getNutrientAverages, getIngredients } from '@/data/ingredients';
+import { getNutrientAverages, getIngredients } from '@/data/ingredients';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, PieChart, Pie, Cell, Legend
@@ -15,7 +15,6 @@ import { Composition, Ingredient, NutrientRankings, TopRankedNutrient } from '@/
 const COLORS = ['#4f46e5', '#818cf8', '#c7d2fe', '#e0e7ff', '#a5b4fc', '#8b5cf6', '#ec4899', '#10b981'];
 
 // Reference nutrient averages for comparison (in % or g/kg)
-const NUTRIENT_REFERENCE = getNutrientAverages();
 
 const NutrientBarChart = ({ data, unit }: { data: { name: string; value: number }[]; unit: string }) => {
   return (
@@ -62,7 +61,7 @@ const NutrientTable = ({ data, nutrientRankings }: { data: Composition[]; nutrie
         </thead>
         <tbody className="divide-y divide-gray-700">
           {data.map((comp, index) => {
-            const reference = NUTRIENT_REFERENCE[comp.nutrient?.name as keyof typeof NUTRIENT_REFERENCE];
+            const reference = nutrientReference[comp.nutrient?.name as keyof typeof nutrientReference];
             const avg = reference?.avg || 0;
             const diff = avg ? ((comp.value - avg) / avg * 100) : null;
             const rank = comp.nutrient?.name ? nutrientRankings[comp.nutrient.name] : 'N/A';
@@ -174,7 +173,7 @@ const TopNutrientsWidget = ({ data }: { data: Composition[] }) => {
     return data
       .filter(comp => comp.nutrient && comp.value > 0)
       .map(comp => {
-        const reference = NUTRIENT_REFERENCE[comp.nutrient?.name as keyof typeof NUTRIENT_REFERENCE];
+        const reference = nutrientReference[comp.nutrient?.name as keyof typeof nutrientReference];
         const diff = reference ? ((comp.value - reference.avg) / reference.avg) * 100 : 0;
         return { ...comp, diff };
       })
@@ -191,7 +190,7 @@ const TopNutrientsWidget = ({ data }: { data: Composition[] }) => {
       
       <div className="space-y-4">
         {rankedNutrients.map((nutrient, index) => {
-          const reference = NUTRIENT_REFERENCE[nutrient.nutrient?.name as keyof typeof NUTRIENT_REFERENCE];
+          const reference = nutrientReference[nutrient.nutrient?.name as keyof typeof nutrientReference];
           const avgValue = reference ? reference.avg?.toFixed(2) : null;
           const unit = nutrient.nutrient?.unit || 'g/kg';
           
@@ -233,8 +232,7 @@ const TopNutrientsWidget = ({ data }: { data: Composition[] }) => {
 };
 
 // Helper function to calculate nutrient rankings
-const calculateNutrientRankings = (ingredient: Ingredient): NutrientRankings => {
-  const allIngredients = getIngredients();
+const calculateNutrientRankings = (ingredient: Ingredient, allIngredients: Ingredient[]): NutrientRankings => {
   const rankings: { [key: string]: number } = {};
 
   // Get list of all nutrient IDs in the current ingredient
@@ -272,12 +270,24 @@ const calculateNutrientRankings = (ingredient: Ingredient): NutrientRankings => 
 };
 
 export function IngredientDetails({ id }: { id: string }) {
-  const ingredient = getIngredientById(id);
-  
-  // Compute all derived data unconditionally
-  const nutrientRankings = useMemo(() => 
-    ingredient ? calculateNutrientRankings(ingredient) : {}
-  , [ingredient]);
+  const [ingredient, setIngredient] = useState<Ingredient | undefined>();
+  const [nutrientReference, setNutrientReference] = useState<Record<string, { avg: number; unit: string; count: number }>>({});
+  const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
+
+  useEffect(() => {
+    async function load() {
+      const ings = await getIngredients();
+      setAllIngredients(ings);
+      setIngredient(ings.find(i => i.id === id));
+      setNutrientReference(await getNutrientAverages());
+    }
+    load();
+  }, [id]);
+
+  const nutrientRankings = useMemo(
+    () => (ingredient ? calculateNutrientRankings(ingredient, allIngredients) : {}),
+    [ingredient, allIngredients]
+  );
 
   const compositions = ingredient?.compositions || [];
 
@@ -290,7 +300,7 @@ export function IngredientDetails({ id }: { id: string }) {
         );
         if (!comp) return null;
 
-        const reference = NUTRIENT_REFERENCE[nutrientName as keyof typeof NUTRIENT_REFERENCE];
+        const reference = nutrientReference[nutrientName as keyof typeof nutrientReference];
         const avg = reference?.avg || 0;
         const diff = avg ? ((comp.value - avg) / avg * 100) : 0;
 

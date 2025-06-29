@@ -1,14 +1,23 @@
+'use client';
+import { useEffect, useState } from 'react';
 import BlogCategories from '@/components/blog/BlogCategories';
 import NewsletterSignup from '@/components/blog/NewsletterSignup';
 import SecondaryHero from '@/components/common/SecondaryHero';
-import { allBlogPosts } from '@/data/blog';
+import { getBlogPosts } from '@/data/blog';
+import { BlogPost } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
 
 export default function BlogPage() {
-  const featuredPost = allBlogPosts.find(post => post.featured);
-  const recentPosts = allBlogPosts.filter(post => !post.featured);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+
+  useEffect(() => {
+    getBlogPosts().then(setPosts);
+  }, []);
+
+  const featuredPost = posts.find(post => post.featured);
+  const recentPosts = posts.filter(post => !post.featured);
 
   return (
     <>
