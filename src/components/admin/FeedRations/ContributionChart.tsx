@@ -108,7 +108,13 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({
   };
 
   // Custom Y-axis tick with wrapping
-  const CustomYAxisTick: React.FC<any> = ({ x, y, payload }) => {
+  interface AxisTickProps {
+    x: number;
+    y: number;
+    payload: { value: string };
+  }
+
+  const CustomYAxisTick: React.FC<AxisTickProps> = ({ x, y, payload }) => {
     const lines = splitLabel(payload.value);
     return (
       <g transform={`translate(${x},${y})`}>
@@ -130,10 +136,22 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({
   };
 
   // Enhanced dark themed tooltip
-  const CustomTooltip: React.FC<any> = ({ active, payload, label }) => {
+  interface TooltipEntry {
+    color: string;
+    dataKey: string;
+    payload: Record<string, string | number>;
+  }
+
+  interface CustomTooltipProps {
+    active?: boolean;
+    payload?: TooltipEntry[];
+    label?: string;
+  }
+
+  const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
     if (!active || !payload?.length || !payload[0]?.payload) return null;
 
-    const rowData = payload[0].payload; // Access the full row data for the current nutrient
+    const rowData = payload[0].payload as Record<string, string | number>; // Access the full row data for the current nutrient
 
     // Use the pre-calculated actual total values from rowData for the summary
     const targetValue = rowData['_targetValue'] || 0;
@@ -158,7 +176,7 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({
         <div className="mt-3 pt-2 border-t border-gray-700">
           <h4 className="text-gray-300 text-sm font-medium mb-1">Ingredients:</h4>
           <ul className="space-y-1">
-            {payload.map((entry: any, idx: number) => {
+            {payload.map((entry: TooltipEntry, idx: number) => {
               const ingredient = ingredients.find(i => i.id === entry.dataKey); // Find ingredient by ID for name
 
               // Access the uncapped absolute and normalized values from rowData
