@@ -1,6 +1,7 @@
 import Dexie, { Table } from 'dexie';
 import { Animal } from '@/types/animals';
 import { Ingredient, Nutrient, Product, BlogPost } from '@/types';
+import { User } from '@/types/user';
 import { NUTRITIONAL_CATEGORIES, NutritionalCategory, SeedNutritionalCategory } from './nutritional_categories';
 import animalsData from './animals.json';
 import ingredientsData from './ingredients.json';
@@ -24,6 +25,7 @@ class AppDB extends Dexie {
   products!: Table<Product, string>;
   blogPosts!: Table<BlogPost, string>;
   categories!: Table<NutritionalCategory, string>;
+  users!: Table<User, string>;
 
   constructor() {
     super('FeedSportDB');
@@ -33,7 +35,8 @@ class AppDB extends Dexie {
       nutrients: 'id',
       products: 'id, ingredientId',
       blogPosts: 'id, slug',
-      categories: 'id'
+      categories: 'id',
+      users: 'id, email'
     });
   }
 }
@@ -41,7 +44,7 @@ class AppDB extends Dexie {
 export const db = new AppDB();
 
 export async function seedDatabase() {
-  await db.transaction('rw', [db.animals, db.ingredients, db.nutrients, db.products, db.blogPosts, db.categories], async () => {
+  await db.transaction('rw', [db.animals, db.ingredients, db.nutrients, db.products, db.blogPosts, db.categories, db.users], async () => {
     if ((await db.animals.count()) === 0) {
       await db.animals.bulkAdd(addTimestamps(animalsData as Animal[]));
     }

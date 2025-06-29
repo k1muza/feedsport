@@ -1,6 +1,8 @@
 
 import "@/app/globals.css";
 import { AnimalProvider } from "@/context/AnimalContext";
+import { AuthProvider } from "@/context/AuthContext";
+import AuthGuard from "@/components/AuthGuard";
 import type { ReactNode } from 'react';
 
 export default function AdminLayout({
@@ -9,8 +11,12 @@ export default function AdminLayout({
   children: ReactNode;
 }>) {
   return (
-      <AnimalProvider>
-        {children}
-      </AnimalProvider>
+      <AuthProvider>
+        <AuthGuard>
+          <AnimalProvider>
+            {children}
+          </AnimalProvider>
+        </AuthGuard>
+      </AuthProvider>
   );
 }
