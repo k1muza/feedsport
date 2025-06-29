@@ -2,7 +2,7 @@
 
 import { Check, X } from 'lucide-react';
 import { Merriweather, Orbitron } from 'next/font/google';
-import React from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import { FaWhatsapp } from 'react-icons/fa6';
 import Image from 'next/image';
 
@@ -16,7 +16,7 @@ const major = Orbitron({
   subsets: ['latin'],
 })
 
-const PrintWatermark = ({ children }: { children: React.ReactNode }): React.ReactElement => (
+const PrintWatermark = ({ children }: { children: ReactNode }): ReactElement => (
   <div className='font-serif'>
     {children}
   </div>
@@ -26,13 +26,13 @@ const Heading = ({
   children,
   className,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
-}): React.ReactElement => (
+}): ReactElement => (
   <h1 className={`${merri.className} ${className}`}>{children}</h1>
 )
 
-const NumberedItem = ({ children, className }: { children: React.ReactNode; className?: string }): React.ReactElement => {
+const NumberedItem = ({ children, className }: { children: ReactNode; className?: string }): ReactElement => {
   const classNames = "w-12 h-12 flex flex-none items-center justify-center bg-gradient-to-br from-green-100 to-green-50 border-2 border-green-200 text-2xl font-bold text-green-800 rounded-full shadow-lg shadow-green-100/50 hover:scale-105 transition-transform focus:outline-none focus:ring-2 focus:ring-green-300 print:bg-white print:border print:border-gray-300";
 
   return (

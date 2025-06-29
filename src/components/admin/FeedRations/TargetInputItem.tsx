@@ -1,7 +1,7 @@
 // TargetInputItem.tsx
 import { TargetNutrient } from "@/types";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 
 export const TargetInputItem = ({
   target,
@@ -18,7 +18,10 @@ export const TargetInputItem = ({
   const DEFAULT_UNDER_PENALTY = 1000;
   const DEFAULT_OVER_PENALTY = 1000;
 
-  const handleChange = (field: 'max' | 'target' | 'underPenaltyFactor' | 'overPenaltyFactor', e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    field: 'max' | 'target' | 'underPenaltyFactor' | 'overPenaltyFactor',
+    e: ChangeEvent<HTMLInputElement>
+  ) => {
     const value = Math.max(0, Number(e.target.value));
     onUpdate(field, value);
   };

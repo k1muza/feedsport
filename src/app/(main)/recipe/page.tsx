@@ -3,7 +3,7 @@
 import SecondaryHero from '@/components/common/SecondaryHero'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { FiBarChart2, FiDownload, FiInfo, FiShare2 } from 'react-icons/fi'
 import { GiChickenOven, GiWeight } from 'react-icons/gi'
 import { TbChartArcs, TbMeat } from 'react-icons/tb'
@@ -13,7 +13,7 @@ interface Nutrient {
   value: number
   unit: string
   idealRange: [number, number]
-  icon: React.ReactNode
+  icon: ReactNode
   description: string
 }
 

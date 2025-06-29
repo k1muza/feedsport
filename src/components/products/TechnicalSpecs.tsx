@@ -1,10 +1,11 @@
 import { Composition } from "@/types";
+import type { FC } from 'react';
 
 interface TechnicalSpecsProps {
   compositions?: Composition[]; // Add the ? to make the property optional
 }
 
-export const TechnicalSpecs: React.FC<TechnicalSpecsProps> = ({ compositions }) => {
+export const TechnicalSpecs: FC<TechnicalSpecsProps> = ({ compositions }) => {
     return (
       <div>
         <h2 className="text-2xl font-bold text-gray-900 mb-8">Technical Specifications</h2>

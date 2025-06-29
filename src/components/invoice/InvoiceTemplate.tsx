@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import { useState, type FC } from 'react';
 import Image from 'next/image';
 
 interface CompanyInfo {
@@ -51,7 +51,7 @@ interface InvoiceTemplateProps {
     invoiceData?: Partial<InvoiceData>;
 }
 
-const InvoiceTemplateOptimized: React.FC<InvoiceTemplateProps> = ({ invoiceData }) => {
+const InvoiceTemplateOptimized: FC<InvoiceTemplateProps> = ({ invoiceData }) => {
     // Default data
     const defaultData: InvoiceData = {
         invoiceNumber: 'INV-',

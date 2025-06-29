@@ -2,7 +2,7 @@
 import { Badge, Beef, Bird, Droplets, Egg, Leaf, Mail, MapPin, Phone, ShieldCheck, Sun, TestTube2, Truck, Wheat } from 'lucide-react';
 import Head from 'next/head';
 import Image from 'next/image';
-import React from 'react';
+import type { FC, ReactNode, SyntheticEvent } from 'react';
 
 interface Product {
   id: number;
@@ -14,7 +14,7 @@ interface Product {
   priceUSD: string;
   moq: string;
   image: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 }
 
 const getProductImage = (imagePath: string, productName: string) => {
@@ -157,8 +157,8 @@ interface ProductImageProps {
   productName: string;
 }
 
-const ProductImage: React.FC<ProductImageProps> = ({ src, alt, productName }) => {
-  const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+const ProductImage: FC<ProductImageProps> = ({ src, alt, productName }) => {
+  const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.target as HTMLImageElement;
     target.onerror = null; // Prevents infinite loop if placeholder also fails
     target.src = `https://placehold.co/400x300/F3F3F3/333333?text=${encodeURIComponent(productName)}+Not+Found`;
@@ -182,7 +182,7 @@ interface ProductDetailsProps {
   product: Product;
 }
 
-const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => (
+const ProductDetails: FC<ProductDetailsProps> = ({ product }) => (
   <div className="flex-grow flex flex-col w-3/5 sm:w-2/3">
     {/* Product Header */}
     <div className="flex px-3 pt-3 justify-between items-start mb-1">
@@ -235,7 +235,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => (
 
 // --- Main ProductCard Component ---
 
-const ProductCard: React.FC<{ product: Product }> = ({ product }) => (
+const ProductCard: FC<{ product: Product }> = ({ product }) => (
   <article className="bg-white border print:border-[0.5pt] border-gray-200 overflow-hidden print:break-inside-auto transition-all duration-200 flex flex-row">
     <ProductImage
       src={getProductImage(product.image, product.name)}
@@ -246,11 +246,15 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => (
   </article>
 );
 
-const Price = ({ children }: { children: React.ReactNode }) => <span className={`font-bold text-base text-green-700 sans-serif`}>{children}</span>;
+const Price = ({ children }: { children: ReactNode }) => (
+  <span className={`font-bold text-base text-green-700 sans-serif`}>{children}</span>
+);
 
-const ProductTitle = ({ children, className }: { children: React.ReactNode, className?: string }) => <h2 className={`sans-serif text-md font-semibold text-gray-800 leading-tight ${className}`}>{children}</h2>;
+const ProductTitle = ({ children, className }: { children: ReactNode; className?: string }) => (
+  <h2 className={`sans-serif text-md font-semibold text-gray-800 leading-tight ${className}`}>{children}</h2>
+);
 
-const CataloguePage: React.FC = () => {
+const CataloguePage: FC = () => {
   const currentYear = new Date().getFullYear();
 
   const contactItems = [

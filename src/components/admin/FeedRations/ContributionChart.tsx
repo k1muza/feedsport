@@ -1,5 +1,5 @@
 import { RatioIngredient, TargetNutrient } from '@/types';
-import React, { useMemo } from 'react';
+import { useMemo, type FC } from 'react';
 import {
   BarChart,
   Bar,
@@ -18,7 +18,7 @@ interface ContributionChartProps {
   targets: TargetNutrient[];
 }
 
-export const ContributionChart: React.FC<ContributionChartProps> = ({
+export const ContributionChart: FC<ContributionChartProps> = ({
   ingredients,
   computedValues,
   totalRatio,
@@ -114,7 +114,7 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({
     payload: { value: string };
   }
 
-  const CustomYAxisTick: React.FC<AxisTickProps> = ({ x, y, payload }) => {
+  const CustomYAxisTick: FC<AxisTickProps> = ({ x, y, payload }) => {
     const lines = splitLabel(payload.value);
     return (
       <g transform={`translate(${x},${y})`}>
@@ -148,7 +148,7 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({
     label?: string;
   }
 
-  const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
+  const CustomTooltip: FC<CustomTooltipProps> = ({ active, payload, label }) => {
     if (!active || !payload?.length || !payload[0]?.payload) return null;
 
     const rowData = payload[0].payload as Record<string, string | number>; // Access the full row data for the current nutrient
