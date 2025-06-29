@@ -289,7 +289,10 @@ export function IngredientDetails({ id }: { id: string }) {
     [ingredient, allIngredients]
   );
 
-  const compositions = ingredient?.compositions || [];
+  const compositions = useMemo(
+    () => ingredient?.compositions ?? [],
+    [ingredient]
+  );
 
   const topRankedNutrients = useMemo(() => {
     if (!ingredient) return [];
@@ -316,7 +319,7 @@ export function IngredientDetails({ id }: { id: string }) {
       .filter((item): item is TopRankedNutrient => item !== null)
       .sort((a, b) => a.rank - b.rank)
       .slice(0, 4);
-  }, [ingredient, nutrientRankings]);
+  }, [ingredient, nutrientRankings, nutrientReference]);
 
   const groupedCompositions = useMemo(() => {
     return compositions.reduce((acc: Record<string, Composition[]>, comp) => {
