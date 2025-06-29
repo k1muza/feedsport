@@ -91,15 +91,22 @@ export default function DashboardLayout({
           <button
             onClick={toggleTheme}
             className={`flex items-center w-full px-4 py-3 rounded-lg transition-all group text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 mt-2`}
-            title={sidebarCollapsed ? 'Toggle Theme' : undefined}
+            title={sidebarCollapsed ? (theme === 'dark' ? 'Dark' : 'Light') : undefined}
           >
-            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            <div className="relative inline-flex items-center w-10 h-5 mr-3">
+              <div className="w-full h-full bg-gray-200 dark:bg-gray-700 rounded-full transition-colors" />
+              <div
+                className={`absolute w-5 h-5 bg-white rounded-full shadow transform transition-transform ${
+                  theme === 'dark' ? 'translate-x-5' : ''
+                }`}
+              />
+            </div>
             {!sidebarCollapsed && (
-              <span className="font-medium ml-3">Toggle Theme</span>
+              <span className="font-medium">{theme === 'dark' ? 'Dark' : 'Light'}</span>
             )}
             {sidebarCollapsed && (
               <div className="absolute left-full ml-2 px-2 py-1 bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-white text-sm rounded-md opacity-0 group-hover:opacity-100 whitespace-nowrap">
-                Toggle Theme
+                {theme === 'dark' ? 'Dark' : 'Light'}
               </div>
             )}
           </button>
