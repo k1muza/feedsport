@@ -13,6 +13,7 @@ const links = [
   { href: '/products', label: 'Products' },
   { href: '/blog', label: 'Resources' },
   { href: '/contact', label: 'Contact' },
+  { href: '/login', label: 'Login' },
 ]
 
 export default function NavBar() {
