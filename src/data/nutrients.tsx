@@ -1,11 +1,11 @@
 import { Nutrient } from "@/types";
 import nutrients from "../data/nutrients.json";
-import { db, seedDatabase } from './db';
+import { db, seedDatabase, addTimestamps } from './db';
 
 export const getNutrients = async (): Promise<Nutrient[]> => {
   await seedDatabase();
   if (await db.nutrients.count() === 0) {
-    await db.nutrients.bulkAdd(nutrients as Nutrient[]);
+    await db.nutrients.bulkAdd(addTimestamps(nutrients as Nutrient[]));
   }
   return db.nutrients.toArray();
 }

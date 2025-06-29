@@ -1,9 +1,10 @@
 import { Product } from "@/types";
 import { getIngredients } from "./ingredients";
-import { db, seedDatabase } from './db';
+import { db, seedDatabase, addTimestamps } from './db';
 
 
-export const ALL_PRODUCTS: Product[] = [
+export type SeedProduct = Omit<Product, 'createdAt' | 'updatedAt'>;
+export const ALL_PRODUCTS: SeedProduct[] = [
   // Protein Sources
   {
     id: 'soy-48',
@@ -100,7 +101,7 @@ export const ALL_PRODUCTS: Product[] = [
 export const getProducts = async (): Promise<Product[]> => {
   await seedDatabase();
   if (await db.products.count() === 0) {
-    await db.products.bulkAdd(ALL_PRODUCTS as Product[]);
+    await db.products.bulkAdd(addTimestamps(ALL_PRODUCTS as SeedProduct[]) as Product[]);
   }
   const products = await db.products.toArray();
   const ingredients = await getIngredients();

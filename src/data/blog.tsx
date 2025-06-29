@@ -1,8 +1,10 @@
 import { BlogPost } from "@/types";
-import { db, seedDatabase } from './db';
+import { db, seedDatabase, addTimestamps } from './db';
 
 
-export const allBlogPosts: BlogPost[] = [
+export type SeedBlogPost = Omit<BlogPost, 'createdAt' | 'updatedAt'>;
+
+export const allBlogPosts: SeedBlogPost[] = [
   {
     id: '1',
     slug: 'optimizing-amino-acid-balance',
@@ -205,7 +207,7 @@ Zimbabwe spends **$200M+ annually** on feed imports. Here's how to reduce relian
 export const getBlogPosts = async (): Promise<BlogPost[]> => {
   await seedDatabase();
   if (await db.blogPosts.count() === 0) {
-    await db.blogPosts.bulkAdd(allBlogPosts as BlogPost[]);
+    await db.blogPosts.bulkAdd(addTimestamps(allBlogPosts as SeedBlogPost[]) as BlogPost[]);
   }
   return db.blogPosts.toArray();
 };
