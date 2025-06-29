@@ -8,7 +8,7 @@ import nutrientsData from './nutrients.json';
 import { ALL_PRODUCTS, SeedProduct } from './products';
 import { allBlogPosts, SeedBlogPost } from './blog';
 
-export function addTimestamps<T extends { [key: string]: any }>(items: T[]): T[] {
+export function addTimestamps<T extends Record<string, unknown>>(items: T[]): (T & { createdAt: string; updatedAt: string })[] {
   const now = new Date().toISOString();
   return items.map(item => ({
     createdAt: now,

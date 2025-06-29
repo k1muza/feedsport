@@ -1,6 +1,5 @@
 import { Ingredient } from "@/types";
 import { getNutrients } from "./nutrients";
-import ingredients from "../data/ingredients.json";
 import { db, seedDatabase } from './db';
 
 

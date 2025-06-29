@@ -3,18 +3,8 @@
 
 import type { FC, ReactNode } from 'react';
 import { FaDownload, FaGithub, FaLinkedin, FaEnvelope, FaGlobe, FaPhone } from 'react-icons/fa';
-import { Merriweather, Orbitron, Inter } from 'next/font/google';
 import Image from 'next/image';
 
-const inter = Inter({
-  weight: '400',
-  subsets: ['latin'],
-})
-
-const orbi = Orbitron({
-  weight: '400',
-  subsets: ['latin'],
-})
 
 const cvData = {
   name: 'Kelvin Muza',
