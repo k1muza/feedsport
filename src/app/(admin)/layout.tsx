@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 
 const comicNeue = Comic_Neue({
   subsets: ['latin'],
+  weight: "400",
 });
 
 export default function AdminLayout({
