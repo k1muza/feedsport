@@ -92,7 +92,7 @@ export const IngredientsPanel = ({
               const pct = totalRatio ? (ingredient.ratio / totalRatio) * 100 : 0;
               return (
                 <tr key={ingredient.id} className="hover:bg-gray-200/50 dark:bg-gray-700/50">
-                  <td className="px-4 py-3 text-gray-200">{ingredient.name}</td>
+                  <td className="px-4 py-3 text-gray-900 dark:text-gray-200">{ingredient.name}</td>
                   <td className="px-4 py-3">
                     <input
                       type="number"
@@ -100,7 +100,7 @@ export const IngredientsPanel = ({
                       step={0.0001}
                       value={ingredient.ratio}
                       onChange={e => handleRatioChange(ingredient.id, e.target.value)}
-                      className="w-20 px-2 py-1 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded text-gray-200"
+                      className="w-20 px-2 py-1 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded text-gray-800 dark:text-gray-200"
                     />
                   </td>
                   <td className="px-4 py-3">
@@ -110,10 +110,10 @@ export const IngredientsPanel = ({
                       step={0.01}
                       value={ingredient.costPerKg ?? ''}
                       onChange={e => handleCostChange(ingredient.id, e.target.value)}
-                      className="w-24 px-2 py-1 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded text-gray-200"
+                      className="w-24 px-2 py-1 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded text-gray-800 dark:text-gray-200"
                     />
                   </td>
-                  <td className="px-4 py-3 text-gray-200">{pct.toFixed(1)}%</td>
+                  <td className="px-4 py-3 text-gray-900 dark:text-gray-200">{pct.toFixed(1)}%</td>
                   <td className="px-4 py-3">
                     <input
                       type="number"

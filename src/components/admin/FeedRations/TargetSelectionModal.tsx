@@ -29,7 +29,7 @@ export const TargetSelectionModal = ({
             </h3>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-200 transition-colors"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
             >
               <X className="w-6 h-6" />
             </button>

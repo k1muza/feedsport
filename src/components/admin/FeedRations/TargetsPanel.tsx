@@ -44,7 +44,7 @@ export const TargetsPanel = ({
     <div className="bg-white/50 dark:bg-gray-800/50 border border-gray-700 rounded-xl p-4">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
-          <h3 className="text-lg font-semibold text-gray-100">Nutrient Targets</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Nutrient Targets</h3>
 
           {/* Success indicator when all targets are met */}
           {allTargetsMet && (

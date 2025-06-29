@@ -67,7 +67,7 @@ export const Settings = () => {
               <select 
                 value={units.weight}
                 onChange={(e) => setUnits({...units, weight: e.target.value})}
-                className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200"
               >
                 <option value="kg">Kilograms (kg)</option>
                 <option value="lb">Pounds (lb)</option>
@@ -79,7 +79,7 @@ export const Settings = () => {
               <select 
                 value={units.currency}
                 onChange={(e) => setUnits({...units, currency: e.target.value})}
-                className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200"
               >
                 <option value="USD">US Dollar ($)</option>
                 <option value="EUR">Euro (€)</option>
@@ -152,7 +152,7 @@ export const Settings = () => {
                           <User className="w-5 h-5 text-indigo-400" />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-200">{user.name}</div>
+                          <div className="text-sm font-medium text-gray-900 dark:text-gray-200">{user.name}</div>
                           <div className="text-sm text-gray-400">{user.email}</div>
                         </div>
                       </div>
@@ -208,7 +208,7 @@ export const Settings = () => {
                 <h3 className="text-lg font-medium">Add New User</h3>
                 <button 
                   onClick={() => setShowUserForm(false)}
-                  className="text-gray-400 hover:text-gray-200"
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -220,7 +220,7 @@ export const Settings = () => {
                     type="text" 
                     value={newUser.name}
                     onChange={(e) => setNewUser({...newUser, name: e.target.value})}
-                    className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                    className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200"
                   />
                 </div>
                 <div>
@@ -229,7 +229,7 @@ export const Settings = () => {
                     type="email" 
                     value={newUser.email}
                     onChange={(e) => setNewUser({...newUser, email: e.target.value})}
-                    className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                    className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200"
                   />
                 </div>
                 <div>
@@ -237,7 +237,7 @@ export const Settings = () => {
                   <select 
                     value={newUser.role}
                     onChange={(e) => setNewUser({...newUser, role: e.target.value as User['role']})}
-                    className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                    className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200"
                   >
                     <option value="Administrator">Administrator</option>
                     <option value="Operator">Operator</option>

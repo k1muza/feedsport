@@ -134,7 +134,7 @@ export const StockManagement = () => {
                     className="hover:bg-gray-200/50 dark:bg-gray-700/50 transition-colors cursor-pointer"
                     onClick={() => toggleExpand(item.id)}
                   >
-                    <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-gray-200">
                       {item.name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -186,11 +186,11 @@ export const StockManagement = () => {
                             <div className="space-y-2">
                               <div className="flex justify-between">
                                 <span className="text-gray-500">Current:</span>
-                                <span className="text-gray-200">{item.current} {item.unit}</span>
+                                <span className="text-gray-900 dark:text-gray-200">{item.current} {item.unit}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-500">Minimum:</span>
-                                <span className="text-gray-200">{item.min} {item.unit}</span>
+                                <span className="text-gray-900 dark:text-gray-200">{item.min} {item.unit}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-500">Difference:</span>
@@ -207,11 +207,11 @@ export const StockManagement = () => {
                             <div className="space-y-2">
                               <div className="flex justify-between">
                                 <span className="text-gray-500">Supplier:</span>
-                                <span className="text-gray-200">{item.supplier}</span>
+                                <span className="text-gray-900 dark:text-gray-200">{item.supplier}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-500">Last Order:</span>
-                                <span className="text-gray-200">{item.lastUpdated}</span>
+                                <span className="text-gray-900 dark:text-gray-200">{item.lastUpdated}</span>
                               </div>
                             </div>
                           </div>
@@ -258,9 +258,9 @@ export const StockManagement = () => {
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium">Add Stock Inventory</h3>
-                <button 
+                <button
                   onClick={() => setShowStockForm(false)}
-                  className="text-gray-400 hover:text-gray-200"
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -270,7 +270,7 @@ export const StockManagement = () => {
                   <label className="block text-sm text-gray-400 mb-2">Ingredient Name</label>
                   <input 
                     type="text" 
-                    className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                    className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -278,20 +278,20 @@ export const StockManagement = () => {
                     <label className="block text-sm text-gray-400 mb-2">Current Stock</label>
                     <input 
                       type="number" 
-                      className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                      className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200"
                     />
                   </div>
                   <div>
                     <label className="block text-sm text-gray-400 mb-2">Minimum Required</label>
                     <input 
                       type="number" 
-                      className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                      className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200"
                     />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm text-gray-400 mb-2">Unit</label>
-                  <select className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200">
+                  <select className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200">
                     <option>kg</option>
                     <option>lb</option>
                     <option>g</option>

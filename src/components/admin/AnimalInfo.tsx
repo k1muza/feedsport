@@ -51,7 +51,7 @@ export default function AnimalInfo() {
   return (
     <div className="space-y-6">
       <PageHeader setShowForm={() => { }} />
-      <div className="min-h-screen text-gray-100">
+      <div className="min-h-screen text-gray-900 dark:text-gray-100">
 
         {/* Selection Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
@@ -149,7 +149,7 @@ export default function AnimalInfo() {
             {selectedStage.key_notes && (
               <div className="p-6 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-700 backdrop-blur-sm">
                 <h3 className="text-lg font-semibold text-blue-400 mb-3">Key Considerations</h3>
-                <p className="text-gray-300 leading-relaxed">{selectedStage.key_notes}</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{selectedStage.key_notes}</p>
               </div>
             )}
           </div>
@@ -184,8 +184,8 @@ const NutritionPanel = ({
     <div className="grid gap-3">
       {requirements.map((req: AnimalNutrientRequirement) => (
         <div key={req.nutrientId} className="flex justify-between items-center p-3 hover:bg-gray-200 dark:hover:bg-gray-700/20 rounded-lg transition-colors">
-          <span className="text-gray-300 capitalize">{req.nutrient?.name}</span>
-          <span className="text-gray-300">{NutritionPanelValue({ nutrient: req })}</span>
+          <span className="text-gray-700 dark:text-gray-300 capitalize">{req.nutrient?.name}</span>
+          <span className="text-gray-700 dark:text-gray-300">{NutritionPanelValue({ nutrient: req })}</span>
         </div>
       ))}
     </div>
@@ -204,8 +204,8 @@ const OverviewCard = ({ title, value, icon }: OverviewCardProps) => (
     <div className="flex items-center gap-4">
       <span className="text-2xl">{icon}</span>
       <div>
-        <h3 className="text-sm text-gray-400 mb-1">{title}</h3>
-        <p className="text-xl font-semibold text-gray-100">{value}</p>
+        <h3 className="text-sm text-gray-600 dark:text-gray-400 mb-1">{title}</h3>
+        <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">{value}</p>
       </div>
     </div>
   </div>
@@ -227,13 +227,13 @@ const Select = ({
   disabled
 }: SelectProps) => (
   <div className="relative">
-    <label className="block text-sm text-gray-400 mb-2">{label}</label>
+    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">{label}</label>
     <div className="relative">
       <select
         value={selected}
         disabled={disabled}
         onChange={(e) => onSelect(e.target.value)}
-        className="w-full pl-4 pr-10 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-700 text-gray-100 
+        className="w-full pl-4 pr-10 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-700 text-gray-900 dark:text-gray-100
                    appearance-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                    disabled:opacity-50 disabled:cursor-not-allowed transition-all"
       >
