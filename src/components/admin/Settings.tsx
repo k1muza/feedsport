@@ -45,7 +45,7 @@ export const Settings = () => {
   };
 
   return (
-    <div className="bg-gray-900/80 border border-gray-700 rounded-xl p-6 backdrop-blur-lg">
+    <div className="bg-white/80 dark:bg-gray-900/80 border border-gray-700 rounded-xl p-6 backdrop-blur-lg">
       {/* Header */}
       <div className="flex items-center space-x-3 mb-8">
         <SettingsIcon className="w-6 h-6 text-indigo-400" />
@@ -56,7 +56,7 @@ export const Settings = () => {
 
       <div className="space-y-8">
         {/* Units & Measurements */}
-        <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+        <div className="bg-white/50 dark:bg-gray-800/50 border border-gray-700 rounded-xl p-6">
           <h3 className="text-lg font-medium mb-4 flex items-center space-x-2">
             <Lock className="w-5 h-5 text-indigo-400" />
             <span>System Preferences</span>
@@ -67,7 +67,7 @@ export const Settings = () => {
               <select 
                 value={units.weight}
                 onChange={(e) => setUnits({...units, weight: e.target.value})}
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
               >
                 <option value="kg">Kilograms (kg)</option>
                 <option value="lb">Pounds (lb)</option>
@@ -79,7 +79,7 @@ export const Settings = () => {
               <select 
                 value={units.currency}
                 onChange={(e) => setUnits({...units, currency: e.target.value})}
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
               >
                 <option value="USD">US Dollar ($)</option>
                 <option value="EUR">Euro (€)</option>
@@ -90,7 +90,7 @@ export const Settings = () => {
         </div>
 
         {/* Notifications */}
-        <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+        <div className="bg-white/50 dark:bg-gray-800/50 border border-gray-700 rounded-xl p-6">
           <h3 className="text-lg font-medium mb-4 flex items-center space-x-2">
             <Bell className="w-5 h-5 text-indigo-400" />
             <span>Notification Preferences</span>
@@ -107,7 +107,7 @@ export const Settings = () => {
                   id={item.id}
                   checked={item.checked}
                   onChange={(e) => setNotifications({...notifications, [item.id]: e.target.checked})}
-                  className="h-4 w-4 bg-gray-700 border-gray-600 rounded focus:ring-indigo-500/50 focus:ring-offset-gray-800 text-indigo-500"
+                  className="h-4 w-4 bg-gray-200 dark:bg-gray-700 border-gray-600 rounded focus:ring-indigo-500/50 focus:ring-offset-gray-800 text-indigo-500"
                 />
                 <label htmlFor={item.id} className="ml-3 text-sm text-gray-300">
                   {item.label}
@@ -118,7 +118,7 @@ export const Settings = () => {
         </div>
 
         {/* User Management */}
-        <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+        <div className="bg-white/50 dark:bg-gray-800/50 border border-gray-700 rounded-xl p-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-medium flex items-center space-x-2">
               <User className="w-5 h-5 text-indigo-400" />
@@ -145,7 +145,7 @@ export const Settings = () => {
               </thead>
               <tbody className="divide-y divide-gray-700">
                 {users.map((user) => (
-                  <tr key={user.id} className="hover:bg-gray-700/50 transition-colors">
+                  <tr key={user.id} className="hover:bg-gray-200/50 dark:bg-gray-700/50 transition-colors">
                     <td className="px-4 py-4">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-500/20 flex items-center justify-center">
@@ -161,7 +161,7 @@ export const Settings = () => {
                       <span className={`px-2 py-1 rounded-full text-xs ${
                         user.role === 'Administrator' ? 'bg-purple-900/30 text-purple-400' :
                         user.role === 'Operator' ? 'bg-blue-900/30 text-blue-400' :
-                        'bg-gray-700 text-gray-300'
+                        'bg-gray-200 dark:bg-gray-700 text-gray-300'
                       }`}>
                         {user.role}
                       </span>
@@ -189,7 +189,7 @@ export const Settings = () => {
 
         {/* Save Settings */}
         <div className="pt-4 border-t border-gray-700 flex justify-end">
-          <button className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-700 mr-3 transition-colors">
+          <button className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-200 dark:bg-gray-700 mr-3 transition-colors">
             Cancel
           </button>
           <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg flex items-center space-x-1 transition-colors">
@@ -202,7 +202,7 @@ export const Settings = () => {
       {/* Add User Modal */}
       {showUserForm && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-800 border border-gray-700 rounded-xl w-full max-w-md">
+          <div className="bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-xl w-full max-w-md">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium">Add New User</h3>
@@ -220,7 +220,7 @@ export const Settings = () => {
                     type="text" 
                     value={newUser.name}
                     onChange={(e) => setNewUser({...newUser, name: e.target.value})}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                    className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
                   />
                 </div>
                 <div>
@@ -229,7 +229,7 @@ export const Settings = () => {
                     type="email" 
                     value={newUser.email}
                     onChange={(e) => setNewUser({...newUser, email: e.target.value})}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                    className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
                   />
                 </div>
                 <div>
@@ -237,7 +237,7 @@ export const Settings = () => {
                   <select 
                     value={newUser.role}
                     onChange={(e) => setNewUser({...newUser, role: e.target.value as User['role']})}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
+                    className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200"
                   >
                     <option value="Administrator">Administrator</option>
                     <option value="Operator">Operator</option>
@@ -248,7 +248,7 @@ export const Settings = () => {
                   <button 
                     type="button" 
                     onClick={() => setShowUserForm(false)}
-                    className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors"
+                    className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-200 dark:bg-gray-700 transition-colors"
                   >
                     Cancel
                   </button>

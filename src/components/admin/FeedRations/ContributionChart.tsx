@@ -159,7 +159,7 @@ export const ContributionChart: FC<ContributionChartProps> = ({
     const actualTotalNormalized = rowData['_actualTotalNormalized'] || 0;
 
     return (
-      <div className="bg-gray-800 border border-gray-700 p-3 rounded-md shadow-lg min-w-[240px]">
+      <div className="bg-gray-100 dark:bg-gray-800 border border-gray-700 p-3 rounded-md shadow-lg min-w-[240px]">
         <h3 className="font-bold text-white mb-2">{label}</h3>
         <div className="mb-2">
           <span className="text-gray-300">Target: </span>
@@ -217,7 +217,7 @@ export const ContributionChart: FC<ContributionChartProps> = ({
   const chartHeight = Math.max(360, nutrientData.length * barHeight + 60);
 
   return (
-    <section className="mt-8 p-4 bg-gray-800 rounded-lg shadow mb-4">
+    <section className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow mb-4">
       <div className="flex justify-between items-start mb-4">
         <div>
           <h3 className="text-lg font-semibold text-white">
@@ -227,7 +227,7 @@ export const ContributionChart: FC<ContributionChartProps> = ({
             Shows each ingredient's contribution as percentage of target (capped at 100% for display)
           </p>
         </div>
-        <div className="bg-gray-700 px-3 py-1 rounded text-sm text-gray-300">
+        <div className="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm text-gray-300">
           100% = Target value
         </div>
       </div>

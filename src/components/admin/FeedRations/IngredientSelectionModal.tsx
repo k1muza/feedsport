@@ -46,8 +46,8 @@ export const IngredientSelectionModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-800 border border-gray-700 rounded-lg w-full max-w-4xl max-h-[80vh] flex flex-col">
-        <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-4">
+      <div className="bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-lg w-full max-w-4xl max-h-[80vh] flex flex-col">
+        <div className="sticky top-0 bg-gray-100 dark:bg-gray-800 border-b border-gray-700 p-4">
           <div className="flex justify-between items-center mb-3">
             <h3 className="text-lg font-semibold text-gray-100">Select Ingredients</h3>
             <button onClick={onClose} className="text-gray-400 hover:text-gray-200 p-1">
@@ -62,7 +62,7 @@ export const IngredientSelectionModal = ({
               placeholder="Filter ingredients..."
               value={searchTerm}
               onChange={handleSearch}
-              className="w-full pl-10 pr-4 py-2 bg-gray-900 rounded-lg text-gray-200 focus:ring-2 focus:ring-indigo-500 border border-gray-700"
+              className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-900 rounded-lg text-gray-200 focus:ring-2 focus:ring-indigo-500 border border-gray-700"
             />
           </div>
 
@@ -73,7 +73,7 @@ export const IngredientSelectionModal = ({
             {targets.filter(t => visibleColumns.includes(t.id)).map(target => (
               <div
                 key={target.id}
-                className="col-span-2 flex items-center justify-end space-x-1 cursor-pointer hover:bg-gray-700/30 p-1 rounded"
+                className="col-span-2 flex items-center justify-end space-x-1 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700/30 p-1 rounded"
               >
                 <span className="text-sm font-medium text-gray-400">
                   {target.name}
@@ -90,7 +90,7 @@ export const IngredientSelectionModal = ({
               .map(ingredient => (
                 <div
                   key={ingredient.id}
-                  className="grid grid-cols-12 gap-4 items-center p-3 rounded-lg hover:bg-gray-700/30 cursor-pointer"
+                  className="grid grid-cols-12 gap-4 items-center p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700/30 cursor-pointer"
                   onClick={() => addIngredient(ingredient)}
                 >
                   <div className="col-span-4">
@@ -116,11 +116,11 @@ export const IngredientSelectionModal = ({
           </div>
         </div>
 
-        <div className="sticky bottom-0 bg-gray-800 border-t border-gray-700 p-4">
+        <div className="sticky bottom-0 bg-gray-100 dark:bg-gray-800 border-t border-gray-700 p-4">
           <div className="flex justify-between items-center space-x-4">
             <button
               onClick={onClose}
-              className="px-6 py-2.5 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors"
+              className="px-6 py-2.5 text-gray-300 hover:text-white hover:bg-gray-200/50 dark:bg-gray-700/50 rounded-lg transition-colors"
             >
               Cancel
             </button>

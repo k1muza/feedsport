@@ -142,7 +142,7 @@ export default function AnimalInfo() {
 
             {/* Key Notes */}
             {selectedStage.key_notes && (
-              <div className="p-6 rounded-xl bg-gray-800/50 border border-gray-700 backdrop-blur-sm">
+              <div className="p-6 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-700 backdrop-blur-sm">
                 <h3 className="text-lg font-semibold text-blue-400 mb-3">Key Considerations</h3>
                 <p className="text-gray-300 leading-relaxed">{selectedStage.key_notes}</p>
               </div>
@@ -174,11 +174,11 @@ const NutritionPanel = ({
   requirements,
   colorClass = 'border-blue-500/30 text-blue-400'
 }: NutritionPanelProps) => (
-  <div className="rounded-xl p-6 bg-gray-800/50 border border-gray-700 backdrop-blur-sm">
+  <div className="rounded-xl p-6 bg-white/50 dark:bg-gray-800/50 border border-gray-700 backdrop-blur-sm">
     <h3 className={`text-lg font-semibold ${colorClass} mb-4`}>{title}</h3>
     <div className="grid gap-3">
       {requirements.map((req: AnimalNutrientRequirement) => (
-        <div key={req.nutrientId} className="flex justify-between items-center p-3 hover:bg-gray-700/20 rounded-lg transition-colors">
+        <div key={req.nutrientId} className="flex justify-between items-center p-3 hover:bg-gray-200 dark:hover:bg-gray-700/20 rounded-lg transition-colors">
           <span className="text-gray-300 capitalize">{req.nutrient?.name}</span>
           <span className="text-gray-300">{NutritionPanelValue({ nutrient: req })}</span>
         </div>
@@ -195,7 +195,7 @@ interface OverviewCardProps {
 }
 
 const OverviewCard = ({ title, value, icon }: OverviewCardProps) => (
-  <div className="p-6 rounded-xl bg-gray-800/50 border border-gray-700 backdrop-blur-sm hover:border-blue-400/30 transition-all">
+  <div className="p-6 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-700 backdrop-blur-sm hover:border-blue-400/30 transition-all">
     <div className="flex items-center gap-4">
       <span className="text-2xl">{icon}</span>
       <div>
@@ -228,7 +228,7 @@ const Select = ({
         value={selected}
         disabled={disabled}
         onChange={(e) => onSelect(e.target.value)}
-        className="w-full pl-4 pr-10 py-3 rounded-lg bg-gray-800 border border-gray-700 text-gray-100 
+        className="w-full pl-4 pr-10 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-700 text-gray-100 
                    appearance-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                    disabled:opacity-50 disabled:cursor-not-allowed transition-all"
       >

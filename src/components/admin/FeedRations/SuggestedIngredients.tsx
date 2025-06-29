@@ -52,7 +52,7 @@ export const SuggestedIngredients = ({
   };
 
   return (
-    <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-4">
+    <div className="bg-white/50 dark:bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-4">
       <div className="flex items-center gap-2 mb-4">
         <Lightbulb className="h-5 w-5 text-yellow-400" />
         <h3 className="text-lg font-medium">Nutrient Suggestions</h3>
@@ -60,7 +60,7 @@ export const SuggestedIngredients = ({
 
       <div className="space-y-4">
         {suggestions.map((suggestion, index) => (
-          <div key={index} className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div key={index} className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 border border-gray-700">
             <div className="flex justify-between items-start">
               <div>
                 {'nutrient' in suggestion ? (
@@ -115,7 +115,7 @@ export const SuggestedIngredients = ({
                 <p className="text-sm text-gray-300 mb-2">High sources of {suggestion.nutrient.name}:</p>
                 <div className="space-y-2">
                   {findNutrientSources(suggestion.nutrient.name).map((ingredient) => (
-                    <div key={ingredient.id} className="flex justify-between items-center bg-gray-700/50 rounded p-2">
+                    <div key={ingredient.id} className="flex justify-between items-center bg-gray-200/50 dark:bg-gray-700/50 rounded p-2">
                       <div>
                         <span className="text-sm">{ingredient.name}</span>
                         <span className="text-xs text-gray-400 ml-2">

@@ -51,7 +51,7 @@ const NutrientTable = ({ data, nutrientRankings }: { data: Composition[]; nutrie
   return (
     <div className="overflow-hidden rounded-lg border border-gray-700">
       <table className="min-w-full divide-y divide-gray-700">
-        <thead className="bg-gray-800">
+        <thead className="bg-gray-100 dark:bg-gray-800">
           <tr>
             <th className="px-4 py-3 text-left text-sm font-medium text-gray-300">Nutrient</th>
             <th className="px-4 py-3 text-left text-sm font-medium text-gray-300">Value</th>
@@ -70,7 +70,7 @@ const NutrientTable = ({ data, nutrientRankings }: { data: Composition[]; nutrie
             return (
               <tr 
                 key={comp.nutrientId} 
-                className={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-900'}
+                className={index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'}
               >
                 <td className="px-4 py-3 text-gray-300">{comp.nutrient?.name}</td>
                 <td className="px-4 py-3 text-gray-300">{comp.value}</td>
@@ -129,7 +129,7 @@ const NutrientCategoryWidget = ({
   }, [data]);
 
   return (
-    <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700 flex flex-col h-full">
+    <div className="bg-white/50 dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-700 flex flex-col h-full">
       <h3 className="text-xl font-semibold text-white mb-4">{title}</h3>
       
       <div className="flex-grow overflow-auto">
@@ -150,7 +150,7 @@ const NutrientCategoryWidget = ({
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 {unitData.map((comp) => (
-                  <div key={comp.nutrientId} className="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
+                  <div key={comp.nutrientId} className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-700">
                     <div className="text-sm text-gray-400">{comp.nutrient?.name}</div>
                     <div className="text-xl font-bold text-white">
                       {comp.value} {comp.nutrient?.unit || 'g/kg'}
@@ -183,7 +183,7 @@ const TopNutrientsWidget = ({ data }: { data: Composition[] }) => {
   }, [data]);
 
   return (
-    <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700">
+    <div className="bg-white/50 dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-700">
       <h3 className="text-xl font-semibold text-white mb-4">
         Nutrient Strengths
         <span className="text-sm text-gray-400 ml-2 font-normal">(vs average ingredients)</span>
@@ -201,7 +201,7 @@ const TopNutrientsWidget = ({ data }: { data: Composition[] }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="flex items-center justify-between bg-gray-800/50 p-4 rounded-lg border border-gray-700"
+              className="flex items-center justify-between bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-gray-700"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center mr-3">
@@ -366,7 +366,7 @@ export function IngredientDetails({ id }: { id: string }) {
 
       {/* Header Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-        <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700 flex flex-col justify-center">
+        <div className="bg-white/50 dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-700 flex flex-col justify-center">
           <div className="flex justify-between items-start mb-4">
             <div>
               <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
@@ -391,7 +391,7 @@ export function IngredientDetails({ id }: { id: string }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-gray-800/50 p-4 rounded-xl border border-gray-700"
+                className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-700"
               >
                 <div className="flex justify-between items-start">
                   <div>
@@ -419,7 +419,7 @@ export function IngredientDetails({ id }: { id: string }) {
           </div>
         </div>
         
-        <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700">
+        <div className="bg-white/50 dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-700">
           <h2 className="text-2xl font-bold text-white mb-6">Macronutrient Distribution</h2>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
@@ -479,12 +479,12 @@ export function IngredientDetails({ id }: { id: string }) {
         <h2 className="text-2xl font-bold text-white mb-6">Scientific Analysis</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700">
+          <div className="bg-white/50 dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-700">
             <h3 className="text-xl font-semibold text-white mb-4">Digestibility</h3>
             <div className="space-y-4">
               <div>
                 <h4 className="font-medium text-white">Protein Digestibility</h4>
-                <div className="w-full bg-gray-700 rounded-full h-2.5 mt-2">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mt-2">
                   <div 
                     className="bg-indigo-500 h-2.5 rounded-full" 
                     style={{ width: '85%' }}
@@ -495,7 +495,7 @@ export function IngredientDetails({ id }: { id: string }) {
               
               <div>
                 <h4 className="font-medium text-white">Energy Utilization</h4>
-                <div className="w-full bg-gray-700 rounded-full h-2.5 mt-2">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mt-2">
                   <div 
                     className="bg-indigo-500 h-2.5 rounded-full" 
                     style={{ width: '78%' }}
@@ -506,7 +506,7 @@ export function IngredientDetails({ id }: { id: string }) {
             </div>
           </div>
           
-          <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700">
+          <div className="bg-white/50 dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-700">
             <h3 className="text-xl font-semibold text-white mb-4">Amino Acid Profile</h3>
             <div className="space-y-3">
               {[
@@ -520,7 +520,7 @@ export function IngredientDetails({ id }: { id: string }) {
                     <span className="text-gray-300">{aa.name}</span>
                     <span className="text-gray-400">{aa.value}g/100g protein</span>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                     <div 
                       className={`h-2 rounded-full ${aa.value >= aa.ideal ? 'bg-green-500' : 'bg-amber-500'}`} 
                       style={{ width: `${Math.min(100, (aa.value / aa.ideal) * 100)}%` }}
@@ -534,7 +534,7 @@ export function IngredientDetails({ id }: { id: string }) {
       </div>
 
       {/* Research Studies */}
-      <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700 mb-16">
+      <div className="bg-white/50 dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-700 mb-16">
         <h2 className="text-2xl font-bold text-white mb-6">Research Studies</h2>
         
         <div className="space-y-6">

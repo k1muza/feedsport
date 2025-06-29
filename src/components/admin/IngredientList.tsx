@@ -60,7 +60,7 @@ const ColumnConfigModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-800 border border-gray-700 rounded-xl w-full max-w-md max-h-[80vh] flex flex-col">
+      <div className="bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-xl w-full max-w-md max-h-[80vh] flex flex-col">
         <div className="p-6 flex-grow overflow-hidden flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-medium">Configure Nutrient Columns</h3>
@@ -79,7 +79,7 @@ const ColumnConfigModal = ({
               placeholder="Search nutrients..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 placeholder-gray-500"
+              className="w-full pl-10 pr-4 py-2 bg-gray-200/50 dark:bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 placeholder-gray-500"
             />
           </div>
           
@@ -93,7 +93,7 @@ const ColumnConfigModal = ({
                       id={`col-${nutrient.id}`}
                       checked={tempVisibleColumns.includes(nutrient.id)}
                       onChange={() => toggleColumn(nutrient.id)}
-                      className="w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded focus:ring-indigo-500"
+                      className="w-4 h-4 text-indigo-600 bg-gray-200 dark:bg-gray-700 border-gray-600 rounded focus:ring-indigo-500"
                     />
                     <label 
                       htmlFor={`col-${nutrient.id}`} 
@@ -121,7 +121,7 @@ const ColumnConfigModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors"
+              className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-200 dark:bg-gray-700 transition-colors"
             >
               Cancel
             </button>
@@ -192,7 +192,7 @@ const FilterModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-800 border border-gray-700 rounded-xl w-full max-w-md max-h-[80vh] flex flex-col">
+      <div className="bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-xl w-full max-w-md max-h-[80vh] flex flex-col">
         <div className="p-6 flex-grow overflow-hidden flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-medium">Filter by Category</h3>
@@ -211,7 +211,7 @@ const FilterModal = ({
               placeholder="Search categories..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 placeholder-gray-500"
+              className="w-full pl-10 pr-4 py-2 bg-gray-200/50 dark:bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 placeholder-gray-500"
             />
           </div>
           
@@ -225,7 +225,7 @@ const FilterModal = ({
                       id={`cat-${category}`}
                       checked={tempSelected.includes(category)}
                       onChange={() => toggleCategory(category)}
-                      className="w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded focus:ring-indigo-500"
+                      className="w-4 h-4 text-indigo-600 bg-gray-200 dark:bg-gray-700 border-gray-600 rounded focus:ring-indigo-500"
                     />
                     <label 
                       htmlFor={`cat-${category}`} 
@@ -255,7 +255,7 @@ const FilterModal = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors"
+                className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-200 dark:bg-gray-700 transition-colors"
               >
                 Cancel
               </button>
@@ -316,7 +316,7 @@ const IngredientRow = ({
   return (
     <tr
       onClick={navigateToDetails}
-      className="hover:bg-gray-700/50 transition-colors cursor-pointer"
+      className="hover:bg-gray-200/50 dark:bg-gray-700/50 transition-colors cursor-pointer"
     >
       <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-200">{ingredient.name}</td>
       <td className="px-6 py-4 whitespace-nowrap">{ingredient.category}</td>
@@ -365,7 +365,7 @@ const SearchBar = ({
       placeholder="Search ingredients or categories..."
       value={searchTerm}
       onChange={e => setSearchTerm(e.target.value)}
-      className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 placeholder-gray-500"
+      className="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 placeholder-gray-500"
     />
   </div>
 );
@@ -522,14 +522,14 @@ export const IngredientList = () => {
         <div className="flex gap-4">
           <button 
             onClick={() => setShowColumnConfig(true)}
-            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg flex items-center space-x-2 transition-colors"
+            className="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:bg-gray-700 border border-gray-700 rounded-lg flex items-center space-x-2 transition-colors"
           >
             <Settings className="w-4 h-4 text-gray-400" />
             <span>Columns</span>
           </button>
           <button 
             onClick={() => setShowFilterModal(true)}
-            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg flex items-center space-x-2 transition-colors relative"
+            className="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:bg-gray-700 border border-gray-700 rounded-lg flex items-center space-x-2 transition-colors relative"
           >
             <Filter className="w-4 h-4 text-gray-400" />
             <span>Filters</span>
@@ -549,7 +549,7 @@ export const IngredientList = () => {
           {selectedCategories.map(category => (
             <div 
               key={category} 
-              className="px-3 py-1 bg-gray-700 rounded-full flex items-center text-sm"
+              className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center text-sm"
             >
               {category}
               <button 
@@ -570,10 +570,10 @@ export const IngredientList = () => {
       )}
 
       {/* Table */}
-      <div className="bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden">
+      <div className="bg-white/50 dark:bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-700">
-            <thead className="bg-gray-800">
+            <thead className="bg-gray-100 dark:bg-gray-800">
               <tr>
                 <TableHeader
                   columnKey="name"
@@ -635,7 +635,7 @@ export const IngredientList = () => {
       {/* Add Ingredient Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-800 border border-gray-700 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium">Add New Ingredient</h3>
@@ -652,7 +652,7 @@ export const IngredientList = () => {
                   <button
                     type="button"
                     onClick={() => setShowForm(false)}
-                    className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors"
+                    className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-200 dark:bg-gray-700 transition-colors"
                   >
                     Cancel
                   </button>

@@ -32,7 +32,7 @@ export const IngredientsPanel = ({
   onOpenColumnConfig,
   onOpenIngredientModal
 }: IngredientsPanelProps) => (
-  <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-4">
+  <div className="bg-white/50 dark:bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-4">
     <div className="flex justify-between items-center mb-4">
       <h3 className="text-lg font-medium">Ingredient Composition</h3>
       <div className="flex items-center gap-2">
@@ -44,20 +44,20 @@ export const IngredientsPanel = ({
         )}
         <button
           onClick={onOpenSaveModal}
-          className="p-2 text-gray-400 hover:bg-gray-700 rounded-md"
+          className="p-2 text-gray-400 hover:bg-gray-200 dark:bg-gray-700 rounded-md"
           title="Save formulation"
         >
           <Save className="w-5 h-5" />
         </button>
         <button
           onClick={onOpenColumnConfig}
-          className="p-2 text-gray-400 hover:bg-gray-700 rounded-md"
+          className="p-2 text-gray-400 hover:bg-gray-200 dark:bg-gray-700 rounded-md"
         >
           <Settings className="w-5 h-5" />
         </button>
         <button
           onClick={onOpenIngredientModal}
-          className="p-2 text-gray-400 hover:bg-gray-700 rounded-md"
+          className="p-2 text-gray-400 hover:bg-gray-200 dark:bg-gray-700 rounded-md"
         >
           <Plus className="w-5 h-5" />
         </button>
@@ -69,7 +69,7 @@ export const IngredientsPanel = ({
     ) : (
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-700">
-          <thead className="bg-gray-700/50">
+          <thead className="bg-gray-200/50 dark:bg-gray-700/50">
             <tr>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Ingredient</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Ratio</th>
@@ -91,7 +91,7 @@ export const IngredientsPanel = ({
             {ingredients.map(ingredient => {
               const pct = totalRatio ? (ingredient.ratio / totalRatio) * 100 : 0;
               return (
-                <tr key={ingredient.id} className="hover:bg-gray-700/50">
+                <tr key={ingredient.id} className="hover:bg-gray-200/50 dark:bg-gray-700/50">
                   <td className="px-4 py-3 text-gray-200">{ingredient.name}</td>
                   <td className="px-4 py-3">
                     <input
@@ -100,7 +100,7 @@ export const IngredientsPanel = ({
                       step={0.0001}
                       value={ingredient.ratio}
                       onChange={e => handleRatioChange(ingredient.id, e.target.value)}
-                      className="w-20 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-gray-200"
+                      className="w-20 px-2 py-1 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded text-gray-200"
                     />
                   </td>
                   <td className="px-4 py-3">
@@ -110,7 +110,7 @@ export const IngredientsPanel = ({
                       step={0.01}
                       value={ingredient.costPerKg ?? ''}
                       onChange={e => handleCostChange(ingredient.id, e.target.value)}
-                      className="w-24 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-gray-200"
+                      className="w-24 px-2 py-1 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded text-gray-200"
                     />
                   </td>
                   <td className="px-4 py-3 text-gray-200">{pct.toFixed(1)}%</td>
@@ -121,7 +121,7 @@ export const IngredientsPanel = ({
                       max={100}
                       value={ingredient.min ?? ''}
                       onChange={e => handleMinChange(ingredient.id, e.target.value)}
-                      className="w-16 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
+                      className="w-16 bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
                       placeholder="Min"
                     />
                   </td>
@@ -133,7 +133,7 @@ export const IngredientsPanel = ({
                       max={100}
                       value={ingredient.max ?? ''}
                       onChange={e => handleMaxChange(ingredient.id, e.target.value)}
-                      className="w-16 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
+                      className="w-16 bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
                       placeholder="Max"
                     />
                   </td>
