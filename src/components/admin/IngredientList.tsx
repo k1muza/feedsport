@@ -67,7 +67,7 @@ const ColumnConfigModal = ({
             <h3 className="text-lg font-medium">Configure Nutrient Columns</h3>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-200"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
             >
               <X className="w-5 h-5" />
             </button>
@@ -80,7 +80,7 @@ const ColumnConfigModal = ({
               placeholder="Search nutrients..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-200/50 dark:bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 placeholder-gray-500"
+              className="w-full pl-10 pr-4 py-2 bg-gray-200/50 dark:bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200 placeholder-gray-500"
             />
           </div>
           
@@ -98,7 +98,7 @@ const ColumnConfigModal = ({
                     />
                     <label 
                       htmlFor={`col-${nutrient.id}`} 
-                      className="ml-3 text-gray-200 flex-grow group-hover:text-white transition-colors"
+                      className="ml-3 text-gray-900 dark:text-gray-200 flex-grow group-hover:text-white transition-colors"
                     >
                       <div className="font-medium">{nutrient.name}</div>
                       {nutrient.description && (
@@ -199,7 +199,7 @@ const FilterModal = ({
             <h3 className="text-lg font-medium">Filter by Category</h3>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-200"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
             >
               <X className="w-5 h-5" />
             </button>
@@ -212,7 +212,7 @@ const FilterModal = ({
               placeholder="Search categories..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-200/50 dark:bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 placeholder-gray-500"
+              className="w-full pl-10 pr-4 py-2 bg-gray-200/50 dark:bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200 placeholder-gray-500"
             />
           </div>
           
@@ -230,7 +230,7 @@ const FilterModal = ({
                     />
                     <label 
                       htmlFor={`cat-${category}`} 
-                      className="ml-3 text-gray-200 flex-grow group-hover:text-white transition-colors"
+                      className="ml-3 text-gray-900 dark:text-gray-200 flex-grow group-hover:text-white transition-colors"
                     >
                       <div className="font-medium">{category}</div>
                     </label>
@@ -319,7 +319,7 @@ const IngredientRow = ({
       onClick={navigateToDetails}
       className="hover:bg-gray-200/50 dark:bg-gray-700/50 transition-colors cursor-pointer"
     >
-      <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-200">{ingredient.name}</td>
+      <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-gray-200">{ingredient.name}</td>
       <td className="px-6 py-4 whitespace-nowrap">{ingredient.category}</td>
 
       {visibleNutrientColumns.map(nutrient => {
@@ -366,7 +366,7 @@ const SearchBar = ({
       placeholder="Search ingredients or categories..."
       value={searchTerm}
       onChange={e => setSearchTerm(e.target.value)}
-      className="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 placeholder-gray-500"
+      className="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-800 dark:text-gray-200 placeholder-gray-500"
     />
   </div>
 );
@@ -559,7 +559,7 @@ export const IngredientList = () => {
               {category}
               <button 
                 onClick={() => setSelectedCategories(selectedCategories.filter(c => c !== category))}
-                className="ml-2 text-gray-400 hover:text-gray-200"
+                className="ml-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
               >
                 <X className="w-3 h-3" />
               </button>
@@ -646,7 +646,7 @@ export const IngredientList = () => {
                 <h3 className="text-lg font-medium">Add New Ingredient</h3>
                 <button
                   onClick={() => setShowForm(false)}
-                  className="text-gray-400 hover:text-gray-200"
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 >
                   <X className="w-5 h-5" />
                 </button>

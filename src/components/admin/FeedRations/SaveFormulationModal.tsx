@@ -40,7 +40,7 @@ export const SaveFormulationModal = ({
             <h3 className="text-lg font-medium">Save Formulation</h3>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-200"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
             >
               <X className="w-5 h-5" />
             </button>
@@ -55,7 +55,7 @@ export const SaveFormulationModal = ({
               id="formulation-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               placeholder="Enter a name for this formulation"
               autoFocus
             />

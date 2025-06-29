@@ -12,8 +12,8 @@ export const showSuccessToast = ({ message }: { message: string }) => {
           <CheckCircle />
         </div>
         <div className="ml-3 flex-1">
-          <p className="text-sm font-medium text-gray-100">Formulation Optimized!</p>
-          <p className="mt-1 text-sm text-gray-300">
+          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Formulation Optimized!</p>
+          <p className="mt-1 text-sm text-gray-700 dark:text-gray-300">
             {message}
           </p>
         </div>

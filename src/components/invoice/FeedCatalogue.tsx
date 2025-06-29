@@ -402,7 +402,7 @@ const CataloguePage: FC = () => {
                         <p className="text-[0.65rem] font-medium text-green-200 print:text-green-100 print:text-[0.6rem]">
                           {contact.label}
                         </p>
-                        <p className="text-[0.65rem] text-gray-300 print:text-[0.6rem] print:text-gray-200">
+                        <p className="text-[0.65rem] text-gray-700 dark:text-gray-300 print:text-[0.6rem] print:text-gray-200">
                           {contact.value}
                         </p>
                       </div>
@@ -412,7 +412,7 @@ const CataloguePage: FC = () => {
               </div>
               <div>
                 <h3 className="text-xs font-semibold text-white mb-1 print:text-xs">Pricing & Order Notes</h3>
-                <ul className="space-y-0.5 text-[0.65rem] print:text-[0.6rem] text-gray-300 print:text-gray-200">
+                <ul className="space-y-0.5 text-[0.65rem] print:text-[0.6rem] text-gray-700 dark:text-gray-300 print:text-gray-200">
                   {[
                     "Prices in USD, exclusive of VAT",
                     "Bulk discounts available",

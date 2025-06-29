@@ -39,19 +39,19 @@ const AnimalSelector: FC<AnimalSelectorProps> = ({ onSelectionChange }) => {
   }, [selectedAnimal, selectedProgram, selectedStage, onSelectionChange]);
 
   return (
-    <div className="space-y-6 p-6 bg-gray-800 rounded-lg shadow-xl border border-gray-700">
+    <div className="space-y-6 p-6 bg-gray-800 rounded-lg shadow-xl border border-gray-700 text-gray-900 dark:text-gray-200">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Animal Selection */}
         <div>
-          <label htmlFor="animal" className="block text-sm font-medium text-gray-200 mb-2">
+          <label htmlFor="animal" className="block text-sm font-medium text-gray-900 dark:text-gray-200 mb-2">
             Select Breed
           </label>
           <select
             id="animal"
             value={selectedAnimal?.id || ''}
             onChange={handleAnimalChange}
-            className="w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg shadow-sm 
-                     text-gray-200 focus:ring-2 focus:ring-green-400 focus:border-green-400 
+            className="w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg shadow-sm
+                     text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-green-400 focus:border-green-400
                      transition-all hover:border-gray-500"
           >
             <option value="" disabled className="bg-gray-700 text-gray-300">
@@ -61,7 +61,7 @@ const AnimalSelector: FC<AnimalSelectorProps> = ({ onSelectionChange }) => {
               <option 
                 key={animal.id} 
                 value={animal.id}
-                className="bg-gray-700 text-gray-200"
+                className="bg-gray-700 text-gray-800 dark:text-gray-200"
               >
                 {animal.breed}
               </option>
@@ -71,7 +71,7 @@ const AnimalSelector: FC<AnimalSelectorProps> = ({ onSelectionChange }) => {
 
         {/* Program Selection */}
         <div>
-          <label htmlFor="program" className="block text-sm font-medium text-gray-200 mb-2">
+          <label htmlFor="program" className="block text-sm font-medium text-gray-900 dark:text-gray-200 mb-2">
             Select Market Segment
           </label>
           <select
@@ -79,8 +79,8 @@ const AnimalSelector: FC<AnimalSelectorProps> = ({ onSelectionChange }) => {
             value={selectedProgram?.id || ''}
             onChange={handleProgramChange}
             disabled={!selectedAnimal}
-            className="w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg shadow-sm 
-                     text-gray-200 focus:ring-2 focus:ring-green-400 focus:border-green-400 
+            className="w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg shadow-sm
+                     text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-green-400 focus:border-green-400
                      transition-all hover:border-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <option value="" disabled className="bg-gray-700 text-gray-300">
@@ -90,7 +90,7 @@ const AnimalSelector: FC<AnimalSelectorProps> = ({ onSelectionChange }) => {
               <option 
                 key={program.id} 
                 value={program.id}
-                className="bg-gray-700 text-gray-200"
+                className="bg-gray-700 text-gray-800 dark:text-gray-200"
               >
                 {program.market_segment}
               </option>
@@ -100,7 +100,7 @@ const AnimalSelector: FC<AnimalSelectorProps> = ({ onSelectionChange }) => {
 
         {/* Stage Selection */}
         <div>
-          <label htmlFor="stage" className="block text-sm font-medium text-gray-200 mb-2">
+          <label htmlFor="stage" className="block text-sm font-medium text-gray-900 dark:text-gray-200 mb-2">
             Select Growth Stage
           </label>
           <select
@@ -108,8 +108,8 @@ const AnimalSelector: FC<AnimalSelectorProps> = ({ onSelectionChange }) => {
             value={selectedStage?.id || ''}
             onChange={handleStageChange}
             disabled={!selectedProgram}
-            className="w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg shadow-sm 
-                     text-gray-200 focus:ring-2 focus:ring-green-400 focus:border-green-400 
+            className="w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg shadow-sm
+                     text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-green-400 focus:border-green-400
                      transition-all hover:border-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <option value="" disabled className="bg-gray-700 text-gray-300">
@@ -119,7 +119,7 @@ const AnimalSelector: FC<AnimalSelectorProps> = ({ onSelectionChange }) => {
               <option 
                 key={stage.id} 
                 value={stage.id}
-                className="bg-gray-700 text-gray-200"
+                className="bg-gray-700 text-gray-800 dark:text-gray-200"
               >
                 {stage.stage}
               </option>

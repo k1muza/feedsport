@@ -190,7 +190,7 @@ export const ContributionChart: FC<ContributionChartProps> = ({
                       className="inline-block w-3 h-3 rounded-full mr-2"
                       style={{ backgroundColor: entry.color }}
                     />
-                    <span className="text-gray-200">{ingredient?.name || ''}</span>
+                    <span className="text-gray-900 dark:text-gray-200">{ingredient?.name || ''}</span>
                   </span>
                   <span className="font-medium text-right">
                     {absValue.toFixed(1)}%

@@ -65,7 +65,7 @@ export const SuggestedIngredients = ({
               <div>
                 {'nutrient' in suggestion ? (
                   <>
-                    <h4 className="font-medium text-gray-100">
+                    <h4 className="font-medium text-gray-900 dark:text-gray-100">
                       More {suggestion.nutrient?.name} needed
                     </h4>
                     <p className="text-sm text-gray-400">
@@ -75,7 +75,7 @@ export const SuggestedIngredients = ({
                   </>
                 ) : (
                   suggestion.ingredient && (
-                    <h4 className="font-medium text-gray-100">
+                    <h4 className="font-medium text-gray-900 dark:text-gray-100">
                       Add {suggestion.ingredient.name}
                     </h4>
                   )
@@ -112,13 +112,13 @@ export const SuggestedIngredients = ({
             
             {'nutrient' in suggestion && expandedNutrient === suggestion.nutrient?.name && (
               <div className="mt-4">
-                <p className="text-sm text-gray-300 mb-2">High sources of {suggestion.nutrient.name}:</p>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">High sources of {suggestion.nutrient.name}:</p>
                 <div className="space-y-2">
                   {findNutrientSources(suggestion.nutrient.name).map((ingredient) => (
                     <div key={ingredient.id} className="flex justify-between items-center bg-gray-200/50 dark:bg-gray-700/50 rounded p-2">
                       <div>
                         <span className="text-sm">{ingredient.name}</span>
-                        <span className="text-xs text-gray-400 ml-2">
+                        <span className="text-xs text-gray-600 dark:text-gray-400 ml-2">
                           ({ingredient.compositionValue.toFixed(2)}{ingredient.compositionUnit || ''})
                         </span>
                       </div>

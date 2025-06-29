@@ -48,7 +48,7 @@ export const AnimalSelectionModal = ({
           {/* Header */}
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">Select Animal Program</h3>
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-200">
+            <button onClick={onClose} className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
               <X className="w-5 h-5" />
             </button>
           </div>
