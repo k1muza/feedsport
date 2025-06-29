@@ -6,7 +6,7 @@ const ProgressBar = ({ value, target, met }: {
   max?: number;
   met: boolean;
 }) => (
-  <div className="mt-2 h-1.5 bg-gray-700 rounded-full overflow-hidden">
+  <div className="mt-2 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
     <div
       className="h-full rounded-full transition-all duration-300"
       style={{

@@ -56,10 +56,11 @@ export default function NavBar() {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled
-          ? 'bg-green-950 backdrop-blur-sm border-b border-gray-800'
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-green-950 dark:bg-green-900 backdrop-blur-sm border-b border-gray-800 dark:border-gray-700'
           : 'bg-transparent'
-        }`}
+      }`}
     >
       <div className="mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
         {/* Logo */}
@@ -113,7 +114,7 @@ export default function NavBar() {
           <div ref={searchRef} className="relative">
             <motion.button
               onClick={() => setSearchOpen(o => !o)}
-              className="p-2 rounded-full hover:bg-gray-800 transition-colors"
+              className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
               aria-label="Search"
               whileTap={{ scale: 0.9 }}
             >
@@ -131,7 +132,7 @@ export default function NavBar() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ type: 'spring', stiffness: 300 }}
-                  className="absolute right-0 mt-2 w-72 bg-gray-800 rounded-lg shadow-xl overflow-hidden border border-gray-700"
+                  className="absolute right-0 mt-2 w-72 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700"
                 >
                   <div className="relative">
                     <input
@@ -140,11 +141,11 @@ export default function NavBar() {
                       value={query}
                       onChange={e => setQuery(e.target.value)}
                       placeholder="Search products, resources..."
-                      className="w-full px-4 py-3 pr-10 text-gray-200 bg-gray-700 focus:outline-none placeholder-gray-400"
+                      className="w-full px-4 py-3 pr-10 text-gray-900 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 focus:outline-none placeholder-gray-400"
                     />
                     <button
                       type="submit"
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-green-400"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-green-500"
                     >
                       <FaSearch />
                     </button>
@@ -162,7 +163,7 @@ export default function NavBar() {
             <a
               href="https://wa.me/263774684534"
               target="_blank"
-              className="relative p-3 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors group"
+              className="relative p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors group"
               aria-label="Contact"
             >
               <FaPhoneAlt className="text-green-400 text-xl group-hover:rotate-12 transition-transform" />
@@ -175,10 +176,10 @@ export default function NavBar() {
               </motion.span>
             </a>
             <div className="hidden lg:block text-left">
-              <p className="text-xs text-gray-400">Expert Support</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Expert Support</p>
               <Link
                 href="tel:+263774684534"
-                className="font-medium text-gray-300 hover:text-green-400 text-sm transition-colors"
+                className="font-medium text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 text-sm transition-colors"
               >
                 +263 77 468 4534
               </Link>
@@ -202,7 +203,7 @@ export default function NavBar() {
           {/* Mobile toggle */}
           <motion.button
             onClick={() => setMobileOpen(o => !o)}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-800 transition-colors"
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
             aria-label="Menu"
             whileTap={{ scale: 0.9 }}
           >
@@ -223,7 +224,7 @@ export default function NavBar() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ type: 'spring', bounce: 0.1 }}
-            className="lg:hidden bg-gray-900 overflow-hidden shadow-inner"
+            className="lg:hidden bg-gray-100 dark:bg-gray-900 overflow-hidden shadow-inner"
           >
             <div className="px-4 py-3 space-y-2">
               {links.map(link => (
@@ -231,8 +232,8 @@ export default function NavBar() {
                   key={link.href}
                   href={link.href}
                   className={`block px-4 py-3 rounded-lg font-medium transition-colors ${isActive(link.href)
-                      ? 'bg-gray-800 text-green-400'
-                      : 'text-gray-300 hover:bg-gray-800'
+                      ? 'bg-gray-200 dark:bg-gray-800 text-green-600 dark:text-green-400'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800'
                     }`}
                   onClick={() => setMobileOpen(false)}
                 >

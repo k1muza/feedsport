@@ -34,7 +34,7 @@ export const SaveFormulationModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-800 border border-gray-700 rounded-xl w-full max-w-md">
+      <div className="bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-xl w-full max-w-md">
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-medium">Save Formulation</h3>
@@ -55,7 +55,7 @@ export const SaveFormulationModal = ({
               id="formulation-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               placeholder="Enter a name for this formulation"
               autoFocus
             />
@@ -65,7 +65,7 @@ export const SaveFormulationModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors"
+              className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-200 dark:bg-gray-700 transition-colors"
             >
               Cancel
             </button>

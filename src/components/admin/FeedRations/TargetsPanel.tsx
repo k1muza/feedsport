@@ -41,7 +41,7 @@ export const TargetsPanel = ({
   }, [computedValues, targets]);
 
   return (
-    <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+    <div className="bg-white/50 dark:bg-gray-800/50 border border-gray-700 rounded-xl p-4">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
           <h3 className="text-lg font-semibold text-gray-100">Nutrient Targets</h3>
@@ -61,7 +61,7 @@ export const TargetsPanel = ({
         <div className="flex items-center gap-2">
           <button
             onClick={onOpenAnimalModal}
-            className="p-2 text-white hover:bg-gray-700 rounded-md"
+            className="p-2 text-white hover:bg-gray-200 dark:bg-gray-700 rounded-md"
             title="Select animal program"
             type="button"
           >
@@ -69,7 +69,7 @@ export const TargetsPanel = ({
           </button>
           <button
             onClick={onOpenTargetModal}
-            className="p-2 text-gray-400 hover:bg-gray-700 rounded-md"
+            className="p-2 text-gray-400 hover:bg-gray-200 dark:bg-gray-700 rounded-md"
           >
             <Plus className="w-5 h-5" />
           </button>

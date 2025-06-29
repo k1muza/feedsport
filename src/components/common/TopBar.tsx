@@ -5,18 +5,18 @@ import { FaEnvelope, FaFacebookF, FaGlobeAmericas, FaInstagram, FaMapMarkerAlt, 
 
 export default function TopBar() {
   return (
-    <div className="bg-gray-100 py-2 hidden lg:block">
+    <div className="bg-gray-100 dark:bg-gray-900 py-2 hidden lg:block text-gray-700 dark:text-gray-200">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <div className="flex space-x-4">
             <div className="border-r border-green-600 pr-3">
-              <Link href="/locations" className="flex text-gray-600 text-sm hover:text-green-600">
+              <Link href="/locations" className="flex text-gray-600 dark:text-gray-300 text-sm hover:text-green-600">
                 <FaMapMarkerAlt className="text-green-600 mr-2" />
                 Find A Distributor
               </Link>
             </div>
             <div className="pl-3">
-              <Link href="mailto:sales@feedsport.com" className="flex text-gray-600 text-sm hover:text-green-600">
+              <Link href="mailto:sales@feedsport.com" className="flex text-gray-600 dark:text-gray-300 text-sm hover:text-green-600">
                 <FaEnvelope className="text-green-600 mr-2" />
                 sales@feedsport.co.zw
               </Link>
@@ -35,7 +35,7 @@ export default function TopBar() {
               </Link>
             </div>
             <div className="dropdown ml-3">
-              <button className="flex items-center text-gray-700 text-sm">
+              <button className="flex items-center text-gray-700 dark:text-gray-300 text-sm">
                 <FaGlobeAmericas className="text-green-600 mr-2" /> English
               </button>
             </div>

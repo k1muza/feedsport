@@ -48,7 +48,7 @@ export const ColumnConfigModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-800 border border-gray-700 rounded-xl w-full max-w-md max-h-[80vh] flex flex-col">
+      <div className="bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-xl w-full max-w-md max-h-[80vh] flex flex-col">
         <div className="p-6 flex-grow overflow-hidden flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-medium">Configure Columns</h3>
@@ -67,7 +67,7 @@ export const ColumnConfigModal = ({
               placeholder="Search nutrients..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 placeholder-gray-500"
+              className="w-full pl-10 pr-4 py-2 bg-gray-200/50 dark:bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 placeholder-gray-500"
             />
           </div>
 
@@ -81,7 +81,7 @@ export const ColumnConfigModal = ({
                       id={`col-${target.id}`}
                       checked={tempVisibleColumns.includes(target.id)}
                       onChange={() => toggleColumn(target.id)}
-                      className="w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded focus:ring-indigo-500"
+                      className="w-4 h-4 text-indigo-600 bg-gray-200 dark:bg-gray-700 border-gray-600 rounded focus:ring-indigo-500"
                     />
                     <label
                       htmlFor={`col-${target.id}`}
@@ -103,7 +103,7 @@ export const ColumnConfigModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors"
+              className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-200 dark:bg-gray-700 transition-colors"
             >
               Cancel
             </button>
