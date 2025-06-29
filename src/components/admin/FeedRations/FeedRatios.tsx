@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { getIngredients } from "@/data/ingredients";
@@ -40,8 +41,16 @@ export const FeedRatios = () => {
   const [showAnimalModal, setShowAnimalModal] = useState(false);
 
   // Data from API
-  const allIngredients = useMemo(() => getIngredients(), []);
-  const allNutrients = useMemo(() => getNutrients(), []);
+  const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
+  const [allNutrients, setAllNutrients] = useState<Nutrient[]>([]);
+
+  useEffect(() => {
+    async function load() {
+      setAllIngredients(await getIngredients());
+      setAllNutrients(await getNutrients());
+    }
+    load();
+  }, []);
 
   // Initialize targets
   const initialTargets = useMemo(() => {

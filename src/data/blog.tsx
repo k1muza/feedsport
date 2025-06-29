@@ -1,4 +1,5 @@
 import { BlogPost } from "@/types";
+import { db, seedDatabase } from './db';
 
 
 export const allBlogPosts: BlogPost[] = [
@@ -198,5 +199,13 @@ Zimbabwe spends **$200M+ annually** on feed imports. Here's how to reduce relian
       role: 'Poultry Researcher',
       image: '/images/authors/researcher.jpg'
     }
-  }
+  } 
 ];
+
+export const getBlogPosts = async (): Promise<BlogPost[]> => {
+  await seedDatabase();
+  if (await db.blogPosts.count() === 0) {
+    await db.blogPosts.bulkAdd(allBlogPosts as BlogPost[]);
+  }
+  return db.blogPosts.toArray();
+};

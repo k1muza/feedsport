@@ -24,22 +24,27 @@ const PageHeader = ({ setShowForm }: { setShowForm: (show: boolean) => void }) =
 );
 
 export default function AnimalInfo() {
+  const [animals, setAnimals] = useState<Animal[]>([]);
   const [selectedAnimal, setSelectedAnimal] = useState<Animal | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<AnimalProgram | null>(null);
   const [selectedStage, setSelectedStage] = useState<AnimalProgramStage | null>(null);
 
   useEffect(() => {
-    const initialAnimal = getAnimals()[0];
-    const initialProgram = initialAnimal?.programs[0];
-    const initialStage = initialProgram?.stages[0];
-
-    setSelectedAnimal(initialAnimal);
-    setSelectedProgram(initialProgram);
-    setSelectedStage(initialStage);
+    async function load() {
+      const list = await getAnimals();
+      setAnimals(list);
+      const initialAnimal = list[0];
+      const initialProgram = initialAnimal?.programs[0];
+      const initialStage = initialProgram?.stages[0];
+      setSelectedAnimal(initialAnimal);
+      setSelectedProgram(initialProgram);
+      setSelectedStage(initialStage);
+    }
+    load();
   }, []);
 
-  const animalSpecies = [...new Set(getAnimals().map(a => a.species))];
-  const breeds = getAnimals().filter(a => a.species === selectedAnimal?.species);
+  const animalSpecies = [...new Set(animals.map(a => a.species))];
+  const breeds = animals.filter(a => a.species === selectedAnimal?.species);
   const programs = selectedAnimal?.programs || [];
   const stages = selectedProgram?.stages || [];
 
@@ -55,7 +60,7 @@ export default function AnimalInfo() {
             label="Species"
             selected={selectedAnimal?.species}
             onSelect={(value) => {
-              const animal = getAnimals().find(a => a.species === value);
+              const animal = animals.find(a => a.species === value);
               setSelectedAnimal(animal || null);
               setSelectedProgram(animal?.programs[0] || null);
               setSelectedStage(animal?.programs[0]?.stages[0] || null);

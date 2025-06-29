@@ -1,8 +1,9 @@
 import {IngredientDetails} from "@/components/admin/IngredientDetails";
 import { getIngredients } from "@/data/ingredients";
 
-export const generateStaticParams = () => {
-  return getIngredients().map(ingredient => ({ id: ingredient.id.toString() }));
+export const generateStaticParams = async () => {
+  const ingredients = await getIngredients();
+  return ingredients.map(ingredient => ({ id: ingredient.id.toString() }));
 }
 
 export default async function IngredientDetailsPage({ params }: { params: Promise<{ id: string }> }) {
