@@ -11,8 +11,6 @@ import {
   Pencil,
   Search,
   Settings as SettingsIcon,
-  Sun,
-  Moon,
   User,
   X
 } from 'lucide-react';

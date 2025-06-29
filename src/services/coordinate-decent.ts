@@ -9,9 +9,45 @@ type BlendMetrics = {
 };
 
 export class IngredientAnalyser {
-  // Make it a static utility class. No need for an instance or singleton pattern.
-  // A private constructor prevents accidental instantiation if used incorrectly.
+  // Provide a minimal singleton interface for legacy usage
+  private static _instance: IngredientAnalyser = new IngredientAnalyser();
+
+  // Prevent accidental instantiation from outside
   private constructor() {}
+
+  static getInstance(): IngredientAnalyser {
+    return this._instance;
+  }
+
+  analyze(
+    ingredients: RatioIngredient[],
+    targets: TargetNutrient[],
+    initialStepSize = 0.15,
+    maxIterations = 2000,
+    tolerance = 1e-6,
+    minIngredientRatio = 0.001,
+    maxStagnation = 20,
+    stepSizeDecayFactor = 0.9,
+    minStepSize = 0.02,
+    stepSizeImprovementThreshold = 30,
+    blendTotalRatioPenaltyMultiplier = 1000,
+    minBlendRatioForPenalty = 0.001
+  ): OptimizationResult {
+    return IngredientAnalyser.analyze(
+      ingredients,
+      targets,
+      initialStepSize,
+      maxIterations,
+      tolerance,
+      minIngredientRatio,
+      maxStagnation,
+      stepSizeDecayFactor,
+      minStepSize,
+      stepSizeImprovementThreshold,
+      blendTotalRatioPenaltyMultiplier,
+      minBlendRatioForPenalty
+    );
+  }
 
   /**
    * Optimizes ingredient ratios to meet target nutrient profiles using an iterative search approach.
