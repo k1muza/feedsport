@@ -43,7 +43,7 @@ export const AnimalSelectionModal = ({
 
   return ReactDOM.createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-      <div className="bg-gray-800 border border-gray-700 rounded-xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl">
+      <div className="bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl">
         <div className="p-6 flex-1 flex flex-col overflow-hidden">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
@@ -67,7 +67,7 @@ export const AnimalSelectionModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-white border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors"
+              className="px-4 py-2 text-white border border-gray-600 rounded-lg hover:bg-gray-200 dark:bg-gray-700 transition-colors"
             >
               Cancel
             </button>

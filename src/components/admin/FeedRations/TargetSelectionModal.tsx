@@ -21,8 +21,8 @@ export const TargetSelectionModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-800 border border-gray-700 rounded-lg w-full max-w-md flex flex-col max-h-[90vh]">
-        <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-4 space-y-4">
+      <div className="bg-gray-100 dark:bg-gray-800 border border-gray-700 rounded-lg w-full max-w-md flex flex-col max-h-[90vh]">
+        <div className="sticky top-0 bg-gray-100 dark:bg-gray-800 border-b border-gray-700 p-4 space-y-4">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-semibold text-gray-100">
               Add Nutrient Targets
@@ -40,7 +40,7 @@ export const TargetSelectionModal = ({
             <input
               type="text"
               placeholder="Search nutrients..."
-              className="w-full pl-10 pr-4 py-2.5 bg-gray-900 border border-gray-700 rounded-lg text-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-700 rounded-lg text-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
               autoFocus
             />
           </div>
@@ -52,7 +52,7 @@ export const TargetSelectionModal = ({
             .map(nutrient => (
               <div
                 key={nutrient.id}
-                className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-700/30 cursor-pointer"
+                className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700/30 cursor-pointer"
                 onClick={() => addTargets([{ 
                   id: nutrient.id, 
                   name: nutrient.name, 
@@ -68,11 +68,11 @@ export const TargetSelectionModal = ({
             ))}
         </div>
 
-        <div className="sticky bottom-0 bg-gray-800 border-t border-gray-700 p-4">
+        <div className="sticky bottom-0 bg-gray-100 dark:bg-gray-800 border-t border-gray-700 p-4">
           <div className="flex justify-between items-center">
             <button
               onClick={onClose}
-              className="px-4 py-2.5 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors"
+              className="px-4 py-2.5 text-gray-300 hover:text-white hover:bg-gray-200/50 dark:bg-gray-700/50 rounded-lg transition-colors"
             >
               Cancel
             </button>

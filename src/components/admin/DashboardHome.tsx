@@ -248,7 +248,7 @@ export function DashboardHome() {
           {recentIngredients.map((ing, index) => (
             <li 
               key={ing.id} 
-              className="flex items-center p-3 bg-gray-100 dark:bg-gray-800/30 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800/50 transition-colors group"
+              className="flex items-center p-3 bg-gray-100 dark:bg-gray-200/30 dark:bg-gray-800/30 rounded-lg hover:bg-gray-200 dark:hover:bg-white/50 dark:bg-gray-800/50 transition-colors group"
             >
               <div className={`w-3 h-3 rounded-full mr-3 ${BAR_COLORS[index % BAR_COLORS.length]}`}></div>
               <div className="flex-1 min-w-0">

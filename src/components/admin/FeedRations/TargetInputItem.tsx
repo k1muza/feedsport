@@ -35,7 +35,7 @@ export const TargetInputItem = ({
             value={target.target ?? ''}
             onChange={(e) => handleChange('target', e)}
             placeholder="Min"
-            className="w-full pl-2 pr-6 py-1 bg-gray-800 border border-gray-600 rounded-md text-gray-200 text-sm focus:ring-1 focus:ring-indigo-500"
+            className="w-full pl-2 pr-6 py-1 bg-gray-100 dark:bg-gray-800 border border-gray-600 rounded-md text-gray-200 text-sm focus:ring-1 focus:ring-indigo-500"
           />
           <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
             {target.unit}
@@ -51,7 +51,7 @@ export const TargetInputItem = ({
             value={target.max ?? ''}
             onChange={(e) => handleChange('max', e)}
             placeholder="Max"
-            className="w-full pl-2 pr-6 py-1 bg-gray-800 border border-gray-600 rounded-md text-gray-200 text-sm focus:ring-1 focus:ring-indigo-500"
+            className="w-full pl-2 pr-6 py-1 bg-gray-100 dark:bg-gray-800 border border-gray-600 rounded-md text-gray-200 text-sm focus:ring-1 focus:ring-indigo-500"
           />
           <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
             {target.unit}
@@ -61,7 +61,7 @@ export const TargetInputItem = ({
         {/* Penalty toggle */}
         <button
           onClick={() => setShowPenalties(!showPenalties)}
-          className="ml-auto px-2 py-1 text-xs bg-gray-700 hover:bg-gray-600 rounded-md transition-colors"
+          className="ml-auto px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md transition-colors"
           aria-label={showPenalties ? "Hide penalties" : "Show penalties"}
         >
           {showPenalties ? "▲ Penalties" : "▼ Penalties"}
@@ -91,7 +91,7 @@ export const TargetInputItem = ({
               value={target.underPenaltyFactor ?? ''}
               onChange={(e) => handleChange('underPenaltyFactor', e)}
               placeholder={`Default (${DEFAULT_UNDER_PENALTY})`}
-              className="w-full pl-2 pr-2 py-1 bg-gray-800 border border-gray-600 rounded-md text-gray-200 text-sm"
+              className="w-full pl-2 pr-2 py-1 bg-gray-100 dark:bg-gray-800 border border-gray-600 rounded-md text-gray-200 text-sm"
             />
           </div>
           <div>
@@ -105,7 +105,7 @@ export const TargetInputItem = ({
               value={target.overPenaltyFactor ?? ''}
               onChange={(e) => handleChange('overPenaltyFactor', e)}
               placeholder={`Default (${DEFAULT_OVER_PENALTY})`}
-              className="w-full pl-2 pr-2 py-1 bg-gray-800 border border-gray-600 rounded-md text-gray-200 text-sm"
+              className="w-full pl-2 pr-2 py-1 bg-gray-100 dark:bg-gray-800 border border-gray-600 rounded-md text-gray-200 text-sm"
             />
           </div>
           <div className="col-span-2 text-xs text-gray-500 mt-1">

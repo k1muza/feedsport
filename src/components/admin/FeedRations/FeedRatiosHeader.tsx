@@ -25,7 +25,7 @@ export const FeedRatiosHeader = ({
     <div className="flex flex-wrap gap-2">
       <button
         onClick={onShowHistory}
-        className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg flex items-center space-x-2"
+        className="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-white rounded-lg flex items-center space-x-2"
       >
         <History className="w-4 h-4" />
         <span>Formulations</span>
