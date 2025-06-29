@@ -5,10 +5,15 @@ import Link from 'next/link';
 import { FaInfoCircle } from 'react-icons/fa';
 
 import { getFeaturedProducts } from '@/data/products';
-import { Composition } from '@/types';
+import { Composition, Product } from '@/types';
+import { useEffect, useState } from 'react';
 
 export default function ProductsSection() {
-  const products = getFeaturedProducts();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    getFeaturedProducts().then(setProducts);
+  }, []);
   
   return (
     <section className="py-16 bg-white" id="products">

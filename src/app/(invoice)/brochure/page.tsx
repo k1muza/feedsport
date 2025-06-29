@@ -3,6 +3,7 @@ import { Badge, Beef, Bird, Droplets, Egg, Leaf, Mail, MapPin, Phone, ShieldChec
 import Head from 'next/head';
 import Image from 'next/image';
 import type { FC, ReactNode, SyntheticEvent } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Product {
   id: number;
@@ -26,7 +27,7 @@ const getProductImage = (imagePath: string, productName: string) => {
   return `https://placehold.co/100x100/F3F3F3/333333?text=${encodeURIComponent(productName.substring(0, 15))}`;
 };
 
-const products: Product[] = [
+const PRODUCTS_DATA: Product[] = [
   {
     id: 1,
     name: "Cattle Pen Fattening Premix",
@@ -345,7 +346,12 @@ const ProductTitle = ({ children, className }: { children: ReactNode; className?
 );
 
 const CataloguePage: FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
   const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    setProducts(PRODUCTS_DATA);
+  }, []);
 
   const contactItems = [
     { label: "Phone", value: "+263 71 578 8572", Icon: Phone, href: "tel:+263715788572" },
