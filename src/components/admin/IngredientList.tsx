@@ -5,6 +5,7 @@ import { Ingredient as DataIngredient, Nutrient } from "@/types";
 import { ChevronDown, ChevronUp, Database, Eye, Filter, Plus, Search, Settings, Trash2, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
 // ============ Types ============
 interface UIIngredient extends DataIngredient {
@@ -305,9 +306,16 @@ const IngredientRow = ({
 }: {
   ingredient: UIIngredient;
   visibleNutrientColumns: Nutrient[];
-}) => (
-  <>
+}) => {
+  const router = useRouter();
+
+  const navigateToDetails = () => {
+    router.push(`/admin/ingredients/${ingredient.id}`);
+  };
+
+  return (
     <tr
+      onClick={navigateToDetails}
       className="hover:bg-gray-700/50 transition-colors cursor-pointer"
     >
       <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-200">{ingredient.name}</td>
@@ -323,16 +331,24 @@ const IngredientRow = ({
       })}
 
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex">
-        <Link href={`/admin/ingredients/${ingredient.id}`} className="text-indigo-400 hover:text-indigo-300 mr-4 transition-colors">
+        <Link
+          href={`/admin/ingredients/${ingredient.id}`}
+          onClick={(e) => e.stopPropagation()}
+          className="text-indigo-400 hover:text-indigo-300 mr-4 transition-colors"
+        >
           <Eye className="w-4 h-4" />
         </Link>
-        <Link href={`/admin/ingredients/${ingredient.id}/delete`}  className="text-red-400 hover:text-red-300 transition-colors">
+        <Link
+          href={`/admin/ingredients/${ingredient.id}/delete`}
+          onClick={(e) => e.stopPropagation()}
+          className="text-red-400 hover:text-red-300 transition-colors"
+        >
           <Trash2 className="w-4 h-4" />
         </Link>
       </td>
     </tr>
-  </>
-);
+  );
+};
 
 // ============ Search Bar Component ============
 const SearchBar = ({
