@@ -42,6 +42,8 @@ export type BlogPost = {
   date: string;
   author: Author;
   readingTime: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export interface Nutrient {
@@ -50,6 +52,8 @@ export interface Nutrient {
   description?: string;
   unit: string;
   category?: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface TargetNutrient extends Nutrient {
@@ -78,6 +82,8 @@ export type Ingredient = {
     applications?: string[];
     category?: string;
     compositions: Composition[];
+    createdAt: string;
+    updatedAt: string;
 };
 
 export type Product = {
@@ -92,6 +98,8 @@ export type Product = {
   images: string[];
   shipping?: string;
   featured?: boolean;
+  createdAt: string;
+  updatedAt: string;
 };
 
 // Types

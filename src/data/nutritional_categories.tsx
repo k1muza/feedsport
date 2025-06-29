@@ -3,9 +3,13 @@ export interface NutritionalCategory {
   name: string;
   parentId: string | null;
   description: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export const NUTRITIONAL_CATEGORIES: NutritionalCategory[] = [
+export type SeedNutritionalCategory = Omit<NutritionalCategory, 'createdAt' | 'updatedAt'>;
+
+export const NUTRITIONAL_CATEGORIES: SeedNutritionalCategory[] = [
   {
     id: 'macronutrients',
     name: 'Macronutrients',

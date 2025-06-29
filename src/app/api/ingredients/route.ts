@@ -5,7 +5,7 @@ export const dynamic = 'force-static'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(_request: Request): Promise<Response> {
-    const ingredients = getIngredients();
+    const ingredients = await getIngredients();
     return new Response(JSON.stringify(ingredients), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }

@@ -1,17 +1,21 @@
 'use client';
 
-
 import { getNutrients } from '@/data/nutrients';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // TODO: Simplify this, categories are simple strings
 export default function CategoryFilter() {
   const [activeCategory, setActiveCategory] = useState<string | null | undefined>('all');
+  const [categories, setCategories] = useState<{ id: string | undefined; name: string | undefined }[]>([]);
 
-  // Get unique categories
-  const categories = Array.from(
-    new Set(getNutrients().map((nutrient) => nutrient.category))
-  ).map((category) => ({ id: category, name: category }));
+  useEffect(() => {
+    async function load() {
+      const nutrients = await getNutrients();
+      const unique = Array.from(new Set(nutrients.map(n => n.category)));
+      setCategories(unique.map(category => ({ id: category, name: category })));
+    }
+    load();
+  }, []);
 
   return (
     <div className="flex flex-wrap justify-center gap-4 mb-8  max-w-7xl mx-auto">

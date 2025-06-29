@@ -1,6 +1,10 @@
+'use client';
+import { useEffect, useState } from 'react';
 import { getAnimals } from '@/data/animals';
 import { getIngredients } from '@/data/ingredients';
 import { getNutrients } from '@/data/nutrients';
+import { Ingredient, Nutrient } from '@/types';
+import { Animal } from '@/types/animals';
 import { Activity, AlertCircle, Database, List, Package } from 'lucide-react';
 import {
   Bar,
@@ -41,10 +45,18 @@ const CustomTooltip = ({ active, payload }: TooltipProps) => {
 };
 
 export function DashboardHome() {
-  // Fetch data
-  const ingredients = getIngredients();
-  const nutrients = getNutrients();
-  const animals = getAnimals();
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [nutrients, setNutrients] = useState<Nutrient[]>([]);
+  const [animals, setAnimals] = useState<Animal[]>([]);
+
+  useEffect(() => {
+    async function load() {
+      setIngredients(await getIngredients());
+      setNutrients(await getNutrients());
+      setAnimals(await getAnimals());
+    }
+    load();
+  }, []);
 
   // Stats
   const totalIngredients = ingredients.length;

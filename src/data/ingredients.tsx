@@ -1,6 +1,7 @@
 import { Ingredient } from "@/types";
 import { getNutrients } from "./nutrients";
-import ingredients from "../data/ingredients.json"
+import ingredients from "../data/ingredients.json";
+import { db, seedDatabase } from './db';
 
 
 /**
@@ -20,24 +21,27 @@ import ingredients from "../data/ingredients.json"
  *
  * @returns An array of ingredients with their category and nutrient information.
  */
-export const getIngredients = (): Ingredient[] => (ingredients as Ingredient[]).map(ingredient => {
-    return {
-        ...ingredient,
-        compositions: ingredient.compositions.map(composition => {
-            const nutrient = getNutrients().find(n => n.id === composition.nutrientId.toString())
-            return {
-                ...composition,
-                nutrient
-            }
-        })
-    }
-})
+export const getIngredients = async (): Promise<Ingredient[]> => {
+  await seedDatabase();
+  const ingredientData = await db.ingredients.toArray();
+  const nutrients = await getNutrients();
+  return ingredientData.map(ingredient => ({
+    ...ingredient,
+    compositions: ingredient.compositions.map(composition => ({
+      ...composition,
+      nutrient: nutrients.find(n => n.id === composition.nutrientId.toString())
+    }))
+  }));
+}
 
-export const getIngredientById = (id: string): Ingredient|undefined => getIngredients().find(i => i.id === id)
+export const getIngredientById = async (id: string): Promise<Ingredient | undefined> => {
+  const ingredients = await getIngredients();
+  return ingredients.find(i => i.id === id);
+}
 
-export const getNutrientAverages = () => {
+export const getNutrientAverages = async () => {
   // Flatten all compositions from all ingredients
-  const allCompositions = getIngredients().flatMap(ingredient => 
+  const allCompositions = (await getIngredients()).flatMap(ingredient =>
     ingredient.compositions.map(comp => ({
       ...comp,
       ingredientId: ingredient.id

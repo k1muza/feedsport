@@ -29,19 +29,19 @@ export class IngredientSuggestionService {
    * For each target nutrient that *can* be met, suggest the top ingredients by
    * highest concentration.  For truly infeasible ones, emits a no-go message.
    */
-  public static suggest(
+  public static async suggest(
     ingredients: RatioIngredient[],
     targets: TargetNutrient[],
     rawResult?: Result,
     topN: number = 3
-  ): IngredientSuggestion[] {
+  ): Promise<IngredientSuggestion[]> {
     const suggestions: IngredientSuggestion[] = [];
     const infeasible = this.detectInfeasibleTargets(ingredients, targets);
 
     // 1) For each infeasible target, recommend the top few providers by % content
     for (const target of infeasible) {
-      // Build [ { ing, value } ] for this nutrient
-      const candidates = getIngredients()
+      const all = await getIngredients();
+      const candidates = all
         .map(ing => {
           const comp = ing.compositions.find(c => c.nutrient?.id === target.id);
           return { ing, value: comp?.value ?? 0 };
@@ -53,14 +53,14 @@ export class IngredientSuggestionService {
       if (candidates.length === 0) {
         // No ingredient has any of this nutrient at all
         suggestions.push({
-          nutrient: getNutrientById(target.id),
+          nutrient: await getNutrientById(target.id),
           target: target.target,
         });
       } else {
         candidates.forEach(({ ing, value }) => {
           suggestions.push({
-            ingredient: getIngredientById(ing.id),
-            nutrient: getNutrientById(target.id),
+            ingredient: await getIngredientById(ing.id),
+            nutrient: await getNutrientById(target.id),
             target: value,
           });
         });

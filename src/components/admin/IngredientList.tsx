@@ -1,11 +1,12 @@
+'use client';
 import { getIngredients } from "@/data/ingredients";
 import { getNutrients } from "@/data/nutrients";
 import { getProducts } from "@/data/products";
 import { Ingredient as DataIngredient, Nutrient } from "@/types";
 import { ChevronDown, ChevronUp, Database, Eye, Filter, Plus, Search, Settings, Trash2, X } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 
 // ============ Types ============
 interface UIIngredient extends DataIngredient {
@@ -398,18 +399,22 @@ export const IngredientList = () => {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  
-  // Get all nutrients
-  const allNutrients = useMemo(() => getNutrients(), []);
-  
-  // Fetch and combine ingredient data
-  const ingredients = useMemo<UIIngredient[]>(() => {
-    const data = getIngredients();
-    const products = getProducts();
-    return data.map(i => {
-      const product = products.find(p => p.ingredientId === i.id);
-      return { ...i, cost: product?.price || 0 };
-    });
+
+  const [allNutrients, setAllNutrients] = useState<Nutrient[]>([]);
+  const [ingredients, setIngredients] = useState<UIIngredient[]>([]);
+
+  useEffect(() => {
+    async function load() {
+      const nutrientData = await getNutrients();
+      setAllNutrients(nutrientData);
+      const data = await getIngredients();
+      const products = await getProducts();
+      setIngredients(data.map(i => {
+        const product = products.find(p => p.ingredientId === i.id);
+        return { ...i, cost: product?.price || 0 };
+      }));
+    }
+    load();
   }, []);
 
   // Get all unique categories

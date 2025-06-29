@@ -44,5 +44,7 @@ export type Animal = {
   slug: string;
   breed: string;
   description: string;
+  createdAt: string;
+  updatedAt: string;
   programs: AnimalProgram[];
 };

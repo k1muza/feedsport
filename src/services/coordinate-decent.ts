@@ -346,7 +346,9 @@ export class IngredientAnalyser {
           id: t.id, // Assuming TargetNutrient has an 'id'
           name: t.name,
           unit: t.unit || '', // Fallback if TargetNutrient doesn't carry unit info
-          description: t.description || '' // Fallback if TargetNutrient doesn't carry description
+          description: t.description || '', // Fallback if TargetNutrient doesn't carry description
+          createdAt: '',
+          updatedAt: ''
         } as Nutrient, // Cast implies this structure matches the Nutrient type
         target: t.target,
         current: profile[t.name] || 0,

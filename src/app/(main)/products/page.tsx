@@ -1,10 +1,18 @@
+'use client';
+import { useEffect, useState } from 'react';
 import SecondaryHero from '@/components/common/SecondaryHero';
 import CategoryFilter from '@/components/products/CategoryFilter';
 import IngredientCard from '@/components/products/IngredientCard';
 import { getProducts } from '@/data/products';
+import { Product } from '@/types';
 
 export default function ProductsPage() {
-  const products = getProducts();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    getProducts().then(setProducts);
+  }, []);
+
   return (
     <>
       <SecondaryHero

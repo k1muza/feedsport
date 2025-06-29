@@ -1,8 +1,10 @@
 import { Product } from "@/types";
 import { getIngredients } from "./ingredients";
+import { db, seedDatabase, addTimestamps } from './db';
 
 
-export const ALL_PRODUCTS: Product[] = [
+export type SeedProduct = Omit<Product, 'createdAt' | 'updatedAt'>;
+export const ALL_PRODUCTS: SeedProduct[] = [
   // Protein Sources
   {
     id: 'soy-48',
@@ -96,32 +98,36 @@ export const ALL_PRODUCTS: Product[] = [
   }
 ];
 
-export const getProducts = (): Product[] => {
-  return ALL_PRODUCTS.map(product => {
-    const ingredient = getIngredients().find(ingredient => ingredient.id === product.ingredientId);
-    return {
-      ...product,
-      ingredient,
-    }
-  })
+export const getProducts = async (): Promise<Product[]> => {
+  await seedDatabase();
+  if (await db.products.count() === 0) {
+    await db.products.bulkAdd(addTimestamps(ALL_PRODUCTS as SeedProduct[]) as Product[]);
+  }
+  const products = await db.products.toArray();
+  const ingredients = await getIngredients();
+  return products.map(product => ({
+    ...product,
+    ingredient: ingredients.find(ingredient => ingredient.id === product.ingredientId)
+  }));
 }
 
 // Helper functions
-export const getFeaturedProducts = (): Product[] => {
-  return getProducts().filter(product => product.featured).slice(0, 4); // Get the first 3 featured products
+export const getFeaturedProducts = async (): Promise<Product[]> => {
+  const products = await getProducts();
+  return products.filter(product => product.featured).slice(0, 4);
 };
 
-export const getProductsByCategory = (categoryId: string): Product[] => {
-  return getProducts().filter(product => {
-    const ingredient = getIngredients().find(ingredient => ingredient.id === product.ingredientId);
-    return ingredient?.category === categoryId;
-  });
+export const getProductsByCategory = async (categoryId: string): Promise<Product[]> => {
+  const products = await getProducts();
+  return products.filter(product => product.ingredient?.category === categoryId);
 };
 
-export const getProductById = (id: string): Product | undefined => {
-  return getProducts().find(product => product.id === id);
+export const getProductById = async (id: string): Promise<Product | undefined> => {
+  const products = await getProducts();
+  return products.find(product => product.id === id);
 };
 
-export const getProductByIngredientId = (ingredientId: string): Product | undefined => {
-  return getProducts().find(product => product.ingredientId === ingredientId);
+export const getProductByIngredientId = async (ingredientId: string): Promise<Product | undefined> => {
+  const products = await getProducts();
+  return products.find(product => product.ingredientId === ingredientId);
 }

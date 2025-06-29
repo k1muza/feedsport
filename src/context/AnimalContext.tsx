@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { getAnimals } from '@/data/animals';
+import { db, seedDatabase } from '@/data/db';
 import { Animal } from '@/types/animals';
 
 interface AnimalContextType {
@@ -17,8 +17,12 @@ export const AnimalProvider = ({ children }: { children: ReactNode }) => {
   const [selectedAnimal, setSelectedAnimal] = useState<Animal | null>(null);
 
   useEffect(() => {
-    const typedAnimals = getAnimals()
-    setAnimals(typedAnimals);
+    async function load() {
+      await seedDatabase();
+      const typedAnimals = await db.animals.toArray();
+      setAnimals(typedAnimals);
+    }
+    load();
   }, []);
 
   return (
