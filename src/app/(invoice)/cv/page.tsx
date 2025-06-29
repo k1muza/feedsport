@@ -4,6 +4,7 @@
 import type { FC, ReactNode } from 'react';
 import { FaDownload, FaGithub, FaLinkedin, FaEnvelope, FaGlobe, FaPhone } from 'react-icons/fa';
 import { Merriweather, Orbitron, Inter } from 'next/font/google';
+import Image from 'next/image';
 
 const inter = Inter({
   weight: '400',
@@ -201,9 +202,11 @@ export default function CVPage() {
           {/* Header */}
           <header className="mb-6 pb-4 border-b border-gray-200">
             <div className="flex flex-row gap-6 items-start">
-              <img
+              <Image
                 src="/images/kelvin.jpg"
                 alt="Kelvin Muza"
+                width={144}
+                height={144}
                 className="w-36 h-36 inline-block rounded-xl object-cover border-2 border-teal-500"
               />
 
