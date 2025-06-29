@@ -13,7 +13,6 @@ const links = [
   { href: '/products', label: 'Products' },
   { href: '/blog', label: 'Resources' },
   { href: '/contact', label: 'Contact' },
-  { href: '/login', label: 'Login' },
 ]
 
 export default function NavBar() {
@@ -201,6 +200,14 @@ export default function NavBar() {
             </Link>
           </motion.div>
 
+          {/* Login */}
+          <Link
+            href="/login"
+            className={`hidden lg:inline-block font-medium px-4 py-2 transition-colors ${isActive('/login') ? 'text-green-400' : 'text-gray-300 hover:text-green-400'}`}
+          >
+            Login
+          </Link>
+
           {/* Mobile toggle */}
           <motion.button
             onClick={() => setMobileOpen(o => !o)}
@@ -241,6 +248,16 @@ export default function NavBar() {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href="/login"
+                className={`block px-4 py-3 rounded-lg font-medium transition-colors ${isActive('/login')
+                    ? 'bg-gray-200 dark:bg-gray-800 text-green-600 dark:text-green-400'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800'
+                  }`}
+                onClick={() => setMobileOpen(false)}
+              >
+                Login
+              </Link>
               <Link
                 href="https://wa.me/263774684534"
                 target="_blank"
