@@ -1,7 +1,7 @@
 // app/page.tsx
 "use client";
 
-import React from 'react';
+import type { FC, ReactNode } from 'react';
 import { FaDownload, FaGithub, FaLinkedin, FaEnvelope, FaGlobe, FaPhone } from 'react-icons/fa';
 import { Merriweather, Orbitron, Inter } from 'next/font/google';
 
@@ -178,10 +178,10 @@ const cvData = {
 
 interface SectionProps {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const Section: React.FC<SectionProps> = ({ title, children }) => (
+const Section: FC<SectionProps> = ({ title, children }) => (
   <section className="mb-8">
     <div className="flex items-center mb-4 break-inside-avoid">
       <div className="bg-gradient-to-r from-cyan-500 to-teal-500 w-3 h-8 rounded-md mr-3" />

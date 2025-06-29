@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { FaChartLine, FaDna, FaEgg, FaFire, FaLeaf, FaPiggyBank, FaShieldAlt } from 'react-icons/fa'
 import { FaCow } from 'react-icons/fa6'
 
@@ -10,7 +10,7 @@ interface Formulation {
   id: number
   name: string
   tagline: string
-  icon: React.ReactNode
+  icon: ReactNode
   color: string
   status: 'active' | 'low' | 'out'
   animals: string[]

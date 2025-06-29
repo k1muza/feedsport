@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC, type ChangeEvent } from 'react';
 import { useAnimal } from '@/context/AnimalContext';
 import { Animal, AnimalProgram, AnimalProgramStage } from '@/types/animals';
 
@@ -11,25 +11,25 @@ interface AnimalSelectorProps {
   ) => void;
 }
 
-const AnimalSelector: React.FC<AnimalSelectorProps> = ({ onSelectionChange }) => {
+const AnimalSelector: FC<AnimalSelectorProps> = ({ onSelectionChange }) => {
   const { animals, selectedAnimal, setSelectedAnimal } = useAnimal();
   const [selectedProgram, setSelectedProgram] = useState<AnimalProgram | null>(null);
   const [selectedStage, setSelectedStage] = useState<AnimalProgramStage | null>(null);
 
-  const handleAnimalChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleAnimalChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const animal = animals.find((a) => a.id === Number(e.target.value));
     setSelectedAnimal(animal ?? null);
     setSelectedProgram(null);
     setSelectedStage(null);
   };
 
-  const handleProgramChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleProgramChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const program = selectedAnimal?.programs.find((p: AnimalProgram) => p.id === Number(e.target.value)) || null;
     setSelectedProgram(program);
     setSelectedStage(null);
   };
 
-  const handleStageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleStageChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const stage = selectedProgram?.stages.find((s) => s.id === Number(e.target.value)) || null;
     setSelectedStage(stage);
   };

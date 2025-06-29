@@ -1,6 +1,6 @@
 import { Ingredient, TargetNutrient } from "@/types";
 import { Search, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 
 interface IngredientSelectionModalProps {
   isOpen: boolean;
@@ -38,7 +38,7 @@ export const IngredientSelectionModal = ({
     }
   }, [searchTerm, allIngredients, isOpen]);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 

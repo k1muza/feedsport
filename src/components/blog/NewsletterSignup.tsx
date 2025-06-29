@@ -1,7 +1,7 @@
 // components/NewsletterSignup.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { FiMail } from 'react-icons/fi';
 
 export default function NewsletterSignup() {
@@ -9,7 +9,7 @@ export default function NewsletterSignup() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
