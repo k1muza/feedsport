@@ -46,3 +46,5 @@ export type Animal = {
   description: string;
   programs: AnimalProgram[];
 };
+
+export type SeedAnimal = Omit<Animal, 'createdAt' | 'updatedAt'>;
