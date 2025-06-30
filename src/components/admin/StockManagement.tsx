@@ -128,7 +128,7 @@ export const StockManagement = () => {
             </thead>
             <tbody className="divide-y divide-gray-700">
               {sortedInventory.map((item) => (
-                <>
+                <div key={item.id}>
                   <tr 
                     key={item.id} 
                     className="hover:bg-gray-200/50 dark:bg-gray-700/50 transition-colors cursor-pointer"
@@ -230,7 +230,7 @@ export const StockManagement = () => {
                       </td>
                     </tr>
                   )}
-                </>
+                </div>
               ))}
             </tbody>
           </table>

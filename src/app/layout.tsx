@@ -2,7 +2,6 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/context/ThemeContext";
-import Script from "next/script";
 import { ReactNode } from "react";
 
 const geistSans = Geist({
@@ -31,9 +30,6 @@ export default function RootLayout({
         <ThemeProvider>{children}</ThemeProvider>
       </body>
 
-      <Script id="fdprocessedid-cleanup" strategy="beforeInteractive">
-        {`document.querySelectorAll('[fdprocessedid]').forEach(el => el.removeAttribute('fdprocessedid'));`}
-      </Script>
       <GoogleAnalytics gaId="G-EPHLVQPHS9" />
     </html>
   )

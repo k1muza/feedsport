@@ -5,7 +5,7 @@ import { getProducts } from "@/data/products";
 import { Ingredient as DataIngredient, Nutrient } from "@/types";
 import { ChevronDown, ChevronUp, Database, Eye, Filter, Plus, Search, Settings, Trash2, X } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/compat/router";
 import { useEffect, useMemo, useState } from "react";
 
 // ============ Types ============
@@ -311,7 +311,7 @@ const IngredientRow = ({
   const router = useRouter();
 
   const navigateToDetails = () => {
-    router.push(`/admin/ingredients/${ingredient.id}`);
+    router?.push(`/admin/ingredients/${ingredient.id}`);
   };
 
   return (
@@ -532,7 +532,7 @@ export const IngredientList = () => {
             <Settings className="w-4 h-4 text-gray-400" />
             <span>Columns</span>
           </button>
-          <button 
+          {/* <button 
             onClick={() => setShowFilterModal(true)}
             className="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:bg-gray-700 border border-gray-700 rounded-lg flex items-center space-x-2 transition-colors relative"
           >
@@ -543,7 +543,7 @@ export const IngredientList = () => {
                 {selectedCategories.length}
               </span>
             )}
-          </button>
+          </button> */}
         </div>
       </div>
 
