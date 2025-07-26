@@ -1,3 +1,5 @@
+"use client";
+
 // TargetInputItem.tsx
 import { TargetNutrient } from "@/types";
 import { X } from "lucide-react";

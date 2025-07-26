@@ -1,3 +1,5 @@
+"use client";
+
 import { RatioIngredient, TargetNutrient } from '@/types';
 import React, { useMemo } from 'react';
 import {

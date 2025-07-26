@@ -1,3 +1,5 @@
+"use client";
+
 import { TargetNutrient } from "@/types";
 import { X, Search } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";

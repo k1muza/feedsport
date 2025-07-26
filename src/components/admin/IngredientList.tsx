@@ -1,3 +1,5 @@
+"use client";
+
 import { getIngredients } from "@/data/ingredients";
 import { getNutrients } from "@/data/nutrients";
 import { getProducts } from "@/data/products";

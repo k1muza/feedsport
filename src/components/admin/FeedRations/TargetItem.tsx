@@ -1,3 +1,5 @@
+"use client";
+
 import { TargetNutrient } from "@/types";
 import { useState } from "react";
 import { TargetInputItem } from "./TargetInputItem";

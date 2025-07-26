@@ -1,7 +1,9 @@
-'use client';
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { useAnimal } from '@/context/AnimalContext';
 import { Animal, AnimalProgram, AnimalProgramStage } from '@/types/animals';
+import { getAnimals } from '@/data/animals';
 
 interface AnimalSelectorProps {
   onSelectionChange: (

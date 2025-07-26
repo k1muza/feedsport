@@ -1,3 +1,5 @@
+"use client";
+
 import { Ingredient, TargetNutrient } from "@/types";
 import { Search, X } from "lucide-react";
 import { useEffect, useState } from "react";

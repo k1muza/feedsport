@@ -1,6 +1,7 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children, // Will be either main or invoice layout + pages
+  children,
 }: {
   children: React.ReactNode
 }) {
@@ -31,4 +32,4 @@ export default function RootLayout({
       <GoogleAnalytics gaId="G-EPHLVQPHS9" />
     </html>
   )
-}
+} 

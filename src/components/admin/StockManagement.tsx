@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Package, Plus, Download, Edit2, History, ArrowUpDown, ChevronDown, ChevronUp, X } from "lucide-react";
 

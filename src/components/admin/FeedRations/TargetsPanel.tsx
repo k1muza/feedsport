@@ -1,3 +1,5 @@
+"use client";
+
 import { TargetNutrient } from "@/types";
 import { CheckCircle, Plus, Rabbit } from "lucide-react";
 import { useMemo } from "react";

@@ -2,43 +2,6 @@ import { getAnimals } from '@/data/animals';
 import { getIngredients } from '@/data/ingredients';
 import { getNutrients } from '@/data/nutrients';
 import { Activity, AlertCircle, Database, List, Package } from 'lucide-react';
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
-} from 'recharts';
-
-
-interface TooltipProps {
-  active?: boolean;
-  payload?: {
-    name: string;
-    value: number;
-    payload: { category: string; name: string; value: number }}[];
-}
-
-// Custom tooltip for charts
-const CustomTooltip = ({ active, payload }: TooltipProps) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="bg-gray-800 p-3 border border-gray-700 rounded-lg shadow-lg">
-        <p className="font-medium">{payload[0].payload.category || payload[0].payload.name}</p>
-        <p className="text-indigo-300">
-          {payload[0].value} {payload[0].name.toLowerCase()}
-        </p>
-      </div>
-    );
-  }
-  return null;
-};
 
 export function DashboardHome() {
   // Fetch data
@@ -79,16 +42,16 @@ export function DashboardHome() {
     .slice(0, 5);
 
   return (
-    <div className="space-y-8 p-6">
+    <div className="space-y-8 p-6 text-gray-100">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard Overview</h1>
+          <h1 className="text-2xl font-bold text-gray-100">Dashboard Overview</h1>
           <p className="text-gray-400">Your feed formulation insights at a glance</p>
         </div>
         <div className="flex items-center space-x-2 bg-indigo-900/30 px-4 py-2 rounded-lg">
           <Activity className="w-5 h-5 text-indigo-400" />
-          <span className="text-sm">Last updated: Today</span>
+          <span className="text-sm text-gray-300">Last updated: Today</span>
         </div>
       </div>
 
@@ -133,51 +96,41 @@ export function DashboardHome() {
                 <stat.icon className="w-6 h-6 text-white" />
               </div>
               <div className="text-right">
-                <p className="text-3xl font-bold text-white">{stat.value}</p>
+                <p className="text-3xl font-bold text-gray-100">{stat.value}</p>
               </div>
             </div>
-            <h3 className="text-lg font-semibold text-white mt-4">{stat.title}</h3>
+            <h3 className="text-lg font-semibold text-gray-100 mt-4">{stat.title}</h3>
             <p className="text-gray-400 text-sm mt-1">{stat.desc}</p>
           </div>
         ))}
       </div>
 
-      {/* Graphs Section */}
+      {/* Data Tables Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Ingredients by Category */}
         <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-gray-700 rounded-xl p-5">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-lg font-semibold text-white">Ingredients by Category</h3>
+              <h3 className="text-lg font-semibold text-gray-100">Ingredients by Category</h3>
               <p className="text-gray-400 text-sm">Distribution of raw materials</p>
             </div>
-            <div className="bg-gray-700/50 px-3 py-1 rounded-full text-sm">
+            <div className="bg-gray-700/50 px-3 py-1 rounded-full text-sm text-gray-300">
               {Object.keys(categoryCounts).length} categories
             </div>
           </div>
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={barData} margin={{ top: 5, right: 30, bottom: 40 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                <XAxis 
-                  dataKey="category" 
-                  angle={-30} 
-                  textAnchor="end" 
-                  height={60}
-                  tick={{ fill: '#ccc', fontSize: 12 }}
-                />
-                <YAxis 
-                  tick={{ fill: '#ccc', fontSize: 12 }} 
-                  tickLine={false}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="count" name="ingredients">
-                  {barData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={BAR_COLORS[index % BAR_COLORS.length]} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+          <div className="space-y-2">
+            {barData.map((item, index) => (
+              <div key={item.category} className="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg">
+                <div className="flex items-center">
+                  <div 
+                    className="w-4 h-4 rounded mr-3" 
+                    style={{ backgroundColor: BAR_COLORS[index % BAR_COLORS.length] }}
+                  ></div>
+                  <span className="text-gray-100">{item.category}</span>
+                </div>
+                <span className="text-indigo-300 font-semibold">{item.count}</span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -185,47 +138,26 @@ export function DashboardHome() {
         <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-gray-700 rounded-xl p-5">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-lg font-semibold text-white">Programs by Animal Species</h3>
+              <h3 className="text-lg font-semibold text-gray-100">Programs by Animal Species</h3>
               <p className="text-gray-400 text-sm">Distribution of feeding programs</p>
             </div>
-            <div className="bg-gray-700/50 px-3 py-1 rounded-full text-sm">
+            <div className="bg-gray-700/50 px-3 py-1 rounded-full text-sm text-gray-300">
               {programCounts.length} species
             </div>
           </div>
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={programCounts}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={100}
-                  innerRadius={60}
-                  paddingAngle={2}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                >
-                  {programCounts.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Legend 
-                  layout="vertical" 
-                  verticalAlign="middle" 
-                  align="right"
-                  formatter={(value) => <span className="text-xs">{value}</span>}
-                />
-                <Tooltip 
-                  formatter={(value) => [`${value} programs`, 'Count']} 
-                  contentStyle={{ 
-                    backgroundColor: 'rgb(30 41 59)',
-                    borderColor: 'rgb(55 65 81)',
-                    borderRadius: '0.5rem'
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+          <div className="space-y-2">
+            {programCounts.map((item, index) => (
+              <div key={item.name} className="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg">
+                <div className="flex items-center">
+                  <div 
+                    className="w-4 h-4 rounded mr-3" 
+                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                  ></div>
+                  <span className="text-gray-100">{item.name}</span>
+                </div>
+                <span className="text-indigo-300 font-semibold">{item.value} programs</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -234,7 +166,7 @@ export function DashboardHome() {
       <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-gray-700 rounded-xl p-5">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-lg font-semibold text-white">Recently Added Ingredients</h3>
+            <h3 className="text-lg font-semibold text-gray-100">Recently Added Ingredients</h3>
             <p className="text-gray-400 text-sm">Latest additions to your inventory</p>
           </div>
           <button className="text-sm text-indigo-400 hover:text-indigo-300 flex items-center">
@@ -250,9 +182,12 @@ export function DashboardHome() {
               key={ing.id} 
               className="flex items-center p-3 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-colors group"
             >
-              <div className={`w-3 h-3 rounded-full mr-3 ${BAR_COLORS[index % BAR_COLORS.length]}`}></div>
+              <div 
+                className="w-3 h-3 rounded-full mr-3"
+                style={{ backgroundColor: BAR_COLORS[index % BAR_COLORS.length] }}
+              ></div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white truncate group-hover:text-indigo-300 transition-colors">
+                <p className="text-sm font-medium text-gray-100 truncate group-hover:text-indigo-300 transition-colors">
                   {ing.name}
                 </p>
                 <div className="flex justify-between mt-1">

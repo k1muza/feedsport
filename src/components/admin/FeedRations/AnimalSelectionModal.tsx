@@ -1,3 +1,5 @@
+"use client";
+
 import AnimalSelector from "@/components/common/AnimalSelector";
 import { Animal, AnimalProgram, AnimalProgramStage } from "@/types/animals";
 import { X } from "lucide-react";

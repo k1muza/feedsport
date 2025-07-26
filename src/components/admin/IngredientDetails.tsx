@@ -1,5 +1,6 @@
 // IngredientDetails.tsx
-'use client';
+"use client";
+
 import { getIngredientById, getNutrientAverages, getIngredients } from '@/data/ingredients';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';

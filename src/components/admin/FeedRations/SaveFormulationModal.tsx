@@ -1,5 +1,7 @@
+"use client";
+
 import { showErrorToast } from "@/components/common/ErrorToast";
-import { X } from "lucide-react";
+import { X, Save } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export const SaveFormulationModal = ({
