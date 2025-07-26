@@ -280,7 +280,7 @@ export function IngredientDetails({ id }: { id: string }) {
     ingredient ? calculateNutrientRankings(ingredient) : {}
   , [ingredient]);
 
-  const compositions = ingredient?.compositions || [];
+  const compositions = useMemo(() => ingredient?.compositions || [], [ingredient]);
 
   const topRankedNutrients = useMemo(() => {
     if (!ingredient) return [];

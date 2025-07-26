@@ -13,6 +13,35 @@ import {
   CartesianGrid,
 } from 'recharts';
 
+// Type definitions for Recharts components
+interface YAxisTickProps {
+  x: number;
+  y: number;
+  payload: {
+    value: string;
+  };
+}
+
+// Type for chart data row
+interface ChartDataRow {
+  name: string;
+  _targetValue: number;
+  _actualTotalAbsolute: number;
+  _actualTotalNormalized: number;
+  [key: string]: string | number; // Allow dynamic ingredient keys
+}
+
+interface TooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    dataKey: string;
+    color: string;
+    payload: ChartDataRow;
+  }>;
+  label?: string;
+  ingredients: RatioIngredient[];
+}
+
 interface ContributionChartProps {
   ingredients: RatioIngredient[];
   computedValues: Record<string, number>; // This prop is correctly passed and will be used for tooltip totals
@@ -110,7 +139,7 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({
   };
 
   // Custom Y-axis tick with wrapping
-  const CustomYAxisTick: React.FC<any> = ({ x, y, payload }) => {
+  const CustomYAxisTick = ({ x, y, payload }: YAxisTickProps) => {
     const lines = splitLabel(payload.value);
     return (
       <g transform={`translate(${x},${y})`}>
@@ -132,7 +161,7 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({
   };
 
   // Enhanced dark themed tooltip
-  const CustomTooltip: React.FC<any> = ({ active, payload, label }) => {
+  const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
     if (!active || !payload?.length || !payload[0]?.payload) return null;
 
     const rowData = payload[0].payload; // Access the full row data for the current nutrient
@@ -160,12 +189,12 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({
         <div className="mt-3 pt-2 border-t border-gray-700">
           <h4 className="text-gray-300 text-sm font-medium mb-1">Ingredients:</h4>
           <ul className="space-y-1">
-            {payload.map((entry: any, idx: number) => {
+            {payload.map((entry, idx: number) => {
               const ingredient = ingredients.find(i => i.id === entry.dataKey); // Find ingredient by ID for name
 
               // Access the uncapped absolute and normalized values from rowData
-              const absValue = rowData[`${entry.dataKey}_uncapped_abs`] || 0;
-              const normalizedValue = rowData[`${entry.dataKey}_uncapped_norm`] || 0;
+              const absValue = (rowData[`${entry.dataKey}_uncapped_abs`] as number) || 0;
+              const normalizedValue = (rowData[`${entry.dataKey}_uncapped_norm`] as number) || 0;
 
               return (
                 <li key={idx} className="flex justify-between items-start">
@@ -240,7 +269,7 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({
             dataKey="name"
             type="category"
             width={100}
-            tick={<CustomYAxisTick />}
+            tick={CustomYAxisTick}
             axisLine={false}
             tickLine={false}
           />

@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { getIngredients } from "@/data/ingredients";
 import { getNutrients } from "@/data/nutrients";
-import { getAnimals } from "@/data/animals";
 import { IngredientAnalyser } from "@/services/coordinate-decent";
 import { RatioOptimizer } from "@/services/simplex";
 import { Formulation, Ingredient, IngredientSuggestion, RatioIngredient, TargetNutrient } from "@/types";
