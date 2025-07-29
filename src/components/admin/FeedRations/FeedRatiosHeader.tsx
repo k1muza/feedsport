@@ -1,19 +1,15 @@
-import { Calculator, History, Wand, ZoomIn } from "lucide-react";
+import { Calculator, History, Wand } from "lucide-react";
 
 interface FeedRatiosHeaderProps {
   onShowHistory: () => void;
   onOptimize: () => void;
-  onAnalyze: () => void;
   optimizing: boolean;
-  analysing: boolean;
 }
 
 export const FeedRatiosHeader = ({
   onShowHistory,
   onOptimize,
-  onAnalyze,
-  optimizing,
-  analysing
+  optimizing
 }: FeedRatiosHeaderProps) => (
   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
     <div className="flex items-center space-x-3">
@@ -37,14 +33,6 @@ export const FeedRatiosHeader = ({
       >
         <Wand className="w-4 h-4" />
         <span>{optimizing ? 'Optimizing...' : 'Optimize'}</span>
-      </button>
-      
-      <button
-        onClick={onAnalyze}
-        className="px-4 py-2 bg-purple-600 hover:bg-magenta-500 text-white rounded-lg flex items-center space-x-2"
-      >
-        <ZoomIn className="w-4 h-4" />
-        <span>{analysing ? 'Analyzing...' : 'Analyze'}</span>
       </button>
     </div>
   </div>

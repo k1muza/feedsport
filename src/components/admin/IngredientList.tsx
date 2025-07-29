@@ -325,10 +325,10 @@ const IngredientRow = ({
       })}
 
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex">
-        <Link href={`/admin/ingredients/${ingredient.id}`} className="text-indigo-400 hover:text-indigo-300 mr-4 transition-colors">
+        <Link href={`/ingredients/${ingredient.id}`} className="text-indigo-400 hover:text-indigo-300 mr-4 transition-colors">
           <Eye className="w-4 h-4" />
         </Link>
-        <Link href={`/admin/ingredients/${ingredient.id}/delete`}  className="text-red-400 hover:text-red-300 transition-colors">
+        <Link href={`/ingredients/${ingredient.id}/delete`}  className="text-red-400 hover:text-red-300 transition-colors">
           <Trash2 className="w-4 h-4" />
         </Link>
       </td>

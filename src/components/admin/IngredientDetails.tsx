@@ -358,7 +358,7 @@ export function IngredientDetails({ id }: { id: string }) {
     >
       {/* Back Button */}
       <Link 
-        href="/admin/ingredients/" 
+        href="/ingredients/" 
         className="inline-flex items-center text-indigo-400 hover:text-indigo-300 mb-6"
       >
         <ArrowLeft className="w-5 h-5 mr-2" />

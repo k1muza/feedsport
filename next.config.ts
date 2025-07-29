@@ -2,7 +2,7 @@ import { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   // enable `next export`
-  output: 'export',
+  // output: 'export',
 
   // disable built-in Image Optimization
   images: {
