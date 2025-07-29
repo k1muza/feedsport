@@ -1,5 +1,6 @@
 import { IngredientDetails } from '@/components/admin/IngredientDetails';
 
-export default function IngredientDetailsPage({ params }: { params: { id: string } }) {
-  return <IngredientDetails id={params?.id} />;
+export default async function IngredientDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <IngredientDetails id={id} />;
 } 
