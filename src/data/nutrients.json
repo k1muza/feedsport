@@ -796,5 +796,292 @@
     "description": "",
     "unit": "%",
     "categoryId": "carotenoids"
+  },
+  {
+    "id": "swine-dig-coef-om",
+    "name": "Organic matter, digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "main",
+    "description": ""
+  },
+  {
+    "id": "swine-digestible-om",
+    "name": "Digestible organic matter, swine",
+    "unit": "%",
+    "categoryId": "main",
+    "description": ""
+  },
+  {
+    "id": "swine-undigestible-om",
+    "name": "Undigestible organic matter, swine",
+    "unit": "%",
+    "categoryId": "main",
+    "description": ""
+  },
+  {
+    "id": "swine-dig-coef-cf",
+    "name": "Crude fibre, digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "main",
+    "description": ""
+  },
+  {
+    "id": "swine-dig-coef-ndf",
+    "name": "NDF, digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "main",
+    "description": ""
+  },
+  {
+    "id": "swine-dig-coef-adf",
+    "name": "ADF, digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "main",
+    "description": ""
+  },
+  {
+    "id": "swine-dig-coef-ee",
+    "name": "Ether extract, digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "main",
+    "description": ""
+  },
+  {
+    "id": "swine-digestible-ee",
+    "name": "Digestible ether extract, swine",
+    "unit": "%",
+    "categoryId": "main",
+    "description": ""
+  },
+  {
+    "id": "swine-de-kcal",
+    "name": "Digestible Energy (DE), swine",
+    "unit": "kcal/kg",
+    "categoryId": "energy",
+    "description": ""
+  },
+  {
+    "id": "swine-me-kcal",
+    "name": "Metabolizable Energy (ME), swine",
+    "unit": "kcal/kg",
+    "categoryId": "energy",
+    "description": ""
+  },
+  {
+    "id": "swine-ne-kcal",
+    "name": "Net Energy (NE), swine",
+    "unit": "kcal/kg",
+    "categoryId": "energy",
+    "description": ""
+  },
+  {
+    "id": "sow-de-kcal",
+    "name": "Digestible Energy (DE), sows",
+    "unit": "kcal/kg",
+    "categoryId": "energy",
+    "description": ""
+  },
+  {
+    "id": "sow-me-kcal",
+    "name": "Metabolizable Energy (ME), sows",
+    "unit": "kcal/kg",
+    "categoryId": "energy",
+    "description": ""
+  },
+  {
+    "id": "sow-ne-kcal",
+    "name": "Net Energy (NE), sows",
+    "unit": "kcal/kg",
+    "categoryId": "energy",
+    "description": ""
+  },
+  {
+    "id": "swine-dig-coef-p",
+    "name": "Phosphorus, digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "minerals",
+    "description": ""
+  },
+  {
+    "id": "swine-digestible-p",
+    "name": "Digestible phosphorus, swine",
+    "unit": "%",
+    "categoryId": "minerals",
+    "description": ""
+  },
+  {
+    "id": "swine-std-digestible-p",
+    "name": "Standardized digestible phosphorus, swine",
+    "unit": "%",
+    "categoryId": "minerals",
+    "description": ""
+  },
+  {
+    "id": "swine-sid-lysine",
+    "name": "Lysine, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-lysine",
+    "name": "Lysine, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
+  },
+  {
+    "id": "swine-sid-methionine",
+    "name": "Methionine, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-methionine",
+    "name": "Methionine, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
+  },
+  {
+    "id": "swine-sid-methionine-plus-cystine",
+    "name": "Methionine + cystine, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-methionine-plus-cystine",
+    "name": "Methionine + cystine, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
+  },
+  {
+    "id": "swine-sid-threonine",
+    "name": "Threonine, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-threonine",
+    "name": "Threonine, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
+  },
+  {
+    "id": "swine-sid-tryptophan",
+    "name": "Tryptophan, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-tryptophan",
+    "name": "Tryptophan, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
+  },
+  {
+    "id": "swine-sid-arginine",
+    "name": "Arginine, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-arginine",
+    "name": "Arginine, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
+  },
+  {
+    "id": "swine-sid-isoleucine",
+    "name": "Isoleucine, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-isoleucine",
+    "name": "Isoleucine, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
+  },
+  {
+    "id": "swine-sid-valine",
+    "name": "Valine, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-valine",
+    "name": "Valine, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
+  },
+  {
+    "id": "swine-sid-leucine",
+    "name": "Leucine, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-leucine",
+    "name": "Leucine, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
+  },
+  {
+    "id": "swine-sid-histidine",
+    "name": "Histidine, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-histidine",
+    "name": "Histidine, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
+  },
+  {
+    "id": "swine-sid-phenylalanine",
+    "name": "Phenylalanine, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-phenylalanine",
+    "name": "Phenylalanine, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
+  },
+  {
+    "id": "swine-sid-phenylalanine-plus-tyrosine",
+    "name": "Phenylalanine + tyrosine, ileal standardized, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestible concentration for swine."
+  },
+  {
+    "id": "swine-sid-coef-phenylalanine-plus-tyrosine",
+    "name": "Phenylalanine + tyrosine, standardized ileal digestibility coefficient, swine",
+    "unit": "%",
+    "categoryId": "amino-acids",
+    "description": "Standardized ileal digestibility coefficient for swine."
   }
 ]
