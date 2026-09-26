@@ -6,6 +6,7 @@ import { spawnSync } from 'node:child_process';
 const SOURCE_101 = 'Brazilian Tables 5th ed. Table 1.01';
 const SOURCE_109 = 'Brazilian Tables 5th ed. Table 1.09';
 const SOURCE_110 = 'Brazilian Tables 5th ed. Table 1.10';
+const DEFAULT_SOURCE_DIR = 'scripts/brazilian-swine/source-data';
 
 const AA_SPECS = [
   { slug: 'lysine', label: 'Lysine, %', display: 'Lysine', totalNutrientId: '17' },
@@ -212,20 +213,86 @@ function parseTable110(text) {
 
 function getPdfText(pdfPath) {
   const result = spawnSync('pdftotext', ['-layout', pdfPath, '-'], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
-  if (result.error?.code === 'ENOENT') throw new Error('pdftotext is required. Install Poppler (poppler-utils) or supply --text <extracted.txt>.');
+  if (result.error?.code === 'ENOENT') {
+    throw new Error('pdftotext is only required when refreshing source data from --pdf. Install Poppler, use --text, or run the normal importer with the committed source-data directory.');
+  }
   if (result.status !== 0) throw new Error('pdftotext failed: ' + (result.stderr || ('exit ' + result.status)));
   return result.stdout;
 }
 
+function parseSourceText(text) {
+  return {
+    source: 'Brazilian Tables for Poultry and Swine, 5th ed.',
+    tables: {
+      '1.01': parseTable101(text),
+      '1.09': parseTable109(text),
+      '1.10': parseTable110(text),
+    },
+  };
+}
+
+function writeSourceDirectory(sourceData, outputDir) {
+  fs.mkdirSync(outputDir, { recursive: true });
+  for (const filename of fs.readdirSync(outputDir)) {
+    if (/^table-1\.01-\d+\.json$/.test(filename) || filename === 'table-1.09.json' || filename === 'table-1.10.json') {
+      fs.unlinkSync(path.join(outputDir, filename));
+    }
+  }
+  const rows = sourceData.tables['1.01'];
+  const chunkSize = 10;
+  for (let i = 0; i < rows.length; i += chunkSize) {
+    const number = String(i / chunkSize + 1).padStart(2, '0');
+    fs.writeFileSync(path.join(outputDir, `table-1.01-${number}.json`), JSON.stringify(rows.slice(i, i + chunkSize)) + '\n');
+  }
+  fs.writeFileSync(path.join(outputDir, 'table-1.09.json'), JSON.stringify(sourceData.tables['1.09']) + '\n');
+  fs.writeFileSync(path.join(outputDir, 'table-1.10.json'), JSON.stringify(sourceData.tables['1.10']) + '\n');
+}
+
+function readSourceDirectory(sourceDir) {
+  const feedstuffFiles = fs.readdirSync(sourceDir)
+    .filter((filename) => /^table-1\.01-\d+\.json$/.test(filename))
+    .sort();
+  if (!feedstuffFiles.length) throw new Error('No Table 1.01 source-data chunks found in ' + sourceDir + '.');
+  return {
+    source: 'Brazilian Tables for Poultry and Swine, 5th ed.',
+    tables: {
+      '1.01': feedstuffFiles.flatMap((filename) => JSON.parse(fs.readFileSync(path.join(sourceDir, filename), 'utf8'))),
+      '1.09': JSON.parse(fs.readFileSync(path.join(sourceDir, 'table-1.09.json'), 'utf8')),
+      '1.10': JSON.parse(fs.readFileSync(path.join(sourceDir, 'table-1.10.json'), 'utf8')),
+    },
+  };
+}
+
+function loadSourceData(args, root) {
+  if (args.pdf || args.text) {
+    const text = args.text
+      ? fs.readFileSync(path.resolve(root, args.text), 'utf8')
+      : getPdfText(path.resolve(root, args.pdf));
+    const parsed = parseSourceText(text);
+    if (args['write-source-dir']) writeSourceDirectory(parsed, path.resolve(root, args['write-source-dir']));
+    return parsed;
+  }
+  return readSourceDirectory(path.resolve(root, args['source-dir'] ?? DEFAULT_SOURCE_DIR));
+}
+
 function upsertComposition(ingredient, nutrientId, value, table, basis = 'as-fed') {
   ingredient.compositions ??= [];
-  ingredient.compositions = ingredient.compositions.filter((c) => String(c.nutrientId) !== nutrientId);
+  ingredient.compositions = ingredient.compositions.filter((c) => !(
+    String(c.nutrientId) === nutrientId && c.table === table
+  ));
   ingredient.compositions.push({ nutrientId, value: Number(value.toFixed(4)), table, basis });
 }
 
 function ensureNutrients(nutrients) {
   const byId = new Map(nutrients.map((n) => [String(n.id), n]));
-  for (const def of NUTRIENT_DEFS) if (!byId.has(def.id)) nutrients.push(def);
+  for (const def of NUTRIENT_DEFS) {
+    const existing = byId.get(def.id);
+    if (existing) Object.assign(existing, def);
+    else {
+      nutrients.push(def);
+      byId.set(def.id, def);
+    }
+  }
 }
 
 function readArgs(argv) {
@@ -233,9 +300,24 @@ function readArgs(argv) {
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === '--dry-run') args.dryRun = true;
-    else if (arg.startsWith('--')) args[arg.slice(2)] = argv[++i];
+    else if (arg.startsWith('--')) {
+      const next = argv[i + 1];
+      if (!next || next.startsWith('--')) throw new Error('Missing value for ' + arg + '.');
+      args[arg.slice(2)] = next;
+      i++;
+    }
   }
   return args;
+}
+
+function detectEol(text) {
+  return text.includes('\r\n') ? '\r\n' : '\n';
+}
+
+function writeJsonPreservingEol(filePath, data, originalText, indent) {
+  const eol = detectEol(originalText);
+  const serialized = JSON.stringify(data, null, indent).replace(/\n/g, eol) + eol;
+  fs.writeFileSync(filePath, serialized);
 }
 
 function main() {
@@ -244,18 +326,31 @@ function main() {
   const ingredientsPath = path.resolve(root, args.ingredients ?? 'src/data/ingredients.json');
   const nutrientsPath = path.resolve(root, args.nutrients ?? 'src/data/nutrients.json');
   const aliasesPath = path.resolve(root, args.aliases ?? 'scripts/brazilian-swine/ingredient-aliases.json');
-  if (!args.pdf && !args.text) throw new Error('Usage: npm run data:import-brazilian-swine -- --pdf /path/to/tabela_inglescompress.pdf [--dry-run]');
-  const text = args.text ? fs.readFileSync(path.resolve(root, args.text), 'utf8') : getPdfText(path.resolve(root, args.pdf));
-  const ingredients = JSON.parse(fs.readFileSync(ingredientsPath, 'utf8'));
-  const nutrients = JSON.parse(fs.readFileSync(nutrientsPath, 'utf8'));
+
+  const sourceData = loadSourceData(args, root);
+  const table101 = sourceData?.tables?.['1.01'];
+  const table109 = sourceData?.tables?.['1.09'];
+  const table110 = sourceData?.tables?.['1.10'];
+  if (!Array.isArray(table101) || table101.length !== 102) {
+    throw new Error('Table 1.01 source data expected 102 feedstuffs, found ' + (Array.isArray(table101) ? table101.length : 0) + '.');
+  }
+  if (!table109 || Object.keys(table109).length < 20) {
+    throw new Error('Table 1.09 source data expected at least 20 amino acids, found ' + (table109 ? Object.keys(table109).length : 0) + '.');
+  }
+  if (!table110 || Object.keys(table110).length < 2) {
+    throw new Error('Table 1.10 source data expected at least 2 reviewed mineral sources.');
+  }
+  const parserWarnings = table101.filter((row) => row.warning).map((row) => ({ source: row.name, warning: row.warning }));
+  if (parserWarnings.length) {
+    throw new Error('Source data contains parser warnings: ' + parserWarnings.map((x) => x.source).join(', '));
+  }
+
+  const ingredientsText = fs.readFileSync(ingredientsPath, 'utf8');
+  const nutrientsText = fs.readFileSync(nutrientsPath, 'utf8');
+  const ingredients = JSON.parse(ingredientsText);
+  const nutrients = JSON.parse(nutrientsText);
   const aliases = JSON.parse(fs.readFileSync(aliasesPath, 'utf8'));
   ensureNutrients(nutrients);
-
-  const table101 = parseTable101(text);
-  const table109 = parseTable109(text);
-  const table110 = parseTable110(text);
-  if (table101.length !== 102) throw new Error('Table 1.01 parser expected 102 feedstuffs, found ' + table101.length + '.');
-  if (Object.keys(table109).length < 20) throw new Error('Table 1.09 parser expected at least 20 amino acids, found ' + Object.keys(table109).length + '.');
 
   const ingredientById = new Map(ingredients.map((x) => [x.id, x]));
   const exactByName = new Map();
@@ -318,12 +413,16 @@ function main() {
   const maize = report.matched.find((x) => x.source === 'Corn, Grain (Average)');
   if (!maize) throw new Error('Validation failed: Corn, Grain (Average) was not mapped.');
   const maizeIngredient = ingredientById.get(maize.ingredientId);
-  if (!maizeIngredient.compositions.some((c) => String(c.nutrientId) === 'swine-me-kcal' && c.value > 3000)) throw new Error('Validation failed: maize swine ME was not imported correctly.');
-  if (!maizeIngredient.compositions.some((c) => String(c.nutrientId) === 'swine-sid-lysine' && c.value > 0)) throw new Error('Validation failed: maize SID lysine was not imported correctly.');
+  if (!maizeIngredient.compositions.some((c) => String(c.nutrientId) === 'swine-me-kcal' && c.table === SOURCE_101 && c.value > 3000)) {
+    throw new Error('Validation failed: maize swine ME was not imported correctly.');
+  }
+  if (!maizeIngredient.compositions.some((c) => String(c.nutrientId) === 'swine-sid-lysine' && c.table === SOURCE_101 && c.value > 0)) {
+    throw new Error('Validation failed: maize SID lysine was not imported correctly.');
+  }
 
   if (!args.dryRun) {
-    fs.writeFileSync(ingredientsPath, JSON.stringify(ingredients, null, 4) + '\n');
-    fs.writeFileSync(nutrientsPath, JSON.stringify(nutrients, null, 2) + '\n');
+    writeJsonPreservingEol(ingredientsPath, ingredients, ingredientsText, 4);
+    writeJsonPreservingEol(nutrientsPath, nutrients, nutrientsText, 2);
   }
   if (args.report) fs.writeFileSync(path.resolve(root, args.report), JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify({
