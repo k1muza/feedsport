@@ -1,0 +1,47 @@
+name: Refresh Brazilian swine source data
+
+on:
+  push:
+    branches:
+      - feature/brazilian-swine-import
+    paths:
+      - .github/workflows/refresh-brazilian-source.yml
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/brazilian-swine-import
+          fetch-depth: 0
+
+      - name: Install Poppler
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Validate importer
+        run: node --check scripts/import-brazilian-swine.mjs
+
+      - name: Extract normalized source data
+        run: |
+          node scripts/import-brazilian-swine.mjs \
+            --pdf tabela_inglescompress.pdf \
+            --write-source-dir scripts/brazilian-swine/source-data \
+            --dry-run \
+            --report /tmp/brazilian-swine-report.json
+          cat /tmp/brazilian-swine-report.json
+
+      - name: Commit source snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/brazilian-swine/source-data
+          if git diff --cached --quiet; then
+            echo "Source data already current."
+          else
+            git commit -m "Generate normalized Brazilian swine source data"
+            git push origin HEAD:feature/brazilian-swine-import
+          fi
