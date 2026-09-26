@@ -66318,6 +66318,24 @@
                 "basis": "as-fed"
             },
             {
+                "nutrientId": "swine-de-kcal",
+                "value": 2877,
+                "table": "Brazilian Tables 5th ed. Table 1.01",
+                "basis": "as-fed"
+            },
+            {
+                "nutrientId": "swine-me-kcal",
+                "value": 2630,
+                "table": "Brazilian Tables 5th ed. Table 1.01",
+                "basis": "as-fed"
+            },
+            {
+                "nutrientId": "swine-ne-kcal",
+                "value": 1595,
+                "table": "Brazilian Tables 5th ed. Table 1.01",
+                "basis": "as-fed"
+            },
+            {
                 "nutrientId": "sow-de-kcal",
                 "value": 3174,
                 "table": "Brazilian Tables 5th ed. Table 1.01",
@@ -73324,6 +73342,24 @@
             {
                 "nutrientId": "swine-std-digestible-p",
                 "value": 0.16,
+                "table": "Brazilian Tables 5th ed. Table 1.01",
+                "basis": "as-fed"
+            },
+            {
+                "nutrientId": "swine-de-kcal",
+                "value": 4341,
+                "table": "Brazilian Tables 5th ed. Table 1.01",
+                "basis": "as-fed"
+            },
+            {
+                "nutrientId": "swine-me-kcal",
+                "value": 3929,
+                "table": "Brazilian Tables 5th ed. Table 1.01",
+                "basis": "as-fed"
+            },
+            {
+                "nutrientId": "swine-ne-kcal",
+                "value": 2518,
                 "table": "Brazilian Tables 5th ed. Table 1.01",
                 "basis": "as-fed"
             },
