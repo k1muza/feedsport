@@ -43,6 +43,16 @@ npm run data:import-brazilian-swine -- \
 
 After reviewing the generated source-data diff, run the normal import to update `ingredients.json` and `nutrients.json`.
 
+## Regression checks
+
+Run the importer regression checks with:
+
+```bash
+npm run data:test-brazilian-swine
+```
+
+The checks cover Poppler-free imports from the committed snapshot, idempotent reruns, source-specific upserts, line-ending preservation, and representative energy values from variable-width PDF rows.
+
 ## Ingredient matching
 
 `scripts/brazilian-swine/ingredient-aliases.json` contains reviewed mappings for cases where the Brazilian and FeedSport names differ. A `null` value explicitly skips a source row. Any row that has neither an alias nor one exact normalized FeedSport match is reported as unmatched rather than guessed.
