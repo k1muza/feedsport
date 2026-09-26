@@ -9,7 +9,8 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "data:import-brazilian-swine": "node scripts/import-brazilian-swine.mjs"
+    "data:import-brazilian-swine": "node scripts/import-brazilian-swine.mjs",
+    "data:test-brazilian-swine": "node scripts/test-brazilian-swine-import.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
