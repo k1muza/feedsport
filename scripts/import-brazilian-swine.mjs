@@ -109,12 +109,18 @@ function parseEnergy(block) {
   let group = null;
   const out = {};
   for (const line of lines.slice(start + 1, end)) {
-    const right = line.length > 47 ? line.slice(47).trim() : '';
-    if (right === 'Swine') { group = 'swine'; continue; }
-    if (right === 'Sows') { group = 'sows'; continue; }
-    if (!group || !right) continue;
-    const match = right.match(/^(Digestible Energy|Energy Dig\.|Metabolizable Energy|Energy Met\.|Net Energy)\s+(-|\d+(?:\.\d+)?)/);
-    if (!match) continue;
+    // The right-hand energy column is not aligned at one fixed character
+    // position throughout the PDF. Some Gross Energy rows have wider SD
+    // values, which previously hid the trailing "Swine"/"Sows" marker.
+    if (/\bSwine\s*$/.test(line)) { group = 'swine'; continue; }
+    if (/\bSows\s*$/.test(line)) { group = 'sows'; continue; }
+    if (!group) continue;
+
+    // Match the right-most energy label/value pair rather than slicing at a
+    // hard-coded column. Requiring it to start after column 30 prevents a
+    // left-hand poultry/hen value from being mistaken for the swine value.
+    const match = line.match(/(Digestible Energy|Energy Dig\.|Metabolizable Energy|Energy Met\.|Net Energy)\s+(-|\d+(?:\.\d+)?)\s*$/);
+    if (!match || match.index < 30) continue;
     const label = match[1];
     const value = parseNumber(match[2]);
     if (value === null) continue;
